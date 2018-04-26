@@ -6,12 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 
 import com.inlacou.library.calendar.calendarviewinl.R
 import com.inlacou.library.calendar.calendarviewinl.calendar.CalendarGridView
-import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayView
 import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
+import com.inlacou.library.calendar.calendarviewinl.calendar.immediatePreviousMonth
+import com.inlacou.library.calendar.calendarviewinl.calendar.month
+import com.inlacou.library.calendar.calendarviewinl.calendar.sameMonth
 
 import java.util.ArrayList
 import java.util.Calendar
@@ -23,12 +24,10 @@ import java.util.Calendar
  * Created by Mateusz Kornakiewicz on 24.05.2017.
  * Forked by Inlacou on 26.04.2018.
  */
-class CalendarPagerAdapter(private val mContext: Context) : PagerAdapter() {
+class CalendarPagerAdapter(private val mContext: Context, val currentDate: Calendar) : PagerAdapter() {
 	private var mCalendarGridView: CalendarGridView? = null
 
 	//TODO add the list which user sets with special days and so
-
-	private var mPageMonth: Int = 0
 
 	override fun getCount(): Int {
 		return CALENDAR_SIZE
@@ -61,12 +60,12 @@ class CalendarPagerAdapter(private val mContext: Context) : PagerAdapter() {
 		val days = ArrayList<DayViewMdl>()
 
 		// Get Calendar object instance
-		val calendar = Calendar.getInstance()
+		val calendar = currentDate.clone() as Calendar
 
 		// Add months to Calendar (a number of months depends on ViewPager position)
 		calendar.add(Calendar.MONTH, position)
 
-		val currentMonth = calendar.get(Calendar.MONTH)
+		val startingCal = calendar.clone() as Calendar
 
 		// Set day of month as 1
 		calendar.set(Calendar.DAY_OF_MONTH, 1)
@@ -93,17 +92,19 @@ class CalendarPagerAdapter(private val mContext: Context) : PagerAdapter() {
 		do {
 			days.add(DayViewMdl(calendar.time))
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
-		} while (calendar.get(Calendar.MONTH) == currentMonth - 1 || calendar.get(Calendar.MONTH) == currentMonth)
+		} while (
+				calendar.immediatePreviousMonth(startingCal) ||
+				calendar.sameMonth(startingCal)
+		)
 
-		if (calendar.get(Calendar.MONTH) == currentMonth + 1 && days.size > 28 && days.size < 35) { //35 breakpoint
+		if (startingCal.immediatePreviousMonth(calendar) && days.size > 28 && days.size < 35) { //35 breakpoint
 			addUntil(35, days, calendar)
-		} else if (calendar.get(Calendar.MONTH) == currentMonth + 1 && days.size > 35 && days.size < 42) { //42 breakpoint
+		} else if (startingCal.immediatePreviousMonth(calendar) && days.size > 35 && days.size < 42) { //42 breakpoint
 			addUntil(42, days, calendar)
 		}
 
-		mPageMonth = calendar.get(Calendar.MONTH) - 1
 		val calendarDayAdapter = CalendarDayAdapter(this, mContext,
-				days, mPageMonth)
+				days, calendar.month - 1)
 
 		mCalendarGridView!!.adapter = calendarDayAdapter
 	}

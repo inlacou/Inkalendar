@@ -13,6 +13,6 @@ data class CalendarViewInlMdl(
 		val onBackward: (() -> Unit?)? = null
 ){
 	companion object {
-		private val FIRST_VISIBLE_PAGE = CalendarPagerAdapter.CALENDAR_SIZE / 2
+		val FIRST_VISIBLE_PAGE = CalendarPagerAdapter.CALENDAR_SIZE / 2
 	}
 }

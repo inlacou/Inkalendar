@@ -54,13 +54,19 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 	}
 
 	fun populate() {
-		mViewPager!!.adapter = CalendarPagerAdapter(context)
+		// This line subtracts a half of all calendar months to set calendar
+		// in the correct position (in the middle)
+		model.current.set(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
+
+		mViewPager!!.adapter = CalendarPagerAdapter(context, model.current)
+		// This line move calendar to the middle page
+		mViewPager!!.currentItem = CalendarViewInlMdl.Companion.FIRST_VISIBLE_PAGE
 	}
 
 	private fun setListeners() {
 		surfaceLayout?.setOnClickListener { controller.onClick() }
-		forwardButton?.setOnClickListener({ v: View -> mViewPager!!.currentItem = mViewPager!!.currentItem + 1 })
-		previousButton?.setOnClickListener({ v: View -> mViewPager!!.currentItem = mViewPager!!.currentItem - 1 })
+		forwardButton?.setOnClickListener({ v: View -> moveToNext() })
+		previousButton?.setOnClickListener({ v: View -> moveToPrevious() })
 		mViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 			override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
@@ -78,11 +84,11 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 		})
 	}
 
-	fun moveToNext(actualPos: Int) {
+	fun moveToNext(actualPos: Int = model.currentPage) {
 		mViewPager?.currentItem = actualPos + 1
 	}
 
-	fun moveToPrevious(actualPos: Int) {
+	fun moveToPrevious(actualPos: Int = model.currentPage) {
 		mViewPager?.currentItem = actualPos - 1
 	}
 

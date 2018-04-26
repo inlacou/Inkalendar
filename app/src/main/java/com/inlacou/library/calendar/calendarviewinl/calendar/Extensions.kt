@@ -19,6 +19,37 @@ fun Calendar?.toMidnight(): Calendar? {
 	return this
 }
 
+var Calendar.year: Int
+		set(value) = set(Calendar.YEAR, value)
+		get() = get(Calendar.YEAR)
+var Calendar.month: Int
+		set(value) = set(Calendar.MONTH, value)
+		get() = get(Calendar.MONTH)
+var Calendar.dayOfYear: Int
+		set(value) = set(Calendar.DAY_OF_YEAR, value)
+		get() = get(Calendar.DAY_OF_YEAR)
+var Calendar.dayOfMonth: Int
+		set(value) = set(Calendar.DAY_OF_MONTH, value)
+		get() = get(Calendar.DAY_OF_MONTH)
+var Calendar.dayOfWeek: Int
+		set(value) = set(Calendar.DAY_OF_WEEK, value)
+		get() = get(Calendar.DAY_OF_WEEK)
+
+/**
+ * This checks if this is immediatePreviousMonth to passed calendar.
+ *
+ * @param calendar that must be directly posterior to this
+ */
+fun Calendar.immediatePreviousMonth(postCalendar: Calendar): Boolean {
+	if(postCalendar.before(this)) return false
+	val prevMonth = month
+	var postMonth = postCalendar.month
+	if(postMonth==0) postMonth += 12
+	return postMonth-prevMonth==1
+}
+
+fun Calendar.sameMonth(post: Calendar): Boolean = year==post.year && month==post.month
+
 /**
  * This method compares calendars using month and year
  *
