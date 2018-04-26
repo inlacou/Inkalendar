@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/view_base_layout_surface"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:color/white"
+	android:orientation="vertical">
+	
+	<!-- date toolbar -->
+	<android.support.constraint.ConstraintLayout
+		android:id="@+id/calendarHeader"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/cvinl_top_bar_color">
+		
+		<ImageButton
+			android:id="@+id/btn_previous"
+			style="@style/Widget.AppCompat.Button.Borderless.Colored"
+			android:layout_width="85dp"
+			android:layout_height="9dp"
+			android:scaleType="centerInside"
+			android:src="@drawable/left_arrow"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+		
+		<ImageButton
+			android:id="@+id/btn_forward"
+			style="@style/Widget.AppCompat.Button.Borderless.Colored"
+			android:layout_width="85dp"
+			android:layout_height="9dp"
+			android:scaleType="centerInside"
+			android:src="@drawable/right_arrow"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+		
+		<TextView
+			android:id="@+id/currentDateLabel"
+			android:layout_width="0dp"
+			android:layout_height="56dp"
+			android:gravity="center"
+			android:textColor="@android:color/white"
+			android:textSize="18sp"
+			app:layout_constraintLeft_toRightOf="@id/btn_previous"
+			app:layout_constraintRight_toLeftOf="@id/btn_forward"
+			app:layout_constraintTop_toTopOf="parent" />
+	
+	
+	</android.support.constraint.ConstraintLayout>
+	
+	<!-- eventDays header -->
+	<LinearLayout
+		android:id="@+id/abbreviationsBar"
+		android:layout_width="match_parent"
+		android:layout_height="40dp"
+		android:gravity="center_vertical"
+		android:orientation="horizontal">
+		
+		<TextView
+			android:id="@+id/mondayLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_horizontal"
+			android:text="@string/material_calendar_monday"
+			android:textColor="@color/cvinl_day_name_color" />
+		
+		<TextView
+			android:id="@+id/tuesdayLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_horizontal"
+			android:text="@string/material_calendar_tuesday"
+			android:textColor="@color/cvinl_day_name_color" />
+		
+		<TextView
+			android:id="@+id/wednesdayLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_horizontal"
+			android:text="@string/material_calendar_wednesday"
+			android:textColor="@color/cvinl_day_name_color" />
+		
+		<TextView
+			android:id="@+id/thursdayLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_horizontal"
+			android:text="@string/material_calendar_thursday"
+			android:textColor="@color/cvinl_day_name_color" />
+		
+		<TextView
+			android:id="@+id/fridayLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_horizontal"
+			android:text="@string/material_calendar_friday"
+			android:textColor="@color/cvinl_day_name_color" />
+		
+		<TextView
+			android:id="@+id/saturdayLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_horizontal"
+			android:text="@string/material_calendar_saturday"
+			android:textColor="@color/cvinl_day_name_color" />
+		
+		<TextView
+			android:id="@+id/sundayLabel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_horizontal"
+			android:text="@string/material_calendar_sunday"
+			android:textColor="@color/cvinl_day_name_color" />
+	</LinearLayout>
+	
+	<com.inlacou.library.calendar.calendarviewinl.calendar.CalendarViewPager
+		android:id="@+id/calendarViewPager"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+	
+</LinearLayout>

@@ -1,0 +1,130 @@
+package com.inlacou.library.calendar.calendarviewinl.calendar.adapters
+
+import android.content.Context
+import android.support.v4.view.PagerAdapter
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+
+import com.inlacou.library.calendar.calendarviewinl.R
+import com.inlacou.library.calendar.calendarviewinl.calendar.CalendarGridView
+import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayView
+import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
+
+import java.util.ArrayList
+import java.util.Calendar
+
+/**
+ * This class is responsible for loading a calendar page content.
+ *
+ *
+ * Created by Mateusz Kornakiewicz on 24.05.2017.
+ * Forked by Inlacou on 26.04.2018.
+ */
+class CalendarPagerAdapter(private val mContext: Context) : PagerAdapter() {
+	private var mCalendarGridView: CalendarGridView? = null
+
+	//TODO add the list which user sets with special days and so
+
+	private var mPageMonth: Int = 0
+
+	override fun getCount(): Int {
+		return CALENDAR_SIZE
+	}
+
+	override fun getItemPosition(`object`: Any): Int {
+		return PagerAdapter.POSITION_NONE
+	}
+
+	override fun isViewFromObject(view: View, `object`: Any): Boolean {
+		return view === `object`
+	}
+
+	override fun instantiateItem(container: ViewGroup, position: Int): Any {
+		val inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+		mCalendarGridView = inflater.inflate(R.layout.calendar_view_grid, null) as CalendarGridView
+
+		loadMonth(position)
+
+		container.addView(mCalendarGridView)
+		return mCalendarGridView as CalendarGridView
+	}
+
+	/**
+	 * This method fill calendar GridView with default days
+	 *
+	 * @param position Position of current page in ViewPager
+	 */
+	private fun loadMonth(position: Int) {
+		val days = ArrayList<DayViewMdl>()
+
+		// Get Calendar object instance
+		val calendar = Calendar.getInstance()
+
+		// Add months to Calendar (a number of months depends on ViewPager position)
+		calendar.add(Calendar.MONTH, position)
+
+		val currentMonth = calendar.get(Calendar.MONTH)
+
+		// Set day of month as 1
+		calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+		// Get a number of the first day of the week
+		val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
+		// Count when month is beginning
+		val monthBeginningCell = dayOfWeek + if (dayOfWeek == 1) 5 else -2
+
+		// Subtract a number of beginning days, it will let to load a part of a previous month
+		calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
+
+		/*
+        BreakPoints are:
+            7 days
+            14 days
+            21 days
+            28 days
+            35 days
+            42 days
+        Since months are at least 28 days, real breakpoints are 35 and 42
+         */
+		do {
+			days.add(DayViewMdl(calendar.time))
+			calendar.add(Calendar.DAY_OF_MONTH, 1)
+		} while (calendar.get(Calendar.MONTH) == currentMonth - 1 || calendar.get(Calendar.MONTH) == currentMonth)
+
+		if (calendar.get(Calendar.MONTH) == currentMonth + 1 && days.size > 28 && days.size < 35) { //35 breakpoint
+			addUntil(35, days, calendar)
+		} else if (calendar.get(Calendar.MONTH) == currentMonth + 1 && days.size > 35 && days.size < 42) { //42 breakpoint
+			addUntil(42, days, calendar)
+		}
+
+		mPageMonth = calendar.get(Calendar.MONTH) - 1
+		val calendarDayAdapter = CalendarDayAdapter(this, mContext,
+				days, mPageMonth)
+
+		mCalendarGridView!!.adapter = calendarDayAdapter
+	}
+
+	private fun addUntil(number: Int, days: ArrayList<DayViewMdl>, calendar: Calendar) {
+		while (days.size < number) {
+			days.add(DayViewMdl(calendar.time))
+			calendar.add(Calendar.DAY_OF_MONTH, 1)
+		}
+	}
+
+	override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+		container.removeView(`object` as View)
+	}
+
+	companion object {
+
+		/**
+		 * A number of months (pages) in the calendar
+		 * 2401 months means 1200 months (100 years) before and 1200 months after the current month
+		 */
+		val CALENDAR_SIZE = 2401
+	}
+}
