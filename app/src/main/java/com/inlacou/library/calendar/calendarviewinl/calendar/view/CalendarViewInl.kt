@@ -18,11 +18,11 @@ import java.util.*
 class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
 	: LinearLayout(context, attrs, defStyleAttr) {
 
-	var surfaceLayout: View? = null
-	var tvCurrentMonth: TextView? = null
-	var forwardButton: ImageButton? = null
-	var previousButton: ImageButton? = null
-	var mViewPager: CalendarViewPager? = null
+	private var surfaceLayout: View? = null
+	private var tvCurrentMonth: TextView? = null
+	private var forwardButton: ImageButton? = null
+	private var previousButton: ImageButton? = null
+	private var mViewPager: CalendarViewPager? = null
 
 	var model: CalendarViewInlMdl = CalendarViewInlMdl()
 		set(value) {
@@ -58,7 +58,7 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 		// in the correct position (in the middle)
 		model.current.set(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
 
-		mViewPager!!.adapter = CalendarPagerAdapter(context, model.current)
+		mViewPager!!.adapter = CalendarPagerAdapter(context, model)
 		// This line move calendar to the middle page
 		mViewPager!!.currentItem = CalendarViewInlMdl.Companion.FIRST_VISIBLE_PAGE
 	}

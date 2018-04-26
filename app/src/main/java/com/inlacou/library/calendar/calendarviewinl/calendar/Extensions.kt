@@ -1,23 +1,9 @@
 package com.inlacou.library.calendar.calendarviewinl.calendar
 
 import android.content.Context
+import android.view.View
 import com.inlacou.library.calendar.calendarviewinl.R
 import java.util.*
-
-/**
- * This method sets an hour in the calendar object to 00:00:00:00
- *
- * @param calendar Calendar object which hour should be set to 00:00:00:00
- */
-fun Calendar?.toMidnight(): Calendar? {
-	this?.let {
-		set(Calendar.HOUR_OF_DAY, 0)
-		set(Calendar.MINUTE, 0)
-		set(Calendar.SECOND, 0)
-		set(Calendar.MILLISECOND, 0)
-	}
-	return this
-}
 
 var Calendar.year: Int
 		set(value) = set(Calendar.YEAR, value)
@@ -34,6 +20,21 @@ var Calendar.dayOfMonth: Int
 var Calendar.dayOfWeek: Int
 		set(value) = set(Calendar.DAY_OF_WEEK, value)
 		get() = get(Calendar.DAY_OF_WEEK)
+
+/**
+ * This method sets an hour in the calendar object to 00:00:00:00
+ *
+ * @param calendar Calendar object which hour should be set to 00:00:00:00
+ */
+fun Calendar?.toMidnight(): Calendar? {
+	this?.let {
+		set(Calendar.HOUR_OF_DAY, 0)
+		set(Calendar.MINUTE, 0)
+		set(Calendar.SECOND, 0)
+		set(Calendar.MILLISECOND, 0)
+	}
+	return this
+}
 
 /**
  * This checks if this is immediatePreviousMonth to passed calendar.
@@ -100,4 +101,17 @@ fun Long?.toDay(context: Context): String = context.getString(R.string.day, this
 fun Long?.toMonthYear(context: Context, monthAsText: Boolean = true): String =
 	if(monthAsText) context.getString(R.string.month_as_text_year, this)
 	else context.getString(R.string.month_year, this)
+
+fun View?.setVisible(visible: Boolean, holdSpaceOnDissapear: Boolean = false) {
+	if (this == null) return
+	if(visible){
+		this.visibility = View.VISIBLE
+	}else{
+		if(holdSpaceOnDissapear){
+			this.visibility = View.INVISIBLE
+		}else{
+			this.visibility = View.GONE
+		}
+	}
+}
 

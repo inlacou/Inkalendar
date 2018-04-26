@@ -13,7 +13,7 @@
 		android:id="@+id/calendarHeader"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/cvinl_top_bar_color">
+		android:background="@color/cvinl_back_top_bar_color">
 		
 		<ImageButton
 			android:id="@+id/btn_previous"
@@ -66,7 +66,7 @@
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
 			android:text="@string/material_calendar_monday"
-			android:textColor="@color/cvinl_day_name_color" />
+			android:textColor="@color/cvinl_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/tuesdayLabel"
@@ -75,7 +75,7 @@
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
 			android:text="@string/material_calendar_tuesday"
-			android:textColor="@color/cvinl_day_name_color" />
+			android:textColor="@color/cvinl_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/wednesdayLabel"
@@ -84,7 +84,7 @@
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
 			android:text="@string/material_calendar_wednesday"
-			android:textColor="@color/cvinl_day_name_color" />
+			android:textColor="@color/cvinl_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/thursdayLabel"
@@ -93,7 +93,7 @@
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
 			android:text="@string/material_calendar_thursday"
-			android:textColor="@color/cvinl_day_name_color" />
+			android:textColor="@color/cvinl_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/fridayLabel"
@@ -102,7 +102,7 @@
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
 			android:text="@string/material_calendar_friday"
-			android:textColor="@color/cvinl_day_name_color" />
+			android:textColor="@color/cvinl_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/saturdayLabel"
@@ -111,7 +111,7 @@
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
 			android:text="@string/material_calendar_saturday"
-			android:textColor="@color/cvinl_day_name_color" />
+			android:textColor="@color/cvinl_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/sundayLabel"
@@ -120,7 +120,7 @@
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
 			android:text="@string/material_calendar_sunday"
-			android:textColor="@color/cvinl_day_name_color" />
+			android:textColor="@color/cvinl_text_day_name_color" />
 	</LinearLayout>
 	
 	<com.inlacou.library.calendar.calendarviewinl.calendar.CalendarViewPager

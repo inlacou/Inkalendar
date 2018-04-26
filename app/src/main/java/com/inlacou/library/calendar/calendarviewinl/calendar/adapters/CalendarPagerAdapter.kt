@@ -13,6 +13,7 @@ import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
 import com.inlacou.library.calendar.calendarviewinl.calendar.immediatePreviousMonth
 import com.inlacou.library.calendar.calendarviewinl.calendar.month
 import com.inlacou.library.calendar.calendarviewinl.calendar.sameMonth
+import com.inlacou.library.calendar.calendarviewinl.calendar.view.CalendarViewInlMdl
 
 import java.util.ArrayList
 import java.util.Calendar
@@ -24,7 +25,7 @@ import java.util.Calendar
  * Created by Mateusz Kornakiewicz on 24.05.2017.
  * Forked by Inlacou on 26.04.2018.
  */
-class CalendarPagerAdapter(private val mContext: Context, val currentDate: Calendar) : PagerAdapter() {
+class CalendarPagerAdapter(private val mContext: Context, val model: CalendarViewInlMdl) : PagerAdapter() {
 	private var mCalendarGridView: CalendarGridView? = null
 
 	//TODO add the list which user sets with special days and so
@@ -60,7 +61,7 @@ class CalendarPagerAdapter(private val mContext: Context, val currentDate: Calen
 		val days = ArrayList<DayViewMdl>()
 
 		// Get Calendar object instance
-		val calendar = currentDate.clone() as Calendar
+		val calendar = model.current.clone() as Calendar
 
 		// Add months to Calendar (a number of months depends on ViewPager position)
 		calendar.add(Calendar.MONTH, position)
@@ -90,7 +91,7 @@ class CalendarPagerAdapter(private val mContext: Context, val currentDate: Calen
         Since months are at least 28 days, real breakpoints are 35 and 42
          */
 		do {
-			days.add(DayViewMdl(calendar.time))
+			addDay(days, calendar)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
 		} while (
 				calendar.immediatePreviousMonth(startingCal) ||
@@ -104,14 +105,19 @@ class CalendarPagerAdapter(private val mContext: Context, val currentDate: Calen
 		}
 
 		val calendarDayAdapter = CalendarDayAdapter(this, mContext,
-				days, calendar.month - 1)
+				days, model)
 
 		mCalendarGridView!!.adapter = calendarDayAdapter
 	}
 
+	private fun addDay(days: ArrayList<DayViewMdl>, calendar: Calendar){
+		val newCal = calendar.clone() as Calendar
+		days.add(DayViewMdl(newCal))
+	}
+
 	private fun addUntil(number: Int, days: ArrayList<DayViewMdl>, calendar: Calendar) {
 		while (days.size < number) {
-			days.add(DayViewMdl(calendar.time))
+			addDay(days, calendar)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
 		}
 	}

@@ -21,12 +21,12 @@ class ExampleUnitTest {
 	@Test
 	fun dayViewModel_equality() {
 		val now = Calendar.getInstance()
-		val now1 = DayViewMdl(now.time)
-		val now2 = DayViewMdl(now.time)
+		val now1 = DayViewMdl(now)
+		val now2 = DayViewMdl(now)
 		val tomorrow = Calendar.getInstance()
 		tomorrow.add(Calendar.DAY_OF_YEAR, 1)
-		val tomorrow1 = DayViewMdl(tomorrow.time)
-		val tomorrow2 = DayViewMdl(tomorrow.time)
+		val tomorrow1 = DayViewMdl(tomorrow)
+		val tomorrow2 = DayViewMdl(tomorrow)
 
 		assert(now1==now2)
 		assert(tomorrow1==tomorrow2)

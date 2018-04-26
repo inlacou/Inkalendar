@@ -10,7 +10,27 @@
 		android:id="@+id/tv_day"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:paddingTop="2dp"
+		android:paddingBottom="2dp"
+		android:paddingRight="4dp"
+		android:paddingLeft="4dp"
 		android:gravity="center"
 		android:layout_centerInParent="true"
+		android:textStyle="bold"
+		android:textSize="14sp"
+		android:textColor="#1d1d26"
+		tools:background="#F00"
 		tools:text="15"/>
+	<ImageView
+		android:id="@+id/iv_day"
+		android:layout_width="wrap_content"
+		android:layout_height="16dp"
+		android:layout_below="@+id/tv_day"
+		android:layout_alignLeft="@+id/tv_day"
+		android:layout_alignRight="@+id/tv_day"
+		android:layout_alignStart="@+id/tv_day"
+		android:layout_alignEnd="@+id/tv_day"
+		android:layout_centerHorizontal="true"
+		android:scaleType="centerInside"
+		tools:src="#000"/>
 </RelativeLayout>
