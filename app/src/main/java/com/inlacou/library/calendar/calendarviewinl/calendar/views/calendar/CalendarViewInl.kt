@@ -3,7 +3,6 @@ package com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar
 import android.content.Context
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -12,6 +11,7 @@ import android.widget.TextView
 import com.inlacou.library.calendar.calendarviewinl.R
 import com.inlacou.library.calendar.calendarviewinl.calendar.*
 import com.inlacou.library.calendar.calendarviewinl.calendar.adapters.CalendarPagerAdapter
+import com.inlacou.library.calendar.calendarviewinl.calendar.views.viewpager.CalendarViewPager
 import kotlinx.android.synthetic.main.view_calendar_inl.view.*
 import java.util.*
 
@@ -58,9 +58,11 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 		// in the correct position (in the middle)
 		model.today.add(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
 
-		mViewPager!!.adapter = CalendarPagerAdapter(context, model)
+		mViewPager?.adapter = CalendarPagerAdapter(context, model, {
+			model.selectedDays.add(it.model.calendar)
+		})
 		// This line move calendar to the middle page
-		mViewPager!!.currentItem = CalendarViewInlMdl.FIRST_VISIBLE_PAGE
+		mViewPager?.currentItem = CalendarViewInlMdl.FIRST_VISIBLE_PAGE
 	}
 
 	private fun setListeners() {

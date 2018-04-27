@@ -9,7 +9,6 @@ class DayViewCtrl(val view: DayView, var model: DayViewMdl) {
 	}
 
 	fun onClick() {
-		Log.d("DEBUG.DayViewCtrl", "onClick: $model")
 		model.onClick?.invoke(model.copy(onClick = null))
 	}
 }

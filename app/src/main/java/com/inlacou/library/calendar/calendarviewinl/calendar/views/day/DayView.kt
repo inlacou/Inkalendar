@@ -64,7 +64,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		ivDay.setVisible(model.iconResId!=null, true)
 
 		//Selected check
-		if(model.model.isSelected){
+		if(model.isSelected){
 			model.selectedBackResId!!.let { ivSelected!!.setBackgroundResource(it) }
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textSelectedColorResId))
 		}

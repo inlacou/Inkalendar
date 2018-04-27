@@ -1,4 +1,4 @@
-package com.inlacou.library.calendar.calendarviewinl.calendar
+package com.inlacou.library.calendar.calendarviewinl.calendar.views.viewpager
 
 import android.content.Context
 import android.support.v4.view.ViewPager

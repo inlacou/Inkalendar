@@ -11,6 +11,7 @@ data class CalendarViewInlMdl(
 		 */
 		val today: Calendar = Calendar.getInstance().toMidnight()!!,
 		val days: MutableList<DayInl> = mutableListOf(),
+		val selectedDays: MutableList<Calendar> = mutableListOf(),
 		val minimumDate: Calendar? = null,
 		val maximumDate: Calendar? = null,
 		val onForward: ((position: Int) -> Unit?)? = null,

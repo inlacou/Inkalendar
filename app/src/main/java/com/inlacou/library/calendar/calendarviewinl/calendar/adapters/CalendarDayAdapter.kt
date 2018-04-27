@@ -10,6 +10,7 @@ import com.inlacou.library.calendar.calendarviewinl.R
 import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayView
 import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayViewMdl
 import com.inlacou.library.calendar.calendarviewinl.calendar.month
+import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
 import com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar.CalendarViewInlMdl
 
 import java.util.ArrayList
@@ -36,6 +37,7 @@ internal class CalendarDayAdapter(
 		val dayView = view!!.findViewById(R.id.view) as DayView
 		val viewModel = getItem(position)
 
+		viewModel.isSelected = isSelected(viewModel.model.calendar)
 		viewModel.isCurrentMonth = isCurrentMonthDay(viewModel.model.calendar)
 
 		dayView.model = viewModel
@@ -49,6 +51,8 @@ internal class CalendarDayAdapter(
 				!(model.minimumDate != null && day.before(model.minimumDate)
 						|| model.maximumDate != null && day.after(model.maximumDate))
 	}
+
+	private fun isSelected(day: Calendar): Boolean = model.selectedDays.map { it.toMidnight()!! }.contains(day)
 
 	/*private fun setLabelColors(dayLabel: TextView, dayBack: View, calendar: Calendar) {
 		/*

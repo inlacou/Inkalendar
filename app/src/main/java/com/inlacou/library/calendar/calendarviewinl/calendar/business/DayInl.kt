@@ -5,7 +5,6 @@ import java.util.*
 
 data class DayInl(
 		val calendar: Calendar = Calendar.getInstance().toMidnight()!!,
-		val isSelected: Boolean = false,
 		val isEnabled: Boolean = true,
 		val isSpecial: Boolean = false
 )

@@ -13,8 +13,9 @@ data class DayViewMdl @JvmOverloads constructor(
 		val textDisabledColorResId: Int = R.color.cvinl_text_disabled_color,
 		val textDisabledOtherMonthColorResId: Int = R.color.cvinl_text_disabled_other_month_color,
 		val iconResId: Int? = null,
-		val onClick: ((item: DayViewMdl) -> Unit?)? = null
+		var onClick: ((item: DayViewMdl) -> Any?)? = null
 ){
+	var isSelected: Boolean= false
 	var isCurrentMonth: Boolean = false
 
 	override fun equals(other: Any?): Boolean {

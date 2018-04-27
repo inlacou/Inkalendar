@@ -6,6 +6,7 @@ import com.inlacou.library.calendar.calendarviewinl.calendar.addDays
 import com.inlacou.library.calendar.calendarviewinl.calendar.addMonths
 import com.inlacou.library.calendar.calendarviewinl.calendar.addYears
 import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
+import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
 import com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar.CalendarViewInlMdl
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -22,7 +23,11 @@ class MainActivity : AppCompatActivity() {
 						, DayInl(calendar = Calendar.getInstance().addDays(2), isEnabled = false) //Disabled
 						, DayInl(calendar = Calendar.getInstance().addDays(3), isEnabled = true) //Enabled
 						, DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true) //Special
-						, DayInl(calendar = Calendar.getInstance().addDays(5), isSelected = true) //Selected
-				))
+				),
+				selectedDays = mutableListOf(
+						Calendar.getInstance().addDays(5)
+						, Calendar.getInstance().addDays(7)
+				)
+		)
 	}
 }
