@@ -63,5 +63,6 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 				model.selectedDays.add(day.model.calendar)
 			}
 		}
+		view.notifyDataSetChanged()
 	}
 }

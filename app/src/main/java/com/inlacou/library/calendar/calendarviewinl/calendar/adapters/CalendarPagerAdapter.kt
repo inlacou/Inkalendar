@@ -29,6 +29,8 @@ class CalendarPagerAdapter(
 		var onClick: (item: DayViewMdl) -> Any?
 ) : PagerAdapter() {
 
+	val views: MutableList<CalendarGridView> = mutableListOf()
+
 	override fun getCount(): Int {
 		return CALENDAR_SIZE
 	}
@@ -52,11 +54,18 @@ class CalendarPagerAdapter(
 		}
 
 		container.addView(calendarGridView)
+		views.add(calendarGridView)
 		return calendarGridView
 	}
 
 	override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+		views.remove(`object` as CalendarGridView)
 		container.removeView(`object` as View)
+	}
+
+	override fun notifyDataSetChanged() {
+		views.forEach { it.notifyDataSetChanged() }
+		super.notifyDataSetChanged()
 	}
 
 	companion object {

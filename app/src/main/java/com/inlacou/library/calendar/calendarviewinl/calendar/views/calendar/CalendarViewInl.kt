@@ -97,4 +97,8 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 	internal fun setHeaderName(calendar: Calendar) {
 		tvCurrentMonth?.text = calendar.timeInMillis.toMonthYear(context)
 	}
+
+	fun notifyDataSetChanged() {
+		mViewPager?.adapter?.notifyDataSetChanged()
+	}
 }

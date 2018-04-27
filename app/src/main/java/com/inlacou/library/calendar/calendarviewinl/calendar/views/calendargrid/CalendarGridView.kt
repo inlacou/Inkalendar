@@ -99,7 +99,6 @@ class CalendarGridView @JvmOverloads constructor(
 		}
 		dayModel.onClick = {
 			onClick.invoke(it)
-			(adapter as CalendarDayAdapter).notifyDataSetChanged()
 		}
 
 		days.add(dayModel)
@@ -110,5 +109,9 @@ class CalendarGridView @JvmOverloads constructor(
 			addDay(days, calendar)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
 		}
+	}
+
+	fun notifyDataSetChanged() {
+		(adapter as CalendarDayAdapter).notifyDataSetChanged()
 	}
 }
