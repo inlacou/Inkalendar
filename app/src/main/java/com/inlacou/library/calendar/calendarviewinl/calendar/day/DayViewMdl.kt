@@ -5,7 +5,7 @@ import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
 import java.util.*
 
 data class DayViewMdl @JvmOverloads constructor(
-		val day: Calendar = Calendar.getInstance().toMidnight()!!,
+		val calendar: Calendar = Calendar.getInstance().toMidnight()!!,
 		val isSelected: Boolean = false,
 		val isEnabled: Boolean = true,
 		val isSpecial: Boolean = false,
@@ -15,6 +15,7 @@ data class DayViewMdl @JvmOverloads constructor(
 		val textSelectedColorResId: Int = R.color.cvinl_text_selected_color,
 		val textSpecialColorResId: Int = R.color.cvinl_text_special_color,
 		val textDisabledColorResId: Int = R.color.cvinl_text_disabled_color,
+		val textDisabledOtherMonthColorResId: Int = R.color.cvinl_text_disabled_other_month_color,
 		val disabledTextColorResId: Int? = null,
 		val iconResId: Int? = null,
 		val onClick: ((item: DayViewMdl) -> Unit?)? = null
@@ -23,7 +24,7 @@ data class DayViewMdl @JvmOverloads constructor(
 
 	override fun equals(other: Any?): Boolean {
 		if(other!=null && other is DayViewMdl){
-			return day == other.day
+			return calendar == other.calendar
 		}
 		return super.equals(other)
 	}

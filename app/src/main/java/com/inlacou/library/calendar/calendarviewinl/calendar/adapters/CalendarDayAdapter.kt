@@ -23,10 +23,10 @@ import java.util.Calendar
  */
 internal class CalendarDayAdapter(
 		private val mCalendarPagerAdapter: CalendarPagerAdapter, context: Context,
-		itemList: ArrayList<DayViewMdl>, val model: CalendarViewInlMdl) : ArrayAdapter<DayViewMdl>(context, R.layout.adapter_view_day, itemList) {
+		itemList: ArrayList<DayViewMdl>, val model: CalendarViewInlMdl, currentMonth: Int) : ArrayAdapter<DayViewMdl>(context, R.layout.adapter_view_day, itemList) {
 
 	private val mLayoutInflater: LayoutInflater = LayoutInflater.from(context)
-	private val mPageMonth: Int = if (model.current.month < 0) 11 else model.current.month
+	private val mPageMonth: Int = if (currentMonth < 0) 11 else currentMonth
 	private val mToday = Calendar.getInstance().toMidnight()
 
 	override fun getView(position: Int, v: View?, parent: ViewGroup): View {
@@ -39,7 +39,7 @@ internal class CalendarDayAdapter(
 		val dayView = view!!.findViewById(R.id.view) as DayView
 		val viewModel = getItem(position)
 
-		viewModel.isCurrentMonth = isCurrentMonthDay(viewModel.day)
+		viewModel.isCurrentMonth = isCurrentMonthDay(viewModel.calendar)
 
 		dayView.model = viewModel
 
@@ -53,7 +53,7 @@ internal class CalendarDayAdapter(
 						|| model.maximumDate != null && day.after(model.maximumDate))
 	}
 
-	/*private fun setLabelColors(dayLabel: TextView, dayBack: View, day: Calendar) {
+	/*private fun setLabelColors(dayLabel: TextView, dayBack: View, calendar: Calendar) {
 		/*
 	    text.color =
 		    if(otherMonth) grey
@@ -72,27 +72,27 @@ internal class CalendarDayAdapter(
 		// still TODO selected state
 
 		DayColorsUtils.setDayColors(dayLabel,
-				if (!isCurrentMonthDay(day)) mCalendarProperties.anotherMonthsDaysLabelsColor
-				else if (!isActiveDay(day)) mCalendarProperties.disabledDaysLabelsColor
-				else if (isSpecialDay(day)) mCalendarProperties.specialDaysLabelsColor
+				if (!isCurrentMonthDay(calendar)) mCalendarProperties.anotherMonthsDaysLabelsColor
+				else if (!isActiveDay(calendar)) mCalendarProperties.disabledDaysLabelsColor
+				else if (isSpecialDay(calendar)) mCalendarProperties.specialDaysLabelsColor
 				else mCalendarProperties.daysLabelsColor,
 				Typeface.BOLD,
-				if (isSpecialDay(day)) {
-					if (isCurrentMonthDay(day)) mCalendarProperties.specialDaysLabelsBackgroundColor
+				if (isSpecialDay(calendar)) {
+					if (isCurrentMonthDay(calendar)) mCalendarProperties.specialDaysLabelsBackgroundColor
 					else mCalendarProperties.specialDisabledDaysLabelsBackgroundColor
 				} else R.drawable.background_transparent)
 
-		/*// Setting not current month day color
-        if (!isCurrentMonthDay(day)) {
+		/*// Setting not current month calendar color
+        if (!isCurrentMonthDay(calendar)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
                     Typeface.BOLD, R.drawable.background_transparent);
             return;
         }
 
         // Set view for all SelectedDays
-        if (isSelectedDay(day)) {
+        if (isSelectedDay(calendar)) {
             Stream.of(mCalendarPageAdapter.getSelectedDays())
-                    .filter(selectedDay -> selectedDay.getCalendar().equals(day))
+                    .filter(selectedDay -> selectedDay.getCalendar().equals(calendar))
                     .findFirst()
                     .ifPresent(selectedDay -> selectedDay.setView(dayLabel));
 
@@ -101,31 +101,31 @@ internal class CalendarDayAdapter(
         }
 
         // Setting disabled days color
-        if (!isActiveDay(day)) {
+        if (!isActiveDay(calendar)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getDisabledDaysLabelsColor(),
                     Typeface.BOLD, R.drawable.background_transparent);
             return;
         }
 
-        // Setting current month day color
-        DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, mCalendarProperties);*/
+        // Setting current month calendar color
+        DayColorsUtils.setCurrentMonthDayColors(calendar, mToday, dayLabel, mCalendarProperties);*/
 	}
 
-	private fun isSelectedDay(day: Calendar): Boolean {
-		return (mCalendarProperties.calendarType != CalendarView.CLASSIC && day.get(Calendar.MONTH) == mPageMonth
-				&& mCalendarPageAdapter.selectedDays.contains(SelectedDay(day)))
+	private fun isSelectedDay(calendar: Calendar): Boolean {
+		return (mCalendarProperties.calendarType != CalendarView.CLASSIC && calendar.get(Calendar.MONTH) == mPageMonth
+				&& mCalendarPageAdapter.selectedDays.contains(SelectedDay(calendar)))
 	}
 
 
 
-	private fun isActiveDay(day: Calendar): Boolean {
-		return !mCalendarProperties.disabledDays.contains(day)
+	private fun isActiveDay(calendar: Calendar): Boolean {
+		return !mCalendarProperties.disabledDays.contains(calendar)
 	}
 
-	private fun isSpecialDay(day: Calendar): Boolean =
+	private fun isSpecialDay(calendar: Calendar): Boolean =
 			mCalendarProperties.eventDays
 					.filter { it.isSpecial }
 					.map { it.calendar }
-					.contains(day)
+					.contains(calendar)
 */
 }

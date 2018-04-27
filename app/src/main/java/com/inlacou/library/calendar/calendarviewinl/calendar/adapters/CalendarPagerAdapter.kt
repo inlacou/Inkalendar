@@ -105,7 +105,7 @@ class CalendarPagerAdapter(private val mContext: Context, val model: CalendarVie
 		}
 
 		val calendarDayAdapter = CalendarDayAdapter(this, mContext,
-				days, model)
+				days, model, startingCal.month)
 
 		mCalendarGridView!!.adapter = calendarDayAdapter
 	}
