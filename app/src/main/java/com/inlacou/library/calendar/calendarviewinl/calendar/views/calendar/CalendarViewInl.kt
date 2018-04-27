@@ -9,9 +9,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 
 import com.inlacou.library.calendar.calendarviewinl.R
-import com.inlacou.library.calendar.calendarviewinl.calendar.CalendarViewPager
+import com.inlacou.library.calendar.calendarviewinl.calendar.*
 import com.inlacou.library.calendar.calendarviewinl.calendar.adapters.CalendarPagerAdapter
-import com.inlacou.library.calendar.calendarviewinl.calendar.toMonthYear
 import kotlinx.android.synthetic.main.view_calendar_inl.view.*
 import java.util.*
 
@@ -56,7 +55,7 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 	fun populate() {
 		// This line subtracts a half of all calendar months to set calendar
 		// in the correct position (in the middle)
-		model.today.set(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
+		model.today.add(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
 
 		mViewPager!!.adapter = CalendarPagerAdapter(context, model)
 		// This line move calendar to the middle page
