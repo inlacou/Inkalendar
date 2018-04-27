@@ -73,6 +73,11 @@ fun Calendar?.isMonthBefore(calendar: Calendar): Boolean {
 	return secondDay.before(firstDay)
 }
 
+fun Calendar.addDays(number: Int): Calendar {
+	this.add(Calendar.DAY_OF_YEAR, number)
+	return this
+}
+
 
 /**
  * This method compares calendars using month and year

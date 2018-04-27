@@ -48,6 +48,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 	}
 
 	fun populate() {
+		Log.d("DEBUG.populate", "${model.model.calendar.dayOfMonth}/${model.model.calendar.month}/${model.model.calendar.year}: ${model.model.isEnabled}")
 		//Set to normal
 		tvDay?.text = model.model.calendar.timeInMillis.toDay(context)
 		ImageUtils.loadResource(context, ivDay, model.iconResId)
@@ -66,6 +67,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		if(model.model.isSpecial){
 			//TODO model.specialTextBackColorResId?.let { textDayBack?.setBackgroundResource(it) }
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textSpecialColorResId))
+		}
+
+		//Disabled check
+		if(!model.model.isEnabled){
+			tvDay?.setTextColor(ContextCompat.getColor(context, model.textDisabledColorResId))
 		}
 
 		//Current month check

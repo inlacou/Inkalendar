@@ -1,7 +1,11 @@
 package com.inlacou.library.calendar.calendarviewinl
 
+import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
 import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
+import com.inlacou.library.calendar.calendarviewinl.calendar.dayOfYear
 import com.inlacou.library.calendar.calendarviewinl.calendar.immediatePreviousMonth
+import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
+import com.inlacou.library.calendar.calendarviewinl.calendar.year
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -19,14 +23,27 @@ class ExampleUnitTest {
 	}
 
 	@Test
+	fun calendar_equality() {
+		val one = Calendar.getInstance().toMidnight()!!
+		one.dayOfYear = 100
+		one.year = 2018
+
+		val two = Calendar.getInstance().toMidnight()!!
+		two.dayOfYear = 100
+		two.year = 2018
+
+		assert(one==two)
+	}
+
+	@Test
 	fun dayViewModel_equality() {
 		val now = Calendar.getInstance()
-		val now1 = DayViewMdl(now)
-		val now2 = DayViewMdl(now)
+		val now1 = DayViewMdl(DayInl(now))
+		val now2 = DayViewMdl(DayInl(now))
 		val tomorrow = Calendar.getInstance()
 		tomorrow.add(Calendar.DAY_OF_YEAR, 1)
-		val tomorrow1 = DayViewMdl(tomorrow)
-		val tomorrow2 = DayViewMdl(tomorrow)
+		val tomorrow1 = DayViewMdl(DayInl(tomorrow))
+		val tomorrow2 = DayViewMdl(DayInl(tomorrow))
 
 		assert(now1==now2)
 		assert(tomorrow1==tomorrow2)

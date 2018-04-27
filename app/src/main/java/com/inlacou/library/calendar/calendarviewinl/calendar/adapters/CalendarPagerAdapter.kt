@@ -2,17 +2,15 @@ package com.inlacou.library.calendar.calendarviewinl.calendar.adapters
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.inlacou.library.calendar.calendarviewinl.R
-import com.inlacou.library.calendar.calendarviewinl.calendar.CalendarGridView
+import com.inlacou.library.calendar.calendarviewinl.calendar.*
 import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
 import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
-import com.inlacou.library.calendar.calendarviewinl.calendar.immediatePreviousMonth
-import com.inlacou.library.calendar.calendarviewinl.calendar.month
-import com.inlacou.library.calendar.calendarviewinl.calendar.sameMonth
 import com.inlacou.library.calendar.calendarviewinl.calendar.view.CalendarViewInlMdl
 
 import java.util.ArrayList
@@ -25,7 +23,7 @@ import java.util.Calendar
  * Created by Mateusz Kornakiewicz on 24.05.2017.
  * Forked by Inlacou on 26.04.2018.
  */
-class CalendarPagerAdapter(private val mContext: Context, val model: CalendarViewInlMdl) : PagerAdapter() {
+class CalendarPagerAdapter(private val mContext: Context, val calendarModel: CalendarViewInlMdl) : PagerAdapter() {
 	private var mCalendarGridView: CalendarGridView? = null
 
 	override fun getCount(): Int {
@@ -59,7 +57,7 @@ class CalendarPagerAdapter(private val mContext: Context, val model: CalendarVie
 		val days = ArrayList<DayViewMdl>()
 
 		// Get Calendar object instance
-		val calendar = model.today.clone() as Calendar
+		val calendar = calendarModel.today.clone() as Calendar
 
 		// Add months to Calendar (a number of months depends on ViewPager position)
 		calendar.add(Calendar.MONTH, position)
@@ -103,14 +101,22 @@ class CalendarPagerAdapter(private val mContext: Context, val model: CalendarVie
 		}
 
 		val calendarDayAdapter = CalendarDayAdapter(mContext, days,
-				model, startingCal.month)
+				calendarModel, startingCal.month)
 
 		mCalendarGridView!!.adapter = calendarDayAdapter
 	}
 
 	private fun addDay(days: ArrayList<DayViewMdl>, calendar: Calendar){
 		val newCal = calendar.clone() as Calendar
-		days.add(DayViewMdl(DayInl(newCal)))
+
+		val day = calendarModel.days.find { calendar.toMidnight()!! == it.calendar.toMidnight()!! }
+
+		if(day==null){
+			days.add(DayViewMdl(DayInl(newCal)))
+		}else{
+			Log.d("DEBUG.addDay", "loading day from calendarModel!")
+			days.add(DayViewMdl(day))
+		}
 	}
 
 	private fun addUntil(number: Int, days: ArrayList<DayViewMdl>, calendar: Calendar) {
