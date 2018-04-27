@@ -59,7 +59,7 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 		model.today.add(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
 
 		mViewPager?.adapter = CalendarPagerAdapter(context, model, {
-			model.selectedDays.add(it.model.calendar)
+			controller.onDayClick(it)
 		})
 		// This line move calendar to the middle page
 		mViewPager?.currentItem = CalendarViewInlMdl.FIRST_VISIBLE_PAGE

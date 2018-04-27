@@ -14,11 +14,16 @@ data class CalendarViewInlMdl(
 		val selectedDays: MutableList<Calendar> = mutableListOf(),
 		val minimumDate: Calendar? = null,
 		val maximumDate: Calendar? = null,
+		val mode: Mode = Mode.MULTIPLE_SELECTION,
 		val onForward: ((position: Int) -> Unit?)? = null,
 		val onBackward: ((position: Int) -> Unit?)? = null
 ){
 	var currentPage: Int = FIRST_VISIBLE_PAGE
 	companion object {
 		val FIRST_VISIBLE_PAGE = CalendarPagerAdapter.CALENDAR_SIZE / 2
+	}
+
+	enum class Mode{
+		SINGLE_SELECTION, MULTIPLE_SELECTION //TODO, NO_SELECTION, RANGE_SELECTION
 	}
 }

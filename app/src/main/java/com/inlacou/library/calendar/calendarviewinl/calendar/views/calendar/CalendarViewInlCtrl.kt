@@ -1,7 +1,7 @@
 package com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar
 
-import android.util.Log
 import com.inlacou.library.calendar.calendarviewinl.calendar.*
+import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayViewMdl
 import java.util.*
 
 
@@ -49,6 +49,19 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 
 		if (position < model.currentPage) {
 			model.onBackward?.invoke(position)
+		}
+	}
+
+	fun onDayClick(day: DayViewMdl) {
+		if(model.mode==CalendarViewInlMdl.Mode.SINGLE_SELECTION){
+			model.selectedDays.clear()
+			model.selectedDays.add(day.model.calendar)
+		}else{
+			if (model.selectedDays.contains(day.model.calendar)) {
+				model.selectedDays.remove(day.model.calendar)
+			} else {
+				model.selectedDays.add(day.model.calendar)
+			}
 		}
 	}
 }
