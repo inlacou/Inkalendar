@@ -58,11 +58,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		ivDay?.alpha = 1f
 		ivSelected?.alpha = 1f
 		ivSelected?.setBackgroundResource(0)
-		ImageUtils.loadResource(context, ivDay, model.iconResId)
+		ImageUtils.loadResource(context, ivDay, model.model.iconResId)
 		tvDay?.setTextColor(ContextCompat.getColor(context, model.textNormalColorResId))
 
 		//Icon check
-		ivDay.setVisible(model.iconResId!=null, true)
+		ivDay.setVisible(model.model.iconResId!=null, true)
 
 		//Selected check
 		if(model.isSelected){

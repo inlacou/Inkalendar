@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
 						, DayInl(calendar = Calendar.getInstance().addDays(2), isEnabled = false) //Disabled
 						, DayInl(calendar = Calendar.getInstance().addDays(3), isEnabled = true) //Enabled
 						, DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true) //Special
+						, DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader) //Menacing space invader as icon
+						, DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader) //Special day when menacing space invader attacks
 				),
 				selectedDays = mutableListOf(
 						Calendar.getInstance().addDays(5)
