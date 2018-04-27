@@ -1,4 +1,4 @@
-package com.inlacou.library.calendar.calendarviewinl.calendar.view
+package com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar
 
 import com.inlacou.library.calendar.calendarviewinl.calendar.isMonthAfter
 import com.inlacou.library.calendar.calendarviewinl.calendar.isMonthBefore

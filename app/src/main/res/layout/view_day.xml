@@ -7,6 +7,12 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:padding="2dp">
+	<ImageView
+		android:id="@+id/iv_selected"
+		android:layout_width="40dp"
+		android:layout_height="40dp"
+		android:layout_centerInParent="true"
+		tools:background="@drawable/cvinl_selected_background"/>
 	<TextView
 		android:id="@+id/tv_day"
 		android:layout_width="wrap_content"

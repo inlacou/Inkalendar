@@ -7,11 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.inlacou.library.calendar.calendarviewinl.R
-import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayView
-import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
+import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayView
+import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayViewMdl
 import com.inlacou.library.calendar.calendarviewinl.calendar.month
-import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
-import com.inlacou.library.calendar.calendarviewinl.calendar.view.CalendarViewInlMdl
+import com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar.CalendarViewInlMdl
 
 import java.util.ArrayList
 import java.util.Calendar

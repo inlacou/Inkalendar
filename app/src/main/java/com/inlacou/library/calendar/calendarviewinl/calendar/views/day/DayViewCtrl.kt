@@ -1,4 +1,4 @@
-package com.inlacou.library.calendar.calendarviewinl.calendar.day
+package com.inlacou.library.calendar.calendarviewinl.calendar.views.day
 
 import android.util.Log
 

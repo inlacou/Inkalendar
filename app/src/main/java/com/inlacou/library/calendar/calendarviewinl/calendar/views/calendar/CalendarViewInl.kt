@@ -1,4 +1,4 @@
-package com.inlacou.library.calendar.calendarviewinl.calendar.view
+package com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar
 
 import android.content.Context
 import android.support.v4.view.ViewPager
@@ -60,7 +60,7 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 
 		mViewPager!!.adapter = CalendarPagerAdapter(context, model)
 		// This line move calendar to the middle page
-		mViewPager!!.currentItem = CalendarViewInlMdl.Companion.FIRST_VISIBLE_PAGE
+		mViewPager!!.currentItem = CalendarViewInlMdl.FIRST_VISIBLE_PAGE
 	}
 
 	private fun setListeners() {

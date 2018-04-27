@@ -1,4 +1,4 @@
-package com.inlacou.library.calendar.calendarviewinl.calendar.day
+package com.inlacou.library.calendar.calendarviewinl.calendar.views.day
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -20,11 +20,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 	var surfaceLayout: View? = null
 	var tvDay: TextView? = null
 	var ivDay: ImageView? = null
+	var ivSelected: ImageView? = null
 
 	var model: DayViewMdl = DayViewMdl()
 		set(value) {
 			field = value
 			controller.model = value
+			setListeners()
 			populate()
 		}
 	private lateinit var controller: DayViewCtrl
@@ -41,6 +43,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		surfaceLayout = view_base_layout_surface
 		tvDay = tv_day
 		ivDay = iv_day
+		ivSelected = iv_selected
 	}
 
 	fun initialize(view: View) {
@@ -51,6 +54,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		Log.d("DEBUG.populate", "${model.model.calendar.dayOfMonth}/${model.model.calendar.month}/${model.model.calendar.year}: ${model.model.isEnabled}")
 		//Set to normal
 		tvDay?.text = model.model.calendar.timeInMillis.toDay(context)
+		tvDay?.alpha = 1f
+		ivDay?.alpha = 1f
+		ivSelected?.alpha = 1f
 		ImageUtils.loadResource(context, ivDay, model.iconResId)
 		tvDay?.setTextColor(ContextCompat.getColor(context, model.textNormalColorResId))
 
@@ -59,25 +65,29 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
 		//Selected check
 		if(model.model.isSelected){
-			model.selectedBackColorResId?.let { tvDay?.setBackgroundResource(it) }
+			model.selectedBackResId!!.let { ivSelected!!.setBackgroundResource(it) }
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textSelectedColorResId))
 		}
 
 		//Special check
 		if(model.model.isSpecial){
-			//TODO model.specialTextBackColorResId?.let { textDayBack?.setBackgroundResource(it) }
+			model.specialTextBackColorResId?.let { tvDay?.setBackgroundResource(it) }
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textSpecialColorResId))
 		}
 
 		//Disabled check
 		if(!model.model.isEnabled){
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textDisabledColorResId))
+			surfaceLayout?.setOnClickListener {  }
 		}
 
 		//Current month check
 		if(!model.isCurrentMonth){
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textDisabledOtherMonthColorResId))
+			tvDay?.alpha = 0.12f //TODO change this alpha modifying with more colors
 			ivDay?.alpha = 0.12f
+			ivSelected?.alpha = 0.12f
+			surfaceLayout?.setOnClickListener {  }
 		}
 	}
 

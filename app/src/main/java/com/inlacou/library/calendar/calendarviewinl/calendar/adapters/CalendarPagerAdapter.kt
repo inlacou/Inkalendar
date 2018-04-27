@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import com.inlacou.library.calendar.calendarviewinl.R
 import com.inlacou.library.calendar.calendarviewinl.calendar.*
 import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
-import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
-import com.inlacou.library.calendar.calendarviewinl.calendar.view.CalendarViewInlMdl
+import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayViewMdl
+import com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar.CalendarViewInlMdl
 
 import java.util.ArrayList
 import java.util.Calendar
@@ -114,7 +114,6 @@ class CalendarPagerAdapter(private val mContext: Context, val calendarModel: Cal
 		if(day==null){
 			days.add(DayViewMdl(DayInl(newCal)))
 		}else{
-			Log.d("DEBUG.addDay", "loading day from calendarModel!")
 			days.add(DayViewMdl(day))
 		}
 	}

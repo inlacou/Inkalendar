@@ -6,7 +6,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".MainActivity">
-	<com.inlacou.library.calendar.calendarviewinl.calendar.view.CalendarViewInl
+	<com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar.CalendarViewInl
 		android:id="@+id/calendarView"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>

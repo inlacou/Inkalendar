@@ -8,7 +8,8 @@
 	<color name="cvinl_text_day_name_color">#000</color>
 	<color name="cvinl_text_normal_color">#1d1d26</color>
 	<color name="cvinl_text_special_color">#ffffff</color>
-	<color name="cvinl_text_selected_color">#1d1d26</color>
+	<color name="cvinl_back_disabled_color">#FF0C23</color>
+	<color name="cvinl_text_selected_color">#ffffff</color>
 	<color name="cvinl_text_disabled_color">#FF0C23</color>
 	<color name="cvinl_text_disabled_other_month_color">#8D8D91</color>
 </resources>

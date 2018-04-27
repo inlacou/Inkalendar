@@ -1,7 +1,7 @@
 package com.inlacou.library.calendar.calendarviewinl
 
 import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
-import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
+import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayViewMdl
 import com.inlacou.library.calendar.calendarviewinl.calendar.dayOfYear
 import com.inlacou.library.calendar.calendarviewinl.calendar.immediatePreviousMonth
 import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
