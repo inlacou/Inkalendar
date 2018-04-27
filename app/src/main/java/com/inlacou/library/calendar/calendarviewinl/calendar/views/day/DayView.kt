@@ -51,7 +51,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 	}
 
 	fun populate() {
-		Log.d("DEBUG.populate", "${model.model.calendar.dayOfMonth}/${model.model.calendar.month}/${model.model.calendar.year}: ${model.model.isEnabled}")
+		//Log.d("DEBUG.populate", "${model.model.calendar.dayOfMonth}/${model.model.calendar.month}/${model.model.calendar.year}: ${model.model.isEnabled}")
 		//Set to normal
 		tvDay?.text = model.model.calendar.timeInMillis.toDay(context)
 		tvDay?.alpha = 1f

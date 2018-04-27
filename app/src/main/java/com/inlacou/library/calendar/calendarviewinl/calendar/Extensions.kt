@@ -78,6 +78,15 @@ fun Calendar.addDays(number: Int): Calendar {
 	return this
 }
 
+fun Calendar.addMonths(number: Int): Calendar {
+	this.add(Calendar.MONTH, number)
+	return this
+}
+
+fun Calendar.addYears(number: Int): Calendar {
+	this.add(Calendar.YEAR, number)
+	return this
+}
 
 /**
  * This method compares calendars using month and year

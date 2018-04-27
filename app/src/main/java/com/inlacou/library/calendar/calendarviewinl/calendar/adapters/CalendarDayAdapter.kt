@@ -28,7 +28,6 @@ internal class CalendarDayAdapter(
 	private val mPageMonth: Int = if (currentMonth < 0) 11 else currentMonth
 
 	override fun getView(position: Int, v: View?, parent: ViewGroup): View {
-		Log.d("CalendarDayAdapter", "getView | position: $position | month: $mPageMonth")
 		var view = v
 		if (view == null) {
 			view = mLayoutInflater.inflate(R.layout.adapter_view_day, parent, false)
