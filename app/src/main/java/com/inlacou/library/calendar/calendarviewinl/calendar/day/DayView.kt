@@ -49,7 +49,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
 	fun populate() {
 		//Set to normal
-		tvDay?.text = model.calendar.timeInMillis.toDay(context)
+		tvDay?.text = model.model.calendar.timeInMillis.toDay(context)
 		ImageUtils.loadResource(context, ivDay, model.iconResId)
 		tvDay?.setTextColor(ContextCompat.getColor(context, model.textNormalColorResId))
 
@@ -57,13 +57,13 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		ivDay.setVisible(model.iconResId!=null, true)
 
 		//Selected check
-		if(model.isSelected){
+		if(model.model.isSelected){
 			model.selectedBackColorResId?.let { tvDay?.setBackgroundResource(it) }
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textSelectedColorResId))
 		}
 
 		//Special check
-		if(model.isSpecial){
+		if(model.model.isSpecial){
 			//TODO model.specialTextBackColorResId?.let { textDayBack?.setBackgroundResource(it) }
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textSpecialColorResId))
 		}

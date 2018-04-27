@@ -56,7 +56,7 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 	fun populate() {
 		// This line subtracts a half of all calendar months to set calendar
 		// in the correct position (in the middle)
-		model.current.set(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
+		model.today.set(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
 
 		mViewPager!!.adapter = CalendarPagerAdapter(context, model)
 		// This line move calendar to the middle page

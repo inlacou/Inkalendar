@@ -30,7 +30,7 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 	}
 
 	fun onPageSelected(position: Int) {
-		val calendar = model.current.clone() as Calendar
+		val calendar = model.today.clone() as Calendar
 		calendar.add(Calendar.MONTH, position)
 
 		if (!isScrollingLimited(calendar, position)) {
@@ -41,14 +41,14 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 
 	// This method calls page change listeners after swipe calendar or click arrow buttons
 	private fun callOnPageChangeListeners(position: Int) {
+		model.currentPage = position
+
 		if (position > model.currentPage) {
-			model.onForward?.invoke()
+			model.onForward?.invoke(position)
 		}
 
 		if (position < model.currentPage) {
-			model.onBackward?.invoke()
+			model.onBackward?.invoke(position)
 		}
-
-		model.currentPage = position
 	}
 }

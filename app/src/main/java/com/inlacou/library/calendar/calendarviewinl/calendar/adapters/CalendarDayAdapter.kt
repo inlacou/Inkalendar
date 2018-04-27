@@ -22,12 +22,11 @@ import java.util.Calendar
  * Created by Mateusz Kornakiewicz on 24.05.2017.
  */
 internal class CalendarDayAdapter(
-		private val mCalendarPagerAdapter: CalendarPagerAdapter, context: Context,
-		itemList: ArrayList<DayViewMdl>, val model: CalendarViewInlMdl, currentMonth: Int) : ArrayAdapter<DayViewMdl>(context, R.layout.adapter_view_day, itemList) {
+		context: Context, itemList: ArrayList<DayViewMdl>,
+		val model: CalendarViewInlMdl, currentMonth: Int) : ArrayAdapter<DayViewMdl>(context, R.layout.adapter_view_day, itemList) {
 
 	private val mLayoutInflater: LayoutInflater = LayoutInflater.from(context)
 	private val mPageMonth: Int = if (currentMonth < 0) 11 else currentMonth
-	private val mToday = Calendar.getInstance().toMidnight()
 
 	override fun getView(position: Int, v: View?, parent: ViewGroup): View {
 		Log.d("CalendarDayAdapter", "getView | position: $position | month: $mPageMonth")
@@ -39,7 +38,7 @@ internal class CalendarDayAdapter(
 		val dayView = view!!.findViewById(R.id.view) as DayView
 		val viewModel = getItem(position)
 
-		viewModel.isCurrentMonth = isCurrentMonthDay(viewModel.calendar)
+		viewModel.isCurrentMonth = isCurrentMonthDay(viewModel.model.calendar)
 
 		dayView.model = viewModel
 
@@ -82,7 +81,7 @@ internal class CalendarDayAdapter(
 					else mCalendarProperties.specialDisabledDaysLabelsBackgroundColor
 				} else R.drawable.background_transparent)
 
-		/*// Setting not current month calendar color
+		/*// Setting not today month calendar color
         if (!isCurrentMonthDay(calendar)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
                     Typeface.BOLD, R.drawable.background_transparent);
@@ -107,7 +106,7 @@ internal class CalendarDayAdapter(
             return;
         }
 
-        // Setting current month calendar color
+        // Setting today month calendar color
         DayColorsUtils.setCurrentMonthDayColors(calendar, mToday, dayLabel, mCalendarProperties);*/
 	}
 
@@ -115,8 +114,6 @@ internal class CalendarDayAdapter(
 		return (mCalendarProperties.calendarType != CalendarView.CLASSIC && calendar.get(Calendar.MONTH) == mPageMonth
 				&& mCalendarPageAdapter.selectedDays.contains(SelectedDay(calendar)))
 	}
-
-
 
 	private fun isActiveDay(calendar: Calendar): Boolean {
 		return !mCalendarProperties.disabledDays.contains(calendar)

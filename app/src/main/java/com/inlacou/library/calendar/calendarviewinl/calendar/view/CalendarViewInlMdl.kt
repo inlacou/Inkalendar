@@ -1,17 +1,21 @@
 package com.inlacou.library.calendar.calendarviewinl.calendar.view
 
 import com.inlacou.library.calendar.calendarviewinl.calendar.adapters.CalendarPagerAdapter
+import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
 import java.util.*
 
 data class CalendarViewInlMdl(
-		val today: Calendar = Calendar.getInstance(),
-		val current: Calendar = Calendar.getInstance(), //It should be a var, I'm waiting for the IDE to tell me
-		var currentPage: Int = FIRST_VISIBLE_PAGE, //Redundant?
+		/**
+		 * Current day for the calendar. Usually it will just be the real today.
+		 */
+		val today: Calendar = Calendar.getInstance().toMidnight()!!,
 		val minimumDate: Calendar? = null,
 		val maximumDate: Calendar? = null,
-		val onForward: (() -> Unit?)? = null,
-		val onBackward: (() -> Unit?)? = null
+		val onForward: ((position: Int) -> Unit?)? = null,
+		val onBackward: ((position: Int) -> Unit?)? = null
 ){
+	var currentPage: Int = FIRST_VISIBLE_PAGE
+	//TODO add the list which user sets with special days and so
 	companion object {
 		val FIRST_VISIBLE_PAGE = CalendarPagerAdapter.CALENDAR_SIZE / 2
 	}

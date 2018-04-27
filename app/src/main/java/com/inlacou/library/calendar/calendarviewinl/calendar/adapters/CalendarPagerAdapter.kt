@@ -2,13 +2,13 @@ package com.inlacou.library.calendar.calendarviewinl.calendar.adapters
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.inlacou.library.calendar.calendarviewinl.R
 import com.inlacou.library.calendar.calendarviewinl.calendar.CalendarGridView
+import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
 import com.inlacou.library.calendar.calendarviewinl.calendar.day.DayViewMdl
 import com.inlacou.library.calendar.calendarviewinl.calendar.immediatePreviousMonth
 import com.inlacou.library.calendar.calendarviewinl.calendar.month
@@ -27,8 +27,6 @@ import java.util.Calendar
  */
 class CalendarPagerAdapter(private val mContext: Context, val model: CalendarViewInlMdl) : PagerAdapter() {
 	private var mCalendarGridView: CalendarGridView? = null
-
-	//TODO add the list which user sets with special days and so
 
 	override fun getCount(): Int {
 		return CALENDAR_SIZE
@@ -55,13 +53,13 @@ class CalendarPagerAdapter(private val mContext: Context, val model: CalendarVie
 	/**
 	 * This method fill calendar GridView with default days
 	 *
-	 * @param position Position of current page in ViewPager
+	 * @param position Position of today page in ViewPager
 	 */
 	private fun loadMonth(position: Int) {
 		val days = ArrayList<DayViewMdl>()
 
 		// Get Calendar object instance
-		val calendar = model.current.clone() as Calendar
+		val calendar = model.today.clone() as Calendar
 
 		// Add months to Calendar (a number of months depends on ViewPager position)
 		calendar.add(Calendar.MONTH, position)
@@ -104,15 +102,15 @@ class CalendarPagerAdapter(private val mContext: Context, val model: CalendarVie
 			addUntil(42, days, calendar)
 		}
 
-		val calendarDayAdapter = CalendarDayAdapter(this, mContext,
-				days, model, startingCal.month)
+		val calendarDayAdapter = CalendarDayAdapter(mContext, days,
+				model, startingCal.month)
 
 		mCalendarGridView!!.adapter = calendarDayAdapter
 	}
 
 	private fun addDay(days: ArrayList<DayViewMdl>, calendar: Calendar){
 		val newCal = calendar.clone() as Calendar
-		days.add(DayViewMdl(newCal))
+		days.add(DayViewMdl(DayInl(newCal)))
 	}
 
 	private fun addUntil(number: Int, days: ArrayList<DayViewMdl>, calendar: Calendar) {
@@ -130,7 +128,7 @@ class CalendarPagerAdapter(private val mContext: Context, val model: CalendarVie
 
 		/**
 		 * A number of months (pages) in the calendar
-		 * 2401 months means 1200 months (100 years) before and 1200 months after the current month
+		 * 2401 months means 1200 months (100 years) before and 1200 months after the today month
 		 */
 		val CALENDAR_SIZE = 2401
 	}
