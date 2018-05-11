@@ -1,5 +1,6 @@
 package com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar
 
+import android.util.Log
 import com.inlacou.library.calendar.calendarviewinl.calendar.*
 import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayViewMdl
 import java.util.*
@@ -41,13 +42,15 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 
 	// This method calls page change listeners after swipe calendar or click arrow buttons
 	private fun callOnPageChangeListeners(position: Int) {
+		val clone = model.today.clone() as Calendar
+		clone.month = clone.month + position
 		if (position > model.currentPage) {
-			model.onForward?.invoke(position)
+			model.onForward?.invoke(clone)
+		}
+		if (position < model.currentPage) {
+			model.onBackward?.invoke(clone)
 		}
 
-		if (position < model.currentPage) {
-			model.onBackward?.invoke(position)
-		}
 		model.currentPage = position
 	}
 
