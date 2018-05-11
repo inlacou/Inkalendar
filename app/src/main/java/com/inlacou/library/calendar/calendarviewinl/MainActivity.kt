@@ -3,9 +3,12 @@ package com.inlacou.library.calendar.calendarviewinl
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.inlacou.library.calendar.calendarviewinl.calendar.*
-import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
-import com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar.CalendarViewInlMdl
+import com.inlacou.library.calendar.inkalendar.addDays
+import com.inlacou.library.calendar.inkalendar.business.DayInl
+import com.inlacou.library.calendar.inkalendar.dayOfMonth
+import com.inlacou.library.calendar.inkalendar.month
+import com.inlacou.library.calendar.inkalendar.views.calendar.CalendarViewInlMdl
+import com.inlacou.library.calendar.inkalendar.year
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
