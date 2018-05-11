@@ -41,8 +41,6 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 
 	// This method calls page change listeners after swipe calendar or click arrow buttons
 	private fun callOnPageChangeListeners(position: Int) {
-		model.currentPage = position
-
 		if (position > model.currentPage) {
 			model.onForward?.invoke(position)
 		}
@@ -50,6 +48,7 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 		if (position < model.currentPage) {
 			model.onBackward?.invoke(position)
 		}
+		model.currentPage = position
 	}
 
 	fun onDayClick(day: DayViewMdl) {

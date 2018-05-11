@@ -2,6 +2,7 @@ package com.inlacou.library.calendar.calendarviewinl
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.inlacou.library.calendar.calendarviewinl.calendar.addDays
 import com.inlacou.library.calendar.calendarviewinl.calendar.addMonths
 import com.inlacou.library.calendar.calendarviewinl.calendar.addYears
@@ -29,7 +30,13 @@ class MainActivity : AppCompatActivity() {
 				selectedDays = mutableListOf(
 						Calendar.getInstance().addDays(5)
 						, Calendar.getInstance().addDays(7)
-				)
+				),
+				onBackward = {
+					Toast.makeText(this, "onBackward", Toast.LENGTH_SHORT).show()
+				},
+				onForward = {
+					Toast.makeText(this, "onForward", Toast.LENGTH_SHORT).show()
+				}
 		)
 	}
 }

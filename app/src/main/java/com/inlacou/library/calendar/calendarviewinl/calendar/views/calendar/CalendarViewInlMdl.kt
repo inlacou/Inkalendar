@@ -15,8 +15,8 @@ data class CalendarViewInlMdl(
 		val minimumDate: Calendar? = null,
 		val maximumDate: Calendar? = null,
 		val mode: Mode = Mode.MULTIPLE_SELECTION,
-		val onForward: ((position: Int) -> Unit?)? = null,
-		val onBackward: ((position: Int) -> Unit?)? = null
+		val onForward: ((position: Int) -> Any?)? = null,
+		val onBackward: ((position: Int) -> Any?)? = null
 ){
 	var currentPage: Int = FIRST_VISIBLE_PAGE
 	companion object {
