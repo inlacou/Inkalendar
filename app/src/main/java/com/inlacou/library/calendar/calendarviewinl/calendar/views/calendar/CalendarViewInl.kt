@@ -60,6 +60,8 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 
 		mViewPager?.adapter = CalendarPagerAdapter(context, model, {
 			controller.onDayClick(it)
+		}, {
+			controller.onPageLoad(it)
 		})
 		// This line move calendar to the middle page
 		mViewPager?.currentItem = CalendarViewInlMdl.FIRST_VISIBLE_PAGE

@@ -22,7 +22,11 @@ data class CalendarViewInlMdl(
 		/**
 		 * New month and year here
 		 */
-		val onBackward: ((position: Calendar) -> Any?)? = null
+		val onBackward: ((position: Calendar) -> Any?)? = null,
+		/**
+		 * New page displayed days from-to
+		 */
+		val onPageLoad: ((fromTo: Pair<Calendar, Calendar>) -> Any?)? = null
 ){
 	var currentPage: Int = FIRST_VISIBLE_PAGE
 	companion object {

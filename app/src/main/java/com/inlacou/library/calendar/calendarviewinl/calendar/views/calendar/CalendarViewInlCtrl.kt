@@ -54,6 +54,10 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 		model.currentPage = position
 	}
 
+	fun onPageLoad(fromTo: Pair<Calendar, Calendar>){
+		model.onPageLoad?.invoke(fromTo)
+	}
+
 	fun onDayClick(day: DayViewMdl) {
 		if(model.mode==CalendarViewInlMdl.Mode.SINGLE_SELECTION){
 			model.selectedDays.clear()

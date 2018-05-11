@@ -25,8 +25,7 @@ class MainActivity : AppCompatActivity() {
 
 		calendarView.model = CalendarViewInlMdl(
 				//today = Calendar.getInstance().addMonths(1).addYears(1), //Set starting day (default to *today*)
-				days = days
-				,
+				days = days,
 				selectedDays = mutableListOf(
 						Calendar.getInstance().addDays(5)
 						, Calendar.getInstance().addDays(7)
@@ -36,6 +35,12 @@ class MainActivity : AppCompatActivity() {
 				},
 				onForward = {
 					Toast.makeText(this, "onForward ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
+				},
+				onPageLoad = {
+					Toast.makeText(this,
+							"newPage from ${it.first.dayOfMonth}/${it.first.month}/${it.first.year} " +
+									"to ${it.second.dayOfMonth}/${it.second.month}/${it.second.year}",
+							Toast.LENGTH_SHORT).show()
 				})
 	}
 }

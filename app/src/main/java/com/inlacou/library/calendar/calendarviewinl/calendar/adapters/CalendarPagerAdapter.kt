@@ -26,7 +26,8 @@ import java.util.Calendar
 class CalendarPagerAdapter(
 		private val mContext: Context,
 		private val calendarModel: CalendarViewInlMdl,
-		var onClick: (item: DayViewMdl) -> Any?
+		var onClick: (item: DayViewMdl) -> Any?,
+		var onInstantiate: (item: Pair<Calendar, Calendar>) -> Any?
 ) : PagerAdapter() {
 
 	val views: MutableList<CalendarGridView> = mutableListOf()
@@ -49,9 +50,11 @@ class CalendarPagerAdapter(
 
 		calendarGridView.calendarModel = calendarModel
 		calendarGridView.loadMonth(position)
+		calendarGridView.getFromToDays(position)
 		calendarGridView.onClick = {
 			onClick.invoke(it)
 		}
+		onInstantiate.invoke(calendarGridView.getFromToDays(position))
 
 		container.addView(calendarGridView)
 		views.add(calendarGridView)

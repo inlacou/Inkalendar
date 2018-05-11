@@ -2,14 +2,12 @@ package com.inlacou.library.calendar.calendarviewinl.calendar.views.calendargrid
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.GridView
+import com.inlacou.library.calendar.calendarviewinl.calendar.*
 import com.inlacou.library.calendar.calendarviewinl.calendar.adapters.CalendarDayAdapter
 import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
-import com.inlacou.library.calendar.calendarviewinl.calendar.immediatePreviousMonth
-import com.inlacou.library.calendar.calendarviewinl.calendar.month
-import com.inlacou.library.calendar.calendarviewinl.calendar.sameMonth
-import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
 import com.inlacou.library.calendar.calendarviewinl.calendar.views.calendar.CalendarViewInlMdl
 import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayViewMdl
 import java.util.*
@@ -85,6 +83,56 @@ class CalendarGridView @JvmOverloads constructor(
 				calendarModel, startingCal.month)
 
 		adapter = calendarDayAdapter
+	}
+
+	fun getFromToDays(position: Int): Pair<Calendar, Calendar> {
+		//TODO dont repeat code here and on loadMonth
+
+		val days = ArrayList<DayViewMdl>()
+
+		// Get Calendar object instance
+		val calendar = calendarModel.today.clone() as Calendar
+
+		// Add months to Calendar (a number of months depends on ViewPager position)
+		calendar.add(Calendar.MONTH, position)
+
+		val startingCal = calendar.clone() as Calendar
+
+		// Set day of month as 1
+		calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+		// Get a number of the first day of the week
+		val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
+		// Count when month is beginning
+		val monthBeginningCell = dayOfWeek + if (dayOfWeek == 1) 5 else -2
+
+		// Subtract a number of beginning days, it will let to load a part of a previous month
+		calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
+
+		/*
+        BreakPoints are:
+            7, 14, 21, 28, 35 and 42 days
+        Since months are at least 28 days, real breakpoints are 35 and 42
+         */
+		do {
+			addDay(days, calendar)
+			calendar.add(Calendar.DAY_OF_MONTH, 1)
+		} while (
+				calendar.immediatePreviousMonth(startingCal) ||
+				calendar.sameMonth(startingCal)
+		)
+
+		if (startingCal.immediatePreviousMonth(calendar) && days.size > 28 && days.size < 35) { //35 breakpoint
+			addUntil(35, days, calendar)
+		} else if (startingCal.immediatePreviousMonth(calendar) && days.size > 35 && days.size < 42) { //42 breakpoint
+			addUntil(42, days, calendar)
+		}
+
+		days.first().model.calendar.apply { Log.d("DEBUG13", "start: $dayOfMonth/$month/$year") }
+		days.last().model.calendar.apply { Log.d("DEBUG13", "end:   $dayOfMonth/$month/$year") }
+
+		return Pair(days.first().model.calendar, days.last().model.calendar)
 	}
 
 	private fun addDay(days: ArrayList<DayViewMdl>, calendar: Calendar){
