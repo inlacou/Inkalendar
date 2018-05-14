@@ -63,12 +63,14 @@ class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 		if(model.mode== InkalendarMdl.Mode.SINGLE_SELECTION){
 			model.selectedDays.clear()
 			model.selectedDays.add(day.model.calendar)
+			model.singleDaySelection?.invoke(day.model.calendar)
 		}else{
 			if (model.selectedDays.contains(day.model.calendar)) {
 				model.selectedDays.remove(day.model.calendar)
 			} else {
 				model.selectedDays.add(day.model.calendar)
 			}
+			model.multiDaySelection?.invoke(model.selectedDays)
 		}
 		view.notifyDataSetChanged()
 	}

@@ -15,6 +15,8 @@ data class InkalendarMdl(
 		val minimumDate: Calendar? = null,
 		val maximumDate: Calendar? = null,
 		val mode: Mode = Mode.MULTIPLE_SELECTION,
+		val singleDaySelection: ((selectedDay: Calendar) -> Any?)? = null,
+		val multiDaySelection: ((selectedDays: MutableList<Calendar>) -> Any?)? = null,
 		/**
 		 * New month and year here
 		 */
