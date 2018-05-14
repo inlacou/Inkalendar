@@ -15,7 +15,7 @@ import com.inlacou.library.calendar.inkalendar.views.viewpager.CalendarViewPager
 import kotlinx.android.synthetic.main.view_calendar_inl.view.*
 import java.util.*
 
-class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
 	: LinearLayout(context, attrs, defStyleAttr) {
 
 	private var surfaceLayout: View? = null
@@ -24,13 +24,13 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 	private var previousButton: ImageButton? = null
 	private var mViewPager: CalendarViewPager? = null
 
-	var model: CalendarViewInlMdl = CalendarViewInlMdl()
+	var model: InkalendarMdl = InkalendarMdl()
 		set(value) {
 			field = value
 			controller.model = value
 			populate()
 		}
-	private lateinit var controller: CalendarViewInlCtrl
+	private lateinit var controller: InkalendarCtrl
 
 	init {
 		this.initialize()
@@ -50,13 +50,13 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 	}
 
 	fun initialize(view: View) {
-		controller = CalendarViewInlCtrl(view = this, model = model)
+		controller = InkalendarCtrl(view = this, model = model)
 	}
 
 	fun populate() {
 		// This line subtracts a half of all calendar months to set calendar
 		// in the correct position (in the middle)
-		model.today.add(Calendar.MONTH, -CalendarViewInlMdl.FIRST_VISIBLE_PAGE)
+		model.today.add(Calendar.MONTH, -InkalendarMdl.FIRST_VISIBLE_PAGE)
 
 		mViewPager?.adapter = CalendarPagerAdapter(context, model, {
 			controller.onDayClick(it)
@@ -64,7 +64,7 @@ class CalendarViewInl @JvmOverloads constructor(context: Context, attrs: Attribu
 			controller.onPageLoad(it)
 		})
 		// This line move calendar to the middle page
-		mViewPager?.currentItem = CalendarViewInlMdl.FIRST_VISIBLE_PAGE
+		mViewPager?.currentItem = InkalendarMdl.FIRST_VISIBLE_PAGE
 	}
 
 	private fun setListeners() {

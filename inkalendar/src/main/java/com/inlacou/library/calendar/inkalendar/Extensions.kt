@@ -115,7 +115,7 @@ fun Long?.toMonthYear(context: Context, monthAsText: Boolean = true): String =
 	if(monthAsText) context.getString(R.string.month_as_text_year, this)
 	else context.getString(R.string.month_year, this)
 
-fun View?.setVisible(visible: Boolean, holdSpaceOnDissapear: Boolean = false) {
+fun View?.setVisibleInk(visible: Boolean, holdSpaceOnDissapear: Boolean = false) {
 	if (this == null) return
 	if(visible){
 		this.visibility = View.VISIBLE

@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.inlacou.library.calendar.inkalendar.R
-import com.inlacou.library.calendar.inkalendar.setVisible
+import com.inlacou.library.calendar.inkalendar.setVisibleInk
 import com.inlacou.library.calendar.inkalendar.toDay
 import com.inlacou.library.calendar.inkalendar.utils.ImageUtils
 
@@ -61,7 +61,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		tvDay?.setTextColor(ContextCompat.getColor(context, model.textNormalColorResId))
 
 		//Icon check
-		ivDay.setVisible(model.model.iconResId!=null, true)
+		ivDay.setVisibleInk(model.model.iconResId!=null, true)
 
 		//Selected check
 		if(model.isSelected){

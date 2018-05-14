@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.inlacou.library.calendar.inkalendar.R
-import com.inlacou.library.calendar.inkalendar.views.calendar.CalendarViewInlMdl
+import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
 
 import com.inlacou.library.calendar.inkalendar.views.calendargrid.CalendarGridView
 import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
@@ -22,7 +22,7 @@ import java.util.Calendar
  */
 class CalendarPagerAdapter(
 		private val mContext: Context,
-		private val calendarModel: CalendarViewInlMdl,
+		private val calendarModel: InkalendarMdl,
 		var onClick: (item: DayViewMdl) -> Any?,
 		var onInstantiate: (item: Pair<Calendar, Calendar>) -> Any?
 ) : PagerAdapter() {

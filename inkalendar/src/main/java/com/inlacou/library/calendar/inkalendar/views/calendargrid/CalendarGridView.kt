@@ -2,7 +2,6 @@ package com.inlacou.library.calendar.inkalendar.views.calendargrid
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.GridView
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarDayAdapter
@@ -11,7 +10,7 @@ import com.inlacou.library.calendar.inkalendar.immediatePreviousMonth
 import com.inlacou.library.calendar.inkalendar.month
 import com.inlacou.library.calendar.inkalendar.sameMonth
 import com.inlacou.library.calendar.inkalendar.toMidnight
-import com.inlacou.library.calendar.inkalendar.views.calendar.CalendarViewInlMdl
+import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
 import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
 import java.util.*
 
@@ -25,7 +24,7 @@ class CalendarGridView @JvmOverloads constructor(
 		defStyleAttr: Int = 0
 ) : GridView(context, attrs, defStyleAttr) {
 
-	lateinit var calendarModel: CalendarViewInlMdl
+	lateinit var calendarModel: InkalendarMdl
 	var onClick: (item: DayViewMdl) -> Any? = {}
 
 	//This method is needed to get wrap_content height for GridView

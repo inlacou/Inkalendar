@@ -7,7 +7,7 @@ import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
 import java.util.*
 
 
-class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlMdl) {
+class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 
 	init { //Initialize
 
@@ -60,7 +60,7 @@ class CalendarViewInlCtrl(val view: CalendarViewInl, var model: CalendarViewInlM
 	}
 
 	fun onDayClick(day: DayViewMdl) {
-		if(model.mode== CalendarViewInlMdl.Mode.SINGLE_SELECTION){
+		if(model.mode== InkalendarMdl.Mode.SINGLE_SELECTION){
 			model.selectedDays.clear()
 			model.selectedDays.add(day.model.calendar)
 		}else{

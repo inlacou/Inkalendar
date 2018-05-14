@@ -5,7 +5,7 @@ import com.inlacou.library.calendar.inkalendar.business.DayInl
 import com.inlacou.library.calendar.inkalendar.toMidnight
 import java.util.*
 
-data class CalendarViewInlMdl(
+data class InkalendarMdl(
 		/**
 		 * Current day for the calendar. Usually it will just be the real today.
 		 */

@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import com.inlacou.library.calendar.inkalendar.R
 import com.inlacou.library.calendar.inkalendar.month
 import com.inlacou.library.calendar.inkalendar.toMidnight
-import com.inlacou.library.calendar.inkalendar.views.calendar.CalendarViewInlMdl
+import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
 import com.inlacou.library.calendar.inkalendar.views.day.DayView
 import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
 
@@ -22,7 +22,7 @@ import java.util.Calendar
  */
 internal class CalendarDayAdapter(
 		context: Context, itemList: ArrayList<DayViewMdl>,
-		val model: CalendarViewInlMdl, currentMonth: Int) : ArrayAdapter<DayViewMdl>(context, R.layout.adapter_view_day, itemList) {
+		val model: InkalendarMdl, currentMonth: Int) : ArrayAdapter<DayViewMdl>(context, R.layout.adapter_view_day, itemList) {
 
 	private val mLayoutInflater: LayoutInflater = LayoutInflater.from(context)
 	private val mPageMonth: Int = if (currentMonth < 0) 11 else currentMonth

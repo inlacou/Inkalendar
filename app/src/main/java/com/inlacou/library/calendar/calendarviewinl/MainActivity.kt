@@ -7,7 +7,7 @@ import com.inlacou.library.calendar.inkalendar.addDays
 import com.inlacou.library.calendar.inkalendar.business.DayInl
 import com.inlacou.library.calendar.inkalendar.dayOfMonth
 import com.inlacou.library.calendar.inkalendar.month
-import com.inlacou.library.calendar.inkalendar.views.calendar.CalendarViewInlMdl
+import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
 import com.inlacou.library.calendar.inkalendar.year
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 				, DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader) //Special day when menacing space invader attacks
 		)
 
-		calendarView.model = CalendarViewInlMdl(
+		calendarView.model = InkalendarMdl(
 				//today = Calendar.getInstance().addMonths(1).addYears(1), //Set starting day (default to *today*)
 				days = days,
 				selectedDays = mutableListOf(
