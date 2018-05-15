@@ -103,6 +103,6 @@ class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 	}
 
 	fun notifyDataSetChanged() {
-		mViewPager?.adapter?.notifyDataSetChanged()
+		(mViewPager?.adapter as CalendarPagerAdapter).notifyDataSetChanged(false)
 	}
 }

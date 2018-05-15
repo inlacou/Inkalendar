@@ -63,9 +63,9 @@ class CalendarPagerAdapter(
 		container.removeView(`object` as View)
 	}
 
-	override fun notifyDataSetChanged() {
+	fun notifyDataSetChanged(complete: Boolean) {
 		views.forEach { it.notifyDataSetChanged() }
-		super.notifyDataSetChanged()
+		if(complete) super.notifyDataSetChanged()
 	}
 
 	companion object {
