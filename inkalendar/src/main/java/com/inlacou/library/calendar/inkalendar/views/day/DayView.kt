@@ -65,7 +65,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
 		//Selected check
 		if(model.isSelected){
-			model.selectedBackResId!!.let { ivSelected!!.setBackgroundResource(it) }
+			model.selectedBackResId?.let { ivSelected?.setBackgroundResource(it) }
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textSelectedColorResId))
 		}
 

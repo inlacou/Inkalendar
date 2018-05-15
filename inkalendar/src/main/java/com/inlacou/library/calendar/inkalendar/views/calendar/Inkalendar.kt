@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.inlacou.library.calendar.inkalendar.R
 
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarPagerAdapter
+import com.inlacou.library.calendar.inkalendar.toMidnight
 import com.inlacou.library.calendar.inkalendar.toMonthYear
 import com.inlacou.library.calendar.inkalendar.views.viewpager.CalendarViewPager
 import kotlinx.android.synthetic.main.view_calendar_inl.view.*
@@ -54,6 +55,7 @@ class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 	}
 
 	fun populate() {
+		model.today = (model.today.clone() as Calendar).toMidnight()!!
 		// This line subtracts a half of all calendar months to set calendar
 		// in the correct position (in the middle)
 		model.today.add(Calendar.MONTH, -InkalendarMdl.FIRST_VISIBLE_PAGE)

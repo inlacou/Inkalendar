@@ -3,12 +3,9 @@ package com.inlacou.library.calendar.calendarviewinl
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.inlacou.library.calendar.inkalendar.addDays
+import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.business.DayInl
-import com.inlacou.library.calendar.inkalendar.dayOfMonth
-import com.inlacou.library.calendar.inkalendar.month
 import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
-import com.inlacou.library.calendar.inkalendar.year
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -27,12 +24,16 @@ class MainActivity : AppCompatActivity() {
 		)
 
 		calendarView.model = InkalendarMdl(
-				//today = Calendar.getInstance().addMonths(1).addYears(1), //Set starting day (default to *today*)
-				days = days,
+				today = (Calendar.getInstance().clone() as Calendar) //.addMonths(1).addYears(1), //Set starting day (default to *today*)
+				, mode = InkalendarMdl.Mode.SINGLE_SELECTION,
+				//days = days,
 				selectedDays = mutableListOf(
-						Calendar.getInstance().addDays(5)
-						, Calendar.getInstance().addDays(7)
+						Calendar.getInstance()//.addDays(5)
+						//, Calendar.getInstance().addDays(7)
 				),
+				singleDaySelection = {
+					Toast.makeText(this, "selected ${it.dayOfMonth}, ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
+				},
 				onBackward = {
 					Toast.makeText(this, "onBackward ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
 				},
