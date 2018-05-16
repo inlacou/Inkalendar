@@ -16,7 +16,6 @@ import java.util.Calendar
 /**
  * This class is responsible for loading a calendar page content.
  *
- *
  * Created by Mateusz Kornakiewicz on 24.05.2017.
  * Forked by Inlacou on 26.04.2018.
  */
@@ -27,7 +26,7 @@ class CalendarPagerAdapter(
 		var onInstantiate: (item: Pair<Calendar, Calendar>) -> Any?
 ) : PagerAdapter() {
 
-	val views: MutableList<CalendarGridView> = mutableListOf()
+	val gridViews: MutableList<CalendarGridView> = mutableListOf()
 
 	override fun getCount(): Int {
 		return CALENDAR_SIZE
@@ -46,25 +45,26 @@ class CalendarPagerAdapter(
 		val calendarGridView = inflater.inflate(R.layout.calendar_view_grid, null) as CalendarGridView
 
 		calendarGridView.calendarModel = calendarModel
-		calendarGridView.loadMonth(position)
-		calendarGridView.getFromToDays(position)
+		calendarGridView.position = position
+		calendarGridView.loadMonth()
+		calendarGridView.getFromToDays()
 		calendarGridView.onClick = {
 			onClick.invoke(it)
 		}
-		onInstantiate.invoke(calendarGridView.getFromToDays(position))
+		onInstantiate.invoke(calendarGridView.getFromToDays())
 
 		container.addView(calendarGridView)
-		views.add(calendarGridView)
+		gridViews.add(calendarGridView)
 		return calendarGridView
 	}
 
 	override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-		views.remove(`object` as CalendarGridView)
+		gridViews.remove(`object` as CalendarGridView)
 		container.removeView(`object` as View)
 	}
 
 	fun notifyDataSetChanged(complete: Boolean) {
-		views.forEach { it.notifyDataSetChanged() }
+		gridViews.forEach { it.notifyDataSetChanged() }
 		if(complete) super.notifyDataSetChanged()
 	}
 

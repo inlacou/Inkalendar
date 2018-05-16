@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true)) //Special
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader)) //Menacing space invader as icon
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader)) //Special day when menacing space invader attacks
-			calendarView.notifyDataSetChanged(true) //TODO find a good way to put a false here and still work (a true here means high computation)
+			calendarView.notifyDataSetChanged()
 			Toast.makeText(this, "loaded days!", Toast.LENGTH_SHORT).show()
 		}
 	}

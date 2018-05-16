@@ -25,6 +25,7 @@ class CalendarGridView @JvmOverloads constructor(
 ) : GridView(context, attrs, defStyleAttr) {
 
 	lateinit var calendarModel: InkalendarMdl
+	var position: Int = 0
 	var onClick: (item: DayViewMdl) -> Any? = {}
 
 	//This method is needed to get wrap_content height for GridView
@@ -39,7 +40,7 @@ class CalendarGridView @JvmOverloads constructor(
 	 *
 	 * @param position Position of today page in ViewPager
 	 */
-	fun loadMonth(position: Int) {
+	fun loadMonth() {
 		val days = ArrayList<DayViewMdl>()
 
 		// Get Calendar object instance
@@ -87,7 +88,7 @@ class CalendarGridView @JvmOverloads constructor(
 		adapter = calendarDayAdapter
 	}
 
-	fun getFromToDays(position: Int): Pair<Calendar, Calendar> {
+	fun getFromToDays(): Pair<Calendar, Calendar> {
 		//TODO dont repeat code here and on loadMonth
 
 		val days = ArrayList<DayViewMdl>()
@@ -159,6 +160,6 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 
 	fun notifyDataSetChanged() {
-		(adapter as CalendarDayAdapter).notifyDataSetChanged()
+		loadMonth()
 	}
 }
