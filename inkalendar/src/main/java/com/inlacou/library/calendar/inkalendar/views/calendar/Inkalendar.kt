@@ -102,7 +102,7 @@ class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 		tvCurrentMonth?.text = calendar.timeInMillis.toMonthYear(context)
 	}
 
-	fun notifyDataSetChanged() {
-		(mViewPager?.adapter as CalendarPagerAdapter).notifyDataSetChanged(false)
+	fun notifyDataSetChanged(complete: Boolean = false) {
+		(mViewPager?.adapter as CalendarPagerAdapter).notifyDataSetChanged(complete)
 	}
 }

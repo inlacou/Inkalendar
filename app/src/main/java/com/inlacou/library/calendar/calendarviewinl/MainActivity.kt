@@ -6,27 +6,30 @@ import android.widget.Toast
 import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.business.DayInl
 import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
 
-		val days = mutableListOf(
-				DayInl(calendar = Calendar.getInstance().addDays(1), isEnabled = false) //Disabled
-				, DayInl(calendar = Calendar.getInstance().addDays(2), isEnabled = false) //Disabled
-				, DayInl(calendar = Calendar.getInstance().addDays(3), isEnabled = true) //Enabled
-				, DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true) //Special
-				, DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader) //Menacing space invader as icon
-				, DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader) //Special day when menacing space invader attacks
+		val days = mutableListOf<DayInl>(
+				//DayInl(calendar = Calendar.getInstance().addDays(1), isEnabled = false) //Disabled
+				//, DayInl(calendar = Calendar.getInstance().addDays(2), isEnabled = false) //Disabled
+				//, DayInl(calendar = Calendar.getInstance().addDays(3), isEnabled = true) //Enabled
+				//, DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true) //Special
+				//, DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader) //Menacing space invader as icon
+				//, DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader) //Special day when menacing space invader attacks
 		)
 
 		calendarView.model = InkalendarMdl(
 				today = (Calendar.getInstance().clone() as Calendar) //.addMonths(1).addYears(1), //Set starting day (default to *today*)
 				, mode = InkalendarMdl.Mode.SINGLE_SELECTION,
-				//days = days,
+				days = days,
 				selectedDays = mutableListOf(
 						Calendar.getInstance()//.addDays(5)
 						//, Calendar.getInstance().addDays(7)
@@ -46,5 +49,16 @@ class MainActivity : AppCompatActivity() {
 									"to ${it.second.dayOfMonth}/${it.second.month}/${it.second.year}",
 							Toast.LENGTH_SHORT).show()
 				})
+
+		Observable.timer(7, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(1), isEnabled = false)) //Disabled
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(2), isEnabled = false)) //Disabled
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(3), isEnabled = true)) //Enabled
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true)) //Special
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader)) //Menacing space invader as icon
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader)) //Special day when menacing space invader attacks
+			calendarView.notifyDataSetChanged(true) //TODO find a good way to put a false here and still work (a true here means high computation)
+			Toast.makeText(this, "loaded days!", Toast.LENGTH_SHORT).show()
+		}
 	}
 }
