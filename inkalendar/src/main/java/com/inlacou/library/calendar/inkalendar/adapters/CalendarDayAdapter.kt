@@ -19,6 +19,7 @@ import java.util.Calendar
  * This class is responsible for loading a one day cell.
  *
  * Created by Mateusz Kornakiewicz on 24.05.2017.
+ * Forked by Inlacou on 26.04.2018.
  */
 internal class CalendarDayAdapter(
 		context: Context, itemList: ArrayList<DayViewMdl>,

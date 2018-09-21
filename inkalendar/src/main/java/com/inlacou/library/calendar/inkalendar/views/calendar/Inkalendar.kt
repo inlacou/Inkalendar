@@ -3,15 +3,14 @@ package com.inlacou.library.calendar.inkalendar.views.calendar
 import android.content.Context
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.inlacou.library.calendar.inkalendar.R
+import com.inlacou.library.calendar.inkalendar.*
 
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarPagerAdapter
-import com.inlacou.library.calendar.inkalendar.toMidnight
-import com.inlacou.library.calendar.inkalendar.toMonthYear
 import com.inlacou.library.calendar.inkalendar.views.viewpager.CalendarViewPager
 import kotlinx.android.synthetic.main.view_calendar_inl.view.*
 import java.util.*
@@ -55,6 +54,7 @@ class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 	}
 
 	fun populate() {
+		Log.d("populate", "today: ${model.today.dayOfMonth}/${model.today.month}/${model.today.year}")
 		model.today = (model.today.clone() as Calendar).toMidnight()!!
 		// This line subtracts a half of all calendar months to set calendar
 		// in the correct position (in the middle)
@@ -71,8 +71,8 @@ class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
 	private fun setListeners() {
 		surfaceLayout?.setOnClickListener { controller.onClick() }
-		forwardButton?.setOnClickListener({ v: View -> moveToNext() })
-		previousButton?.setOnClickListener({ v: View -> moveToPrevious() })
+		forwardButton?.setOnClickListener { v: View -> moveToNext() }
+		previousButton?.setOnClickListener { v: View -> moveToPrevious() }
 		mViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 			override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 

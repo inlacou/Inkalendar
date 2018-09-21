@@ -3,6 +3,7 @@ package com.inlacou.library.calendar.calendarviewinl
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.inlacou.library.calendar.calendarviewinl.R.id.calendarView
 import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.business.DayInl
 import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl

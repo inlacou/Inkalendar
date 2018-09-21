@@ -72,7 +72,7 @@ class CalendarPagerAdapter(
 
 		/**
 		 * A number of months (pages) in the calendar
-		 * 2401 months means 1200 months (100 years) before and 1200 months after the today month
+		 * 2401 months means 1200 months (100 years) before and 1200 months (100 years) after the today month
 		 */
 		const val CALENDAR_SIZE = 2401
 	}
