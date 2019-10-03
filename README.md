@@ -28,7 +28,7 @@ val days = mutableListOf<DayInl>(
 )
 calendarView.model = InkalendarMdl(
 				today = (Calendar.getInstance().clone() as Calendar) //Set starting day (default to *today*)
-				, mode = InkalendarMdl.Mode.SINGLE_SELECTION,
+				, mode = InkalendarMdl.Mode.SINGLE_SELECTION, //Options are SINGLE_SELECTION, MULTIPLE_SELECTION
 				days = days, //We set days defined before "special days", or days with something (being disabled, having an icon, or something)
 				selectedDays = mutableListOf(
 						Calendar.getInstance()
@@ -47,7 +47,9 @@ calendarView.model = InkalendarMdl(
 							"newPage from ${it.first.dayOfMonth}/${it.first.month}/${it.first.year} " +
 									"to ${it.second.dayOfMonth}/${it.second.month}/${it.second.year}",
 							Toast.LENGTH_SHORT).show()
-				})
+				},
+				maximumDate = Calendar.getInstance().addDays(20),
+				minimumDate = Calendar.getInstance().addDays(10))
 ```
 
 ## UI Configuration
