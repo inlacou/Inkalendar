@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="cvinl_back_top_bar_color">#0fff</color>
-	<color name="cvinl_text_current_date_color">#0F0</color>
+	<color name="cvinl_back_top_bar_color">#FFF</color>
+	<color name="cvinl_text_current_date_color">#000</color>
 	<color name="colorPrimary">#3F51B5</color>
 	<color name="colorPrimaryDark">#303F9F</color>
 	<color name="colorAccent">#FF4081</color>
