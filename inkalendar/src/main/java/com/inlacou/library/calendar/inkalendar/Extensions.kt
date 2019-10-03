@@ -109,11 +109,11 @@ fun Calendar?.isMonthAfter(calendar: Calendar): Boolean {
 	return secondDay.after(firstDay)
 }
 
-fun Long?.toDay(context: Context): String = context.getString(R.string.day, this)
+fun Long?.toDay(context: Context): String = context.getString(R.string.inkalendar_day, this)
 
 fun Long?.toMonthYear(context: Context, monthAsText: Boolean = true): String =
-	if(monthAsText) context.getString(R.string.month_as_text_year, this)
-	else context.getString(R.string.month_year, this)
+	if(monthAsText) context.getString(R.string.inkalendar_month_as_text_year, this)
+	else context.getString(R.string.inkalendar_month_year, this)
 
 fun View?.setVisibleInk(visible: Boolean, holdSpaceOnDissapear: Boolean = false) {
 	if (this == null) return

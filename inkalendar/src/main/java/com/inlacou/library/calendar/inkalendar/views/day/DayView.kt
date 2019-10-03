@@ -12,7 +12,7 @@ import com.inlacou.library.calendar.inkalendar.setVisibleInk
 import com.inlacou.library.calendar.inkalendar.toDay
 import com.inlacou.library.calendar.inkalendar.utils.ImageUtils
 
-import kotlinx.android.synthetic.main.view_day.view.*
+import kotlinx.android.synthetic.main.view_inkalendar_day.view.*
 
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
 	: FrameLayout(context, attrs, defStyleAttr) {
@@ -38,7 +38,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 	}
 
 	protected fun initialize() {
-		val rootView = View.inflate(context, R.layout.view_day, this)
+		val rootView = View.inflate(context, R.layout.view_inkalendar_day, this)
 		initialize(rootView)
 		surfaceLayout = view_base_layout_surface
 		tvDay = tv_day

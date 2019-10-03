@@ -1,7 +1,6 @@
 package com.inlacou.library.calendar.inkalendar.adapters
 
 import android.content.Context
-import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +41,7 @@ class CalendarPagerAdapter(
 
 	override fun instantiateItem(container: ViewGroup, position: Int): Any {
 		val inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-		val calendarGridView = inflater.inflate(R.layout.calendar_view_grid, null) as CalendarGridView
+		val calendarGridView = inflater.inflate(R.layout.inkalendar_view_grid, null) as CalendarGridView
 
 		//set data
 		calendarGridView.calendarModel = calendarModel

@@ -3,7 +3,6 @@ package com.inlacou.library.calendar.inkalendar.views.calendar
 import android.content.Context
 import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -12,7 +11,7 @@ import com.inlacou.library.calendar.inkalendar.*
 
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarPagerAdapter
 import com.inlacou.library.calendar.inkalendar.views.viewpager.CalendarViewPager
-import kotlinx.android.synthetic.main.view_calendar_inl.view.*
+import kotlinx.android.synthetic.main.view_inkcalendar.view.*
 import java.util.*
 
 open class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -40,7 +39,7 @@ open class Inkalendar @JvmOverloads constructor(context: Context, attrs: Attribu
 	}
 
 	private fun initialize() {
-		val rootView = View.inflate(context, R.layout.view_calendar_inl, this)
+		val rootView = View.inflate(context, R.layout.view_inkcalendar, this)
 		initialize(rootView)
 		surfaceLayout = view_base_layout_surface
 		tvCurrentMonth = currentDateLabel

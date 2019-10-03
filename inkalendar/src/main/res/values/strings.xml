@@ -1,15 +1,13 @@
 <resources>
-	<string name="app_name">Inkalendar</string>
+	<string name="inkalendar_monday">M</string>
+	<string name="inkalendar_tuesday">T</string>
+	<string name="inkalendar_wednesday">W</string>
+	<string name="inkalendar_thursday">T</string>
+	<string name="inkalendar_friday">F</string>
+	<string name="inkalendar_saturday">S</string>
+	<string name="inkalendar_sunday">S</string>
 	
-	<string name="material_calendar_monday">M</string>
-	<string name="material_calendar_tuesday">T</string>
-	<string name="material_calendar_wednesday">W</string>
-	<string name="material_calendar_thursday">T</string>
-	<string name="material_calendar_friday">F</string>
-	<string name="material_calendar_saturday">S</string>
-	<string name="material_calendar_sunday">S</string>
-	
-	<array name="material_calendar_months_array">
+	<array name="inkalendar_months_array">
 		<item>January</item>
 		<item>February</item>
 		<item>March</item>
@@ -24,11 +22,7 @@
 		<item>December</item>
 	</array>
 	
-	<string name="material_calendar_today_button">Today</string>
-	<string name="material_calendar_positive_button">OK</string>
-	<string name="material_calendar_negative_button">Cancel</string>
-	
-	<string name="day">%1$td</string>
-	<string name="month_year">%1$tm %1$tY</string>
-	<string name="month_as_text_year">%1$tb. %1$tY</string>
+	<string name="inkalendar_day">%1$td</string>
+	<string name="inkalendar_month_year">%1$tm %1$tY</string>
+	<string name="inkalendar_month_as_text_year">%1$tb. %1$tY</string>
 </resources>

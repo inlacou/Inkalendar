@@ -23,13 +23,13 @@ import java.util.Calendar
  */
 internal class CalendarDayAdapter(
 		context: Context, itemList: ArrayList<DayViewMdl>,
-		val model: InkalendarMdl, currentMonth: Int) : ArrayAdapter<DayViewMdl>(context, R.layout.adapter_view_day, itemList) {
+		val model: InkalendarMdl, currentMonth: Int) : ArrayAdapter<DayViewMdl>(context, R.layout.inkalendar_adapter_view_day, itemList) {
 
 	private val mLayoutInflater: LayoutInflater = LayoutInflater.from(context)
 	private val mPageMonth: Int = if (currentMonth < 0) 11 else currentMonth
 
 	override fun getView(position: Int, v: View?, parent: ViewGroup): View {
-		val view = v ?: mLayoutInflater.inflate(R.layout.adapter_view_day, parent, false)
+		val view = v ?: mLayoutInflater.inflate(R.layout.inkalendar_adapter_view_day, parent, false)
 
 		val dayView = view.findViewById(R.id.view) as DayView
 		getItem(position)?.let {

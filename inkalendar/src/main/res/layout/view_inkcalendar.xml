@@ -13,7 +13,7 @@
 		android:id="@+id/calendarHeader"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/cvinl_back_top_bar_color">
+		android:background="@color/inkalendar_back_top_bar_color">
 		
 		<ImageButton
 			android:id="@+id/btn_previous"
@@ -42,7 +42,7 @@
 			android:layout_width="0dp"
 			android:layout_height="56dp"
 			android:gravity="center"
-			android:textColor="@color/cvinl_text_current_date_color"
+			android:textColor="@color/inkalendar_text_current_date_color"
 			android:textSize="18sp"
 			app:layout_constraintLeft_toRightOf="@id/btn_previous"
 			app:layout_constraintRight_toLeftOf="@id/btn_forward"
@@ -65,8 +65,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
-			android:text="@string/material_calendar_monday"
-			android:textColor="@color/cvinl_text_day_name_color" />
+			android:text="@string/inkalendar_monday"
+			android:textColor="@color/inkalendar_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/tuesdayLabel"
@@ -74,8 +74,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
-			android:text="@string/material_calendar_tuesday"
-			android:textColor="@color/cvinl_text_day_name_color" />
+			android:text="@string/inkalendar_tuesday"
+			android:textColor="@color/inkalendar_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/wednesdayLabel"
@@ -83,8 +83,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
-			android:text="@string/material_calendar_wednesday"
-			android:textColor="@color/cvinl_text_day_name_color" />
+			android:text="@string/inkalendar_wednesday"
+			android:textColor="@color/inkalendar_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/thursdayLabel"
@@ -92,8 +92,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
-			android:text="@string/material_calendar_thursday"
-			android:textColor="@color/cvinl_text_day_name_color" />
+			android:text="@string/inkalendar_thursday"
+			android:textColor="@color/inkalendar_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/fridayLabel"
@@ -101,8 +101,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
-			android:text="@string/material_calendar_friday"
-			android:textColor="@color/cvinl_text_day_name_color" />
+			android:text="@string/inkalendar_friday"
+			android:textColor="@color/inkalendar_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/saturdayLabel"
@@ -110,8 +110,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
-			android:text="@string/material_calendar_saturday"
-			android:textColor="@color/cvinl_text_day_name_color" />
+			android:text="@string/inkalendar_saturday"
+			android:textColor="@color/inkalendar_text_day_name_color" />
 		
 		<TextView
 			android:id="@+id/sundayLabel"
@@ -119,8 +119,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center_horizontal"
-			android:text="@string/material_calendar_sunday"
-			android:textColor="@color/cvinl_text_day_name_color" />
+			android:text="@string/inkalendar_sunday"
+			android:textColor="@color/inkalendar_text_day_name_color" />
 	</LinearLayout>
 	
 	<com.inlacou.library.calendar.inkalendar.views.viewpager.CalendarViewPager
