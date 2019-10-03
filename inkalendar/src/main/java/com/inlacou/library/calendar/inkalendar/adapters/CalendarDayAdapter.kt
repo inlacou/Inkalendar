@@ -29,12 +29,9 @@ internal class CalendarDayAdapter(
 	private val mPageMonth: Int = if (currentMonth < 0) 11 else currentMonth
 
 	override fun getView(position: Int, v: View?, parent: ViewGroup): View {
-		var view = v
-		if (view == null) {
-			view = mLayoutInflater.inflate(R.layout.adapter_view_day, parent, false)
-		}
+		val view = v ?: mLayoutInflater.inflate(R.layout.adapter_view_day, parent, false)
 
-		val dayView = view!!.findViewById(R.id.view) as DayView
+		val dayView = view.findViewById(R.id.view) as DayView
 		getItem(position)?.let {
 			it.isSelected = isSelected(it.model.calendar)
 			it.isCurrentMonth = isCurrentMonthDay(it.model.calendar)

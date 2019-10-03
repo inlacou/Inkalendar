@@ -46,11 +46,11 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		ivSelected = iv_selected
 	}
 
-	fun initialize(view: View) {
+	private fun initialize(view: View) {
 		controller = DayViewCtrl(view = this, model = model)
 	}
 
-	fun populate() {
+	private fun populate() {
 		//Set to normal
 		tvDay?.text = model.model.calendar.timeInMillis.toDay(context)
 		tvDay?.alpha = 1f

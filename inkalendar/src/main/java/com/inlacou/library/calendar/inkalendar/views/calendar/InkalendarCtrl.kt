@@ -13,7 +13,7 @@ class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 		//TODO model.onClick?.invoke(model.copy(onClick = null))
 	}
 
-	fun isScrollingLimited(calendar: Calendar, position: Int): Boolean {
+	private fun isScrollingLimited(calendar: Calendar, position: Int): Boolean {
 		if (model.minimumDate.isMonthBefore(calendar)) {
 			view.moveToNext(position)
 			return true

@@ -39,7 +39,7 @@ open class Inkalendar @JvmOverloads constructor(context: Context, attrs: Attribu
 		populate()
 	}
 
-	fun initialize() {
+	private fun initialize() {
 		val rootView = View.inflate(context, R.layout.view_calendar_inl, this)
 		initialize(rootView)
 		surfaceLayout = view_base_layout_surface
@@ -49,11 +49,11 @@ open class Inkalendar @JvmOverloads constructor(context: Context, attrs: Attribu
 		mViewPager = calendarViewPager
 	}
 
-	fun initialize(view: View) {
+	private fun initialize(view: View) {
 		controller = InkalendarCtrl(view = this, model = model)
 	}
 
-	fun populate() {
+	private fun populate() {
 		Log.d("populate", "today: ${model.today.dayOfMonth}/${model.today.month}/${model.today.year}")
 		model.today = (model.today.clone() as Calendar).toMidnight()!!
 		// This line subtracts a half of all calendar months to set calendar
