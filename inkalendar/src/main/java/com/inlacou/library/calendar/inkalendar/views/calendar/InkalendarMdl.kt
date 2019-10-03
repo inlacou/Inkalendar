@@ -32,7 +32,7 @@ data class InkalendarMdl(
 ){
 	var currentPage: Int = FIRST_VISIBLE_PAGE
 	companion object {
-		val FIRST_VISIBLE_PAGE = CalendarPagerAdapter.CALENDAR_SIZE / 2
+		const val FIRST_VISIBLE_PAGE = CalendarPagerAdapter.CALENDAR_SIZE / 2
 	}
 
 	enum class Mode{

@@ -9,10 +9,6 @@ import java.util.*
 
 class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 
-	init { //Initialize
-
-	}
-
 	fun onClick() {
 		//TODO model.onClick?.invoke(model.copy(onClick = null))
 	}
@@ -40,8 +36,10 @@ class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 			callOnPageChangeListeners(position)
 		}
 	}
-
-	// This method calls page change listeners after swipe calendar or click arrow buttons
+	
+	/**
+	 * This method calls page change listeners after swipe calendar or click arrow buttons
+	 */
 	private fun callOnPageChangeListeners(position: Int) {
 		val clone = model.today.clone() as Calendar
 		clone.month = clone.month + position

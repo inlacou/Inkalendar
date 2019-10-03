@@ -15,7 +15,7 @@ import com.inlacou.library.calendar.inkalendar.views.viewpager.CalendarViewPager
 import kotlinx.android.synthetic.main.view_calendar_inl.view.*
 import java.util.*
 
-class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+open class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
 	: LinearLayout(context, attrs, defStyleAttr) {
 
 	private var surfaceLayout: View? = null
@@ -39,7 +39,7 @@ class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 		populate()
 	}
 
-	protected fun initialize() {
+	fun initialize() {
 		val rootView = View.inflate(context, R.layout.view_calendar_inl, this)
 		initialize(rootView)
 		surfaceLayout = view_base_layout_surface
@@ -73,7 +73,7 @@ class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 		surfaceLayout?.setOnClickListener { controller.onClick() }
 		forwardButton?.setOnClickListener { v: View -> moveToNext() }
 		previousButton?.setOnClickListener { v: View -> moveToPrevious() }
-		mViewPager?.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+		mViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 			override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
 			/**

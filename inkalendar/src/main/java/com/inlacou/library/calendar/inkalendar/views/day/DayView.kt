@@ -17,10 +17,10 @@ import kotlinx.android.synthetic.main.view_day.view.*
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
 	: FrameLayout(context, attrs, defStyleAttr) {
 
-	var surfaceLayout: View? = null
-	var tvDay: TextView? = null
-	var ivDay: ImageView? = null
-	var ivSelected: ImageView? = null
+	private var surfaceLayout: View? = null
+	private var tvDay: TextView? = null
+	private var ivDay: ImageView? = null
+	private var ivSelected: ImageView? = null
 
 	var model: DayViewMdl = DayViewMdl()
 		set(value) {

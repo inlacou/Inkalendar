@@ -2,6 +2,7 @@ package com.inlacou.library.calendar.inkalendar.views.calendargrid
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.GridView
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarDayAdapter
@@ -41,6 +42,7 @@ class CalendarGridView @JvmOverloads constructor(
 	 * @param position Position of today page in ViewPager
 	 */
 	fun loadMonth() {
+		Log.d("performance","loadMonth")
 		val days = ArrayList<DayViewMdl>()
 
 		// Get Calendar object instance
@@ -89,6 +91,7 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 
 	fun getFromToDays(): Pair<Calendar, Calendar> {
+		Log.d("performance","getFromToDays")
 		//TODO dont repeat code here and on loadMonth
 
 		val days = ArrayList<DayViewMdl>()

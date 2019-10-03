@@ -33,7 +33,7 @@ class CalendarPagerAdapter(
 	}
 
 	override fun getItemPosition(`object`: Any): Int {
-		return androidx.viewpager.widget.PagerAdapter.POSITION_NONE
+		return POSITION_NONE
 	}
 
 	override fun isViewFromObject(view: View, `object`: Any): Boolean {

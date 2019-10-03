@@ -20,7 +20,7 @@ class CalendarViewPager
 
 		for (i in 0 until childCount) {
 			val child = getChildAt(i)
-			child.measure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+			child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
 
 			val h = child.measuredHeight
 
@@ -30,7 +30,7 @@ class CalendarViewPager
 		}
 
 		if (auxHeight != 0) {
-			finalHeight = View.MeasureSpec.makeMeasureSpec(auxHeight, View.MeasureSpec.EXACTLY)
+			finalHeight = MeasureSpec.makeMeasureSpec(auxHeight, MeasureSpec.EXACTLY)
 		}
 
 		super.onMeasure(widthMeasureSpec, finalHeight)
