@@ -1,16 +1,14 @@
 package com.inlacou.library.calendar.inkalendar.views.calendargrid
 
 import android.content.Context
+import android.text.style.TtsSpan
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.GridView
+import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarDayAdapter
 import com.inlacou.library.calendar.inkalendar.business.DayInl
-import com.inlacou.library.calendar.inkalendar.immediatePreviousMonth
-import com.inlacou.library.calendar.inkalendar.month
-import com.inlacou.library.calendar.inkalendar.sameMonth
-import com.inlacou.library.calendar.inkalendar.toMidnight
 import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
 import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
 import java.util.*
@@ -43,20 +41,27 @@ class CalendarGridView @JvmOverloads constructor(
 	 * @param position Position of today page in ViewPager
 	 */
 	fun loadMonth() {
-		val snap = System.currentTimeMillis()
-		adapter = CalendarDayAdapter(context, days, calendarModel, calendarModel.today.month)
+		Log.d("loadMonth", "days.first: ${days.first().model.calendar.dayOfMonth}/${days.first().model.calendar.month}")
+		Log.d("loadMonth", "days.last: ${days.last().model.calendar.dayOfMonth}/${days.last().model.calendar.month}")
+		Log.d("loadMonth", "calendarModel.today.month: ${(calendarModel.today.clone() as Calendar).month}")
+		adapter = CalendarDayAdapter(context, days, calendarModel, (calendarModel.today.clone() as Calendar).month)
 	}
 
 	fun getFromToDays(): Pair<Calendar, Calendar> {
+		Log.d("getFromToDays", "days.first: ${days.first().model.calendar}")
+		Log.d("getFromToDays", "days.last: ${days.last().model.calendar}")
+		Log.d("getFromToDays", "calendarModel.today.month: ${(calendarModel.today.clone() as Calendar).month}")
 		return Pair(days.first().model.calendar, days.last().model.calendar)
 	}
 	
 	fun compute(){
+		days.clear()
 		
 		// Get Calendar object instance
 		val calendar = calendarModel.today.clone() as Calendar
 		
 		// Add months to Calendar (a number of months depends on ViewPager position)
+		Log.d("compute", "position: $position")
 		calendar.add(Calendar.MONTH, position)
 		
 		val startingCal = calendar.clone() as Calendar
@@ -78,12 +83,11 @@ class CalendarGridView @JvmOverloads constructor(
             7, 14, 21, 28, 35 and 42 days
         Since months have at least 28 days, real breakpoints are 35 and 42
          */
-		addUntil(28, days, calendar) //...Since months have at least 28 days...
+		addUntil(27, days, calendar) //...Since months have at least 28 days... (27+(1 from do->while))
 		do {
 			addDay(days, calendar)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
 		} while (
-				calendar.immediatePreviousMonth(startingCal) ||
 				calendar.sameMonth(startingCal)
 		)
 		
@@ -99,7 +103,7 @@ class CalendarGridView @JvmOverloads constructor(
 
 		val day = calendarModel.days.find { calendar.toMidnight()!! == it.calendar.toMidnight()!! }
 
-		val dayModel = if(day==null){
+		val dayModel = if(day==null) {
 			DayViewMdl(DayInl(newCal))
 		}else{
 			DayViewMdl(day)
@@ -119,6 +123,7 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 
 	fun notifyDataSetChanged() {
+		compute()
 		loadMonth()
 	}
 }

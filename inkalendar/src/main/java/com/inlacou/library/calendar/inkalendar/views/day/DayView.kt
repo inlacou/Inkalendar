@@ -82,7 +82,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		}
 
 		//Current month check
-		if(!model.isCurrentMonth){
+		if(!model.isCurrentMonth) {
 			tvDay?.setTextColor(ContextCompat.getColor(context, model.textDisabledOtherMonthColorResId))
 			tvDay?.alpha = 0.12f //TODO change this alpha modifying with more colors
 			ivDay?.alpha = 0.12f
