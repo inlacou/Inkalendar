@@ -1,7 +1,7 @@
 package com.inlacou.library.calendar.inkalendar.views.calendar
 
 import android.content.Context
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -73,7 +73,7 @@ class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet
 		surfaceLayout?.setOnClickListener { controller.onClick() }
 		forwardButton?.setOnClickListener { v: View -> moveToNext() }
 		previousButton?.setOnClickListener { v: View -> moveToPrevious() }
-		mViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+		mViewPager?.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
 			override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
 			/**

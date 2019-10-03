@@ -1,6 +1,6 @@
 package com.inlacou.library.calendar.calendarviewinl
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.inlacou.library.calendar.calendarviewinl.R.id.calendarView

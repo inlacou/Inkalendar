@@ -1,7 +1,7 @@
 package com.inlacou.library.calendar.inkalendar.views.day
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout

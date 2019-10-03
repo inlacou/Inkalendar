@@ -1,7 +1,7 @@
 package com.inlacou.library.calendar.inkalendar.adapters
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +24,7 @@ class CalendarPagerAdapter(
 		private val calendarModel: InkalendarMdl,
 		var onClick: (item: DayViewMdl) -> Any?,
 		var onInstantiate: (item: Pair<Calendar, Calendar>) -> Any?
-) : PagerAdapter() {
+) : androidx.viewpager.widget.PagerAdapter() {
 
 	val gridViews: MutableList<CalendarGridView> = mutableListOf()
 
@@ -33,7 +33,7 @@ class CalendarPagerAdapter(
 	}
 
 	override fun getItemPosition(`object`: Any): Int {
-		return PagerAdapter.POSITION_NONE
+		return androidx.viewpager.widget.PagerAdapter.POSITION_NONE
 	}
 
 	override fun isViewFromObject(view: View, `object`: Any): Boolean {
