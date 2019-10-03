@@ -45,6 +45,7 @@ class CalendarPagerAdapter(
 		val calendarGridView = inflater.inflate(R.layout.calendar_view_grid, null) as CalendarGridView
 
 		calendarGridView.calendarModel = calendarModel
+		calendarGridView.compute()
 		calendarGridView.position = position
 		calendarGridView.loadMonth()
 		calendarGridView.getFromToDays()

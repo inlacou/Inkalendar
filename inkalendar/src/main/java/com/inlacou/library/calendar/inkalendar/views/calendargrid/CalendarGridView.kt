@@ -24,7 +24,8 @@ class CalendarGridView @JvmOverloads constructor(
 		attrs: AttributeSet? = null,
 		defStyleAttr: Int = 0
 ) : GridView(context, attrs, defStyleAttr) {
-
+	
+	private var days: ArrayList<DayViewMdl> = ArrayList()
 	lateinit var calendarModel: InkalendarMdl
 	var position: Int = 0
 	var onClick: (item: DayViewMdl) -> Any? = {}
@@ -42,85 +43,42 @@ class CalendarGridView @JvmOverloads constructor(
 	 * @param position Position of today page in ViewPager
 	 */
 	fun loadMonth() {
-		Log.d("performance","loadMonth")
-		val days = ArrayList<DayViewMdl>()
-
-		// Get Calendar object instance
-		val calendar = calendarModel.today.clone() as Calendar
-
-		// Add months to Calendar (a number of months depends on ViewPager position)
-		calendar.add(Calendar.MONTH, position)
-
-		val startingCal = calendar.clone() as Calendar
-
-		// Set day of month as 1
-		calendar.set(Calendar.DAY_OF_MONTH, 1)
-
-		// Get a number of the first day of the week
-		val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-
-		// Count when month is beginning
-		val monthBeginningCell = dayOfWeek + if (dayOfWeek == 1) 5 else -2
-
-		// Subtract a number of beginning days, it will let to load a part of a previous month
-		calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
-
-		/*
-        BreakPoints are:
-            7, 14, 21, 28, 35 and 42 days
-        Since months are at least 28 days, real breakpoints are 35 and 42
-         */
-		do {
-			addDay(days, calendar)
-			calendar.add(Calendar.DAY_OF_MONTH, 1)
-		} while (
-				calendar.immediatePreviousMonth(startingCal) ||
-				calendar.sameMonth(startingCal)
-		)
-
-		if (startingCal.immediatePreviousMonth(calendar) && days.size > 28 && days.size < 35) { //35 breakpoint
-			addUntil(35, days, calendar)
-		} else if (startingCal.immediatePreviousMonth(calendar) && days.size > 35 && days.size < 42) { //42 breakpoint
-			addUntil(42, days, calendar)
-		}
-
-		val calendarDayAdapter = CalendarDayAdapter(context, days,
-				calendarModel, startingCal.month)
-
-		adapter = calendarDayAdapter
+		val snap = System.currentTimeMillis()
+		adapter = CalendarDayAdapter(context, days, calendarModel, calendarModel.today.month)
 	}
 
 	fun getFromToDays(): Pair<Calendar, Calendar> {
-		Log.d("performance","getFromToDays")
-		//TODO dont repeat code here and on loadMonth
-
-		val days = ArrayList<DayViewMdl>()
-
+		return Pair(days.first().model.calendar, days.last().model.calendar)
+	}
+	
+	fun compute(){
+		
 		// Get Calendar object instance
 		val calendar = calendarModel.today.clone() as Calendar
-
+		
 		// Add months to Calendar (a number of months depends on ViewPager position)
 		calendar.add(Calendar.MONTH, position)
-
+		
 		val startingCal = calendar.clone() as Calendar
-
+		
 		// Set day of month as 1
 		calendar.set(Calendar.DAY_OF_MONTH, 1)
-
+		
 		// Get a number of the first day of the week
 		val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-
+		
 		// Count when month is beginning
 		val monthBeginningCell = dayOfWeek + if (dayOfWeek == 1) 5 else -2
-
+		
 		// Subtract a number of beginning days, it will let to load a part of a previous month
 		calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
-
+		
 		/*
         BreakPoints are:
             7, 14, 21, 28, 35 and 42 days
-        Since months are at least 28 days, real breakpoints are 35 and 42
+        Since months have at least 28 days, real breakpoints are 35 and 42
          */
+		addUntil(28, days, calendar) //...Since months have at least 28 days...
 		do {
 			addDay(days, calendar)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
@@ -128,14 +86,12 @@ class CalendarGridView @JvmOverloads constructor(
 				calendar.immediatePreviousMonth(startingCal) ||
 				calendar.sameMonth(startingCal)
 		)
-
+		
 		if (startingCal.immediatePreviousMonth(calendar) && days.size > 28 && days.size < 35) { //35 breakpoint
-			addUntil(35, days, calendar)
+			addUntil(35, days, calendar) //...real breakpoints are 35...
 		} else if (startingCal.immediatePreviousMonth(calendar) && days.size > 35 && days.size < 42) { //42 breakpoint
-			addUntil(42, days, calendar)
+			addUntil(42, days, calendar) //...and 42...
 		}
-
-		return Pair(days.first().model.calendar, days.last().model.calendar)
 	}
 
 	private fun addDay(days: ArrayList<DayViewMdl>, calendar: Calendar){
