@@ -50,7 +50,6 @@ class CalendarPagerAdapter(
 		//Work (with data)
 		calendarGridView.compute()
 		calendarGridView.loadMonth()
-		calendarGridView.getFromToDays()
 		calendarGridView.onClick = {
 			onClick.invoke(it)
 		}

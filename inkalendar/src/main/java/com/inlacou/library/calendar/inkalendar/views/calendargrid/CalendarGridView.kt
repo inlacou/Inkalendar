@@ -41,16 +41,10 @@ class CalendarGridView @JvmOverloads constructor(
 	 * @param position Position of today page in ViewPager
 	 */
 	fun loadMonth() {
-		Log.d("loadMonth", "days.first: ${days.first().model.calendar.dayOfMonth}/${days.first().model.calendar.month}")
-		Log.d("loadMonth", "days.last: ${days.last().model.calendar.dayOfMonth}/${days.last().model.calendar.month}")
-		Log.d("loadMonth", "calendarModel.today.month: ${(calendarModel.today.clone() as Calendar).month}")
-		adapter = CalendarDayAdapter(context, days, calendarModel, (calendarModel.today.clone() as Calendar).month)
+		adapter = CalendarDayAdapter(context, days, calendarModel, (calendarModel.today.clone() as Calendar).apply { add(Calendar.MONTH, position) }.month)
 	}
 
 	fun getFromToDays(): Pair<Calendar, Calendar> {
-		Log.d("getFromToDays", "days.first: ${days.first().model.calendar}")
-		Log.d("getFromToDays", "days.last: ${days.last().model.calendar}")
-		Log.d("getFromToDays", "calendarModel.today.month: ${(calendarModel.today.clone() as Calendar).month}")
 		return Pair(days.first().model.calendar, days.last().model.calendar)
 	}
 	
@@ -61,7 +55,6 @@ class CalendarGridView @JvmOverloads constructor(
 		val calendar = calendarModel.today.clone() as Calendar
 		
 		// Add months to Calendar (a number of months depends on ViewPager position)
-		Log.d("compute", "position: $position")
 		calendar.add(Calendar.MONTH, position)
 		
 		val startingCal = calendar.clone() as Calendar

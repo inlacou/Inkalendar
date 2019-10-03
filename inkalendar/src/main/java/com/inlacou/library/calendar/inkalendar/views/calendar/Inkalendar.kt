@@ -54,7 +54,6 @@ open class Inkalendar @JvmOverloads constructor(context: Context, attrs: Attribu
 	}
 
 	private fun populate() {
-		Log.d("populate", "today: ${model.today.dayOfMonth}/${model.today.month}/${model.today.year}")
 		model.today = (model.today.clone() as Calendar).toMidnight()!!
 		// This line subtracts a half of all calendar months to set calendar
 		// in the correct position (in the middle)
