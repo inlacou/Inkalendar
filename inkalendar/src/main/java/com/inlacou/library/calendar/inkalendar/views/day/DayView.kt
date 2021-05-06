@@ -1,14 +1,18 @@
 package com.inlacou.library.calendar.inkalendar.views.day
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.content.res.Resources
+import android.graphics.Color
+import android.os.Build
 import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.ImageViewCompat
 import com.inlacou.library.calendar.inkalendar.R
-import com.inlacou.library.calendar.inkalendar.setVisibleInk
 import com.inlacou.library.calendar.inkalendar.toDay
 import com.inlacou.library.calendar.inkalendar.utils.ImageUtils
 
@@ -49,7 +53,37 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 	private fun initialize(view: View) {
 		controller = DayViewCtrl(view = this, model = model)
 	}
-
+	
+	
+	private fun Resources.getColorCompat(resId: Int): Int {
+		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			getColor(resId, null)
+		}else{
+			getColor(resId)
+		}
+	}
+	
+	private fun ImageView.tint(colorResId: Int) {
+		ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(this.context.resources.getColorCompat(colorResId)))
+	}
+	
+	private fun ImageView.tint(colorHex: String) {
+		ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(Color.parseColor(colorHex)))
+	}
+	
+	private fun View?.setVisibleInk(visible: Boolean, holdSpaceOnDissapear: Boolean = false) {
+		if (this == null) return
+		if(visible){
+			this.visibility = View.VISIBLE
+		}else{
+			if(holdSpaceOnDissapear){
+				this.visibility = View.INVISIBLE
+			}else{
+				this.visibility = View.GONE
+			}
+		}
+	}
+	
 	private fun populate() {
 		//Set to normal
 		tvDay?.text = model.model.calendar.timeInMillis.toDay(context)
@@ -62,7 +96,9 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
 		//Icon check
 		ivDay.setVisibleInk(model.model.iconResId!=null, true)
-
+		model.model.colorResId?.let { ivDay?.tint(it) }
+		model.model.colorHex?.let { ivDay?.tint(it) }
+		
 		//Selected check
 		if(model.isSelected){
 			model.selectedBackResId?.let { ivSelected?.setBackgroundResource(it) }

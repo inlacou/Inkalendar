@@ -51,15 +51,16 @@ class MainActivity : AppCompatActivity() {
 							Toast.LENGTH_SHORT).show()
 				})
 
-		Observable.timer(7, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+		//Load data "asynchronously"
+		Observable.timer(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(1), isEnabled = false)) //Disabled
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(2), isEnabled = false)) //Disabled
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(3), isEnabled = true)) //Enabled
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true)) //Special
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader)) //Menacing space invader as icon
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader)) //Special day when menacing space invader attacks
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader, colorHex = "#00FF00")) //Menacing space invader as icon
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
 			calendarView.notifyDataSetChanged()
-			Toast.makeText(this, "loaded days!", Toast.LENGTH_SHORT).show()
+			Toast.makeText(this, "loaded days asynchronously!", Toast.LENGTH_SHORT).show()
 		}
 	}
 }
