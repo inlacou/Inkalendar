@@ -54,36 +54,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 		controller = DayViewCtrl(view = this, model = model)
 	}
 	
-	
-	private fun Resources.getColorCompat(resId: Int): Int {
-		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			getColor(resId, null)
-		}else{
-			getColor(resId)
-		}
-	}
-	
-	private fun ImageView.tint(colorResId: Int) {
-		ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(this.context.resources.getColorCompat(colorResId)))
-	}
-	
-	private fun ImageView.tint(colorHex: String) {
-		ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(Color.parseColor(colorHex)))
-	}
-	
-	private fun View?.setVisibleInk(visible: Boolean, holdSpaceOnDissapear: Boolean = false) {
-		if (this == null) return
-		if(visible){
-			this.visibility = View.VISIBLE
-		}else{
-			if(holdSpaceOnDissapear){
-				this.visibility = View.INVISIBLE
-			}else{
-				this.visibility = View.GONE
-			}
-		}
-	}
-	
 	private fun populate() {
 		//Set to normal
 		tvDay?.text = model.model.calendar.timeInMillis.toDay(context)
@@ -123,11 +93,43 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 			tvDay?.alpha = 0.12f //TODO change this alpha modifying with more colors
 			ivDay?.alpha = 0.12f
 			ivSelected?.alpha = 0.12f
-			surfaceLayout?.setOnClickListener {  }
+			setOnClickListener {  }
 		}
 	}
 
 	private fun setListeners() {
-		surfaceLayout?.setOnClickListener { controller.onClick() }
+		setOnClickListener { controller.onClick() }
 	}
+	
+	// --------------------------------------------------------------------------------------
+	
+	private fun Resources.getColorCompat(resId: Int): Int {
+		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			getColor(resId, null)
+		}else{
+			getColor(resId)
+		}
+	}
+	
+	private fun ImageView.tint(colorResId: Int) {
+		ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(this.context.resources.getColorCompat(colorResId)))
+	}
+	
+	private fun ImageView.tint(colorHex: String) {
+		ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(Color.parseColor(colorHex)))
+	}
+	
+	private fun View?.setVisibleInk(visible: Boolean, holdSpaceOnDissapear: Boolean = false) {
+		if (this == null) return
+		if(visible){
+			this.visibility = View.VISIBLE
+		}else{
+			if(holdSpaceOnDissapear){
+				this.visibility = View.INVISIBLE
+			}else{
+				this.visibility = View.GONE
+			}
+		}
+	}
+	
 }
