@@ -68,27 +68,29 @@ class CalendarGridView @JvmOverloads constructor(
 		// Count when month is beginning
 		val monthBeginningCell = dayOfWeek + if (dayOfWeek == 1) 5 else -2
 		
-		// Subtract a number of beginning days, it will let to load a part of a previous month
+		// Subtract a number of beginning days, this will let it load a part of a previous month
 		calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
 		
 		/*
         BreakPoints are:
             7, 14, 21, 28, 35 and 42 days
         Since months have at least 28 days, real breakpoints are 35 and 42
+        And because it's weird to have an empty row sometimes, because some months need it (42) and some don't (35), real real breakpoint is always 42
          */
 		addUntil(27, days, calendar) //...Since months have at least 28 days... (27+(1 from do->while))
 		do {
 			addDay(days, calendar)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
 		} while (
-				calendar.sameMonth(startingCal)
+			calendar.sameMonth(startingCal)
 		)
 		
-		if (startingCal.immediatePreviousMonth(calendar) && days.size > 28 && days.size < 35) { //35 breakpoint
+		/*if (startingCal.immediatePreviousMonth(calendar) && days.size > 28 && days.size < 35) { //35 breakpoint
 			addUntil(35, days, calendar) //...real breakpoints are 35...
 		} else if (startingCal.immediatePreviousMonth(calendar) && days.size > 35 && days.size < 42) { //42 breakpoint
 			addUntil(42, days, calendar) //...and 42...
-		}
+		}*/
+		addUntil(42, days, calendar) //real real breakpoint is always 42
 	}
 
 	private fun addDay(days: ArrayList<DayViewMdl>, calendar: Calendar){
