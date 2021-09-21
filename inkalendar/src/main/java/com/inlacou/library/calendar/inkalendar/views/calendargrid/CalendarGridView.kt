@@ -30,9 +30,7 @@ class CalendarGridView @JvmOverloads constructor(
 
 	//This method is needed to get wrap_content height for GridView
 	public override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-		val expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2,
-				MeasureSpec.AT_MOST)
-		super.onMeasure(widthMeasureSpec, expandSpec)
+		super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, MeasureSpec.AT_MOST))
 	}
 
 	/**
@@ -48,14 +46,18 @@ class CalendarGridView @JvmOverloads constructor(
 		return Pair(days.first().model.calendar, days.last().model.calendar)
 	}
 	
-	fun compute(){
+	fun compute() {
 		days.clear()
-		
+
+		//Log.d("DEBUG", "compute | position: $position")
+
 		// Get Calendar object instance
 		val calendar = calendarModel.today.clone() as Calendar
+		//Log.d("DEBUG", "compute | calendar0: $calendar")
 		
 		// Add months to Calendar (a number of months depends on ViewPager position)
 		calendar.add(Calendar.MONTH, position)
+		//Log.d("DEBUG", "compute | calendar1: $calendar")
 		
 		val startingCal = calendar.clone() as Calendar
 		

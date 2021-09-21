@@ -31,10 +31,10 @@ data class InkalendarMdl(
 		val onPageLoad: ((fromTo: Pair<Calendar, Calendar>) -> Any?)? = null
 ){
 	var currentPage: Int = FIRST_VISIBLE_PAGE
+	internal val anchor = today.clone() as Calendar
 	companion object {
 		const val FIRST_VISIBLE_PAGE = CalendarPagerAdapter.CALENDAR_SIZE / 2
 	}
-
 	enum class Mode{
 		SINGLE_SELECTION, MULTIPLE_SELECTION //TODO, NO_SELECTION, RANGE_SELECTION
 	}

@@ -93,7 +93,7 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 			tvDay?.alpha = 0.12f //TODO change this alpha modifying with more colors
 			ivDay?.alpha = 0.12f
 			ivSelected?.alpha = 0.12f
-			setOnClickListener {  }
+			//setOnClickListener {  }
 		}
 	}
 

@@ -54,9 +54,9 @@ open class Inkalendar @JvmOverloads constructor(context: Context, attrs: Attribu
 
 	private fun populate() {
 		model.today = (model.today.clone() as Calendar).toMidnight()!!
-		// This line subtracts a half of all calendar months to set calendar
-		// in the correct position (in the middle)
+		// This line subtracts half of all calendar months to set the calendar in the correct position (in the middle)
 		model.today.add(Calendar.MONTH, -InkalendarMdl.FIRST_VISIBLE_PAGE)
+		// Now we can go ${InkalendarMdl.FIRST_VISIBLE_PAGE} forward and ${InkalendarMdl.FIRST_VISIBLE_PAGE} backwards
 
 		mViewPager?.adapter = CalendarPagerAdapter(context, model, {
 			controller.onDayClick(it)
