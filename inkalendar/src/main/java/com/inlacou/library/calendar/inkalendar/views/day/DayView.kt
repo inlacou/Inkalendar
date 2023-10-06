@@ -16,8 +16,6 @@ import com.inlacou.library.calendar.inkalendar.R
 import com.inlacou.library.calendar.inkalendar.toDay
 import com.inlacou.library.calendar.inkalendar.utils.ImageUtils
 
-import kotlinx.android.synthetic.main.view_inkalendar_day.view.*
-
 class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
 	: FrameLayout(context, attrs, defStyleAttr) {
 
@@ -44,10 +42,10 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 	protected fun initialize() {
 		val rootView = View.inflate(context, R.layout.view_inkalendar_day, this)
 		initialize(rootView)
-		surfaceLayout = view_base_layout_surface
-		tvDay = tv_day
-		ivDay = iv_day
-		ivSelected = iv_selected
+		surfaceLayout = findViewById(R.id.view_base_layout_surface)
+		tvDay = findViewById(R.id.tv_day)
+		ivDay = findViewById(R.id.iv_day)
+		ivSelected = findViewById(R.id.iv_selected)
 	}
 
 	private fun initialize(view: View) {

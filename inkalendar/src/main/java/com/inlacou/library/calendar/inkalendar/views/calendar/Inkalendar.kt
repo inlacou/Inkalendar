@@ -11,7 +11,6 @@ import com.inlacou.library.calendar.inkalendar.*
 
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarPagerAdapter
 import com.inlacou.library.calendar.inkalendar.views.viewpager.CalendarViewPager
-import kotlinx.android.synthetic.main.view_inkcalendar.view.*
 import java.util.*
 
 open class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -41,11 +40,11 @@ open class Inkalendar @JvmOverloads constructor(context: Context, attrs: Attribu
 	private fun initialize() {
 		val rootView = View.inflate(context, R.layout.view_inkcalendar, this)
 		initialize(rootView)
-		surfaceLayout = view_base_layout_surface
-		tvCurrentMonth = currentDateLabel
-		forwardButton = btn_forward
-		previousButton = btn_previous
-		mViewPager = calendarViewPager
+		surfaceLayout = findViewById(R.id.view_base_layout_surface)
+		tvCurrentMonth = findViewById(R.id.currentDateLabel)
+		forwardButton = findViewById(R.id.btn_forward)
+		previousButton = findViewById(R.id.btn_previous)
+		mViewPager = findViewById(R.id.calendarViewPager)
 	}
 
 	private fun initialize(view: View) {
