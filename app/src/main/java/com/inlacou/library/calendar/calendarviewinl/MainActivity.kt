@@ -60,6 +60,12 @@ class MainActivity : AppCompatActivity() {
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true)) //Special
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader, colorHex = "#00FF00")) //Menacing space invader as icon
 			days.add(DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(-28), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(-29), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
+			days.add(DayInl(calendar = Calendar.getInstance().addDays(-38), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
 
 			val startFrom = 1000
 			repeat(1000) {

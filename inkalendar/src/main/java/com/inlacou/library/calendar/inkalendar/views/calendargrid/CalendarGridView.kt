@@ -92,7 +92,9 @@ class CalendarGridView @JvmOverloads constructor(
 		val dayInl = modelDays.find { calendar.toMidnight()!! == it.calendar.toMidnight()!! }
 
 		days.add(DayViewMdl(dayInl ?: DayInl(newCal)).apply {
-			this.onClick = this@CalendarGridView.onClick
+			this.onClick = {
+				this@CalendarGridView.onClick.invoke(it)
+			}
 		})
 	}
 
