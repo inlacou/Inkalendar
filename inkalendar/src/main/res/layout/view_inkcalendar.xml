@@ -17,7 +17,7 @@
 		
 		<ImageButton
 			android:id="@+id/btn_previous"
-			style="@style/Widget.AppCompat.Button.Borderless.Colored"
+			android:background="@color/inkalendar_btn_previous_background_color"
 			android:layout_width="85dp"
 			android:layout_height="wrap_content"
 			android:scaleType="centerInside"
@@ -28,7 +28,7 @@
 		
 		<ImageButton
 			android:id="@+id/btn_forward"
-			style="@style/Widget.AppCompat.Button.Borderless.Colored"
+			android:background="@color/inkalendar_btn_forward_background_color"
 			android:layout_width="85dp"
 			android:layout_height="wrap_content"
 			android:scaleType="centerInside"
