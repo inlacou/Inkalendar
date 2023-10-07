@@ -1,7 +1,6 @@
 package com.inlacou.library.calendar.inkalendar
 
 import android.content.Context
-import android.view.View
 import java.util.*
 
 var Calendar.year: Int
@@ -48,7 +47,7 @@ fun Calendar.immediatePreviousMonth(postCalendar: Calendar): Boolean {
 	return postMonth-prevMonth==1
 }
 
-fun Calendar.sameMonth(post: Calendar): Boolean = year==post.year && month==post.month
+fun Calendar.sameYearAndMonth(post: Calendar): Boolean = year==post.year && month==post.month
 
 /**
  * This method compares calendars using month and year

@@ -1,11 +1,9 @@
 package com.inlacou.library.calendar.inkalendar.views.calendargrid
 
 import android.content.Context
-import android.text.style.TtsSpan
 import android.util.AttributeSet
-import android.util.Log
-import android.view.View
 import android.widget.GridView
+import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarDayAdapter
 import com.inlacou.library.calendar.inkalendar.business.DayInl
@@ -23,7 +21,7 @@ class CalendarGridView @JvmOverloads constructor(
 		defStyleAttr: Int = 0
 ) : GridView(context, attrs, defStyleAttr) {
 	
-	private var days: ArrayList<DayViewMdl> = ArrayList()
+	private val days: MutableList<DayViewMdl> = mutableListOf()
 	lateinit var calendarModel: InkalendarMdl
 	var position: Int = 0
 	var onClick: (item: DayViewMdl) -> Any? = {}
@@ -39,7 +37,9 @@ class CalendarGridView @JvmOverloads constructor(
 	 * @param position Position of today page in ViewPager
 	 */
 	fun loadMonth() {
-		adapter = CalendarDayAdapter(context, days, calendarModel, (calendarModel.today.clone() as Calendar).apply { add(Calendar.MONTH, position) }.month)
+		Inker.d { "INKER - days (${days.size}): ${days.map { it.model.calendar.toDebugString() }}" }
+		Inker.d { "INKER - calendarModel (${calendarModel.days.size}): ${calendarModel.days.map { it.calendar.toDebugString() }}" }
+		adapter = CalendarDayAdapter(context, days, calendarModel, calendarModel.today.month)
 	}
 
 	fun getFromToDays(): Pair<Calendar, Calendar> {
@@ -47,24 +47,23 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 	
 	fun compute() {
+		if(days.isNotEmpty()) {
+			Inker.d { "INKER - days not empty (${days.size}): ${days.map { it.model.calendar.toDebugString() }}" }
+		}
 		days.clear()
-
-		//Log.d("DEBUG", "compute | position: $position")
 
 		// Get Calendar object instance
 		val calendar = calendarModel.today.clone() as Calendar
-		//Log.d("DEBUG", "compute | calendar0: $calendar")
-		
+
 		// Add months to Calendar (a number of months depends on ViewPager position)
 		calendar.add(Calendar.MONTH, position)
-		//Log.d("DEBUG", "compute | calendar1: $calendar")
-		
+
 		val startingCal = calendar.clone() as Calendar
 		
 		// Set day of month as 1
 		calendar.set(Calendar.DAY_OF_MONTH, 1)
 		
-		// Get a number of the first day of the week
+		// Get a number of the first day of the first week
 		val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
 		
 		// Count when month is beginning
@@ -72,6 +71,7 @@ class CalendarGridView @JvmOverloads constructor(
 		
 		// Subtract a number of beginning days, this will let it load a part of a previous month
 		calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
+		val from = calendar.clone() as Calendar
 		
 		/*
         BreakPoints are:
@@ -79,40 +79,36 @@ class CalendarGridView @JvmOverloads constructor(
         Since months have at least 28 days, real breakpoints are 35 and 42
         And because it's weird to have an empty row sometimes, because some months need it (42) and some don't (35), real real breakpoint is always 42
          */
-		addUntil(27, days, calendar) //...Since months have at least 28 days... (27+(1 from do->while))
+		this.addUntil(27, days, calendar) //...Since months have at least 28 days... (27+(1 from do->while))
 		do {
-			addDay(days, calendar)
+			this.addDay(days, calendar)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
 		} while (
-			calendar.sameMonth(startingCal)
+			calendar.sameYearAndMonth(startingCal)
 		)
-		
-		/*if (startingCal.immediatePreviousMonth(calendar) && days.size > 28 && days.size < 35) { //35 breakpoint
-			addUntil(35, days, calendar) //...real breakpoints are 35...
-		} else if (startingCal.immediatePreviousMonth(calendar) && days.size > 35 && days.size < 42) { //42 breakpoint
-			addUntil(42, days, calendar) //...and 42...
-		}*/
-		addUntil(42, days, calendar) //real real breakpoint is always 42
+
+		this.addUntil(42, days, calendar) //real real breakpoint is always 42 (7 days * 6 rows)
+		Inker.d { "INKER - end: ${days.size}" }
+		Inker.d { "INKER - from: ${from.toDebugString()} | to: ${calendar.toDebugString()}" }
 	}
 
-	private fun addDay(days: ArrayList<DayViewMdl>, calendar: Calendar){
+	private fun addDay(days: MutableList<DayViewMdl>, calendar: Calendar) {
+		//Inker.d { "INKER - days: ${days.size} | calendar: ${calendar.toDebugString()}" }
 		val newCal = calendar.clone() as Calendar
 
-		val day = calendarModel.days.find { calendar.toMidnight()!! == it.calendar.toMidnight()!! }
+		//val ts1 = System.currentTimeMillis()
+		val dayInl = calendarModel.days.find { calendar.toMidnight()!! == it.calendar.toMidnight()!! }
+		//Inker.e { "INKER - days.find in time: ${(System.currentTimeMillis()-ts1).toTime()}" }
 
-		val dayModel = if(day==null) {
-			DayViewMdl(DayInl(newCal))
-		}else{
-			DayViewMdl(day)
-		}
-		dayModel.onClick = {
-			onClick.invoke(it)
-		}
-
-		days.add(dayModel)
+		days.add(DayViewMdl(dayInl ?: DayInl(newCal)).apply {
+			this.onClick = this@CalendarGridView.onClick
+		})
 	}
 
-	private fun addUntil(number: Int, days: ArrayList<DayViewMdl>, calendar: Calendar) {
+	fun Calendar.toDebugString() = "$year/${month + 1}/$dayOfMonth"
+
+	private fun addUntil(number: Int, days: MutableList<DayViewMdl>, calendar: Calendar) {
+		//Inker.d { "INKER - number: $number | days: ${days.size} | calendar: ${calendar.toDebugString()}" }
 		while (days.size < number) {
 			addDay(days, calendar)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
@@ -120,7 +116,18 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 
 	fun notifyDataSetChanged() {
+		val ts1 = System.currentTimeMillis()
 		compute()
+		Inker.d { "INKER - compute in time: ${(System.currentTimeMillis()-ts1).toTime()}" }
+		val ts2 = System.currentTimeMillis()
 		loadMonth()
+		Inker.d { "INKER - loadMonth in time: ${(System.currentTimeMillis()-ts2).toTime()}" }
+	}
+
+	private fun Long.toTime(): String {
+		val millis = this%1000
+		val seconds = (this/1000)%60
+		val minutes: Int = (this/1000/60).toInt()
+		return "$minutes:$seconds.$millis"
 	}
 }

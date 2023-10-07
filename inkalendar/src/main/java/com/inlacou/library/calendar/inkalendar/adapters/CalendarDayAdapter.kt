@@ -22,8 +22,11 @@ import java.util.Calendar
  * Forked by Inlacou on 26.04.2018.
  */
 internal class CalendarDayAdapter(
-		context: Context, itemList: ArrayList<DayViewMdl>,
-		val model: InkalendarMdl, currentMonth: Int) : ArrayAdapter<DayViewMdl>(context, R.layout.inkalendar_adapter_view_day, itemList) {
+	context: Context,
+	itemList: MutableList<DayViewMdl>,
+	private val model: InkalendarMdl,
+	currentMonth: Int
+) : ArrayAdapter<DayViewMdl>(context, R.layout.inkalendar_adapter_view_day, itemList) {
 
 	private val mLayoutInflater: LayoutInflater = LayoutInflater.from(context)
 	private val mPageMonth: Int = if (currentMonth < 0) 11 else currentMonth

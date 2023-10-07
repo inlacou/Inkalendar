@@ -52,13 +52,9 @@ class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 		model.currentPage = position
 	}
 
-	fun onPageLoad(fromTo: Pair<Calendar, Calendar>){
-		model.onPageLoad?.invoke(fromTo)
-	}
+	fun onPageLoad(fromTo: Pair<Calendar, Calendar>) = model.onPageLoad?.invoke(fromTo)
 
-	fun Calendar.toDebug(): String {
-		return "$dayOfMonth/$month/$year"
-	}
+	fun Calendar.toDebug(): String = "$dayOfMonth/$month/$year"
 
 	fun onDayClick(day: DayViewMdl) {
 		if(!day.isCurrentMonth) {
@@ -67,35 +63,17 @@ class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 			val currentPage = model.currentPage
 			val currentMonth = anchor.addMonths(currentPage-anchorPage)
 
-			Log.d("DEBUG", "------------------------------")
-			Log.d("DEBUG", "anchor: ${anchor.month} ${anchor.toDebug()}")
-			Log.d("DEBUG", "clicked day month: ${day.model.calendar.month} ${day.model.calendar.toDebug()}")
-			Log.d("DEBUG", "today month: ${model.today.month} ${model.today.toDebug()}")
-			Log.d("DEBUG", "currentMonth: ${currentMonth.month} ${currentMonth.toDebug()}")
-			Log.d("DEBUG", "currentPage: ${model.currentPage}")
-			Log.d("DEBUG", "page is: " + when {
-					day.model.calendar.month==currentMonth.month -> "same"
-					day.model.calendar.month<currentMonth.month -> "previous"
-					day.model.calendar.month>currentMonth.month -> "next"
-					else -> "wtf"
-				}
-			)
-			if(day.model.calendar.month<currentMonth.month) {
-				view.moveToPrevious()
-			}else if(day.model.calendar.month>currentMonth.month) {
-				view.moveToNext()
-			}
+			if(day.model.calendar.month<currentMonth.month) view.moveToPrevious()
+			else if(day.model.calendar.month>currentMonth.month) view.moveToNext()
 		}
 		if(model.mode==InkalendarMdl.Mode.SINGLE_SELECTION) {
 			model.selectedDays.clear()
 			model.selectedDays.add(day.model.calendar)
 			model.singleDaySelection?.invoke(day.model.calendar)
 		}else{
-			if (model.selectedDays.contains(day.model.calendar)) {
-				model.selectedDays.remove(day.model.calendar)
-			} else {
-				model.selectedDays.add(day.model.calendar)
-			}
+			if (model.selectedDays.contains(day.model.calendar)) model.selectedDays.remove(day.model.calendar)
+			else model.selectedDays.add(day.model.calendar)
+
 			model.multiDaySelection?.invoke(model.selectedDays)
 		}
 		view.notifyDataSetChanged()

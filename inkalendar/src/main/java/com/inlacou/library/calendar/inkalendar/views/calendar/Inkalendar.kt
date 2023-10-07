@@ -100,7 +100,7 @@ open class Inkalendar @JvmOverloads constructor(context: Context, attrs: Attribu
 	}
 
 	/**
-	 * Complete - mostly a complete recreation, use at your own risk
+	 * @param [complete] [Boolean] mostly a complete recreation of the view, use at your own risk
 	 */
 	fun notifyDataSetChanged(complete: Boolean = false) {
 		(mViewPager?.adapter as CalendarPagerAdapter).notifyDataSetChanged(complete)

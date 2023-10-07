@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.R
 import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
 
@@ -19,27 +20,23 @@ import java.util.Calendar
  * Forked by Inlacou on 26.04.2018.
  */
 class CalendarPagerAdapter(
-		private val mContext: Context,
-		private val calendarModel: InkalendarMdl,
-		var onClick: (item: DayViewMdl) -> Any?,
-		var onInstantiate: (item: Pair<Calendar, Calendar>) -> Any?
+	private val mContext: Context,
+	private val calendarModel: InkalendarMdl,
+	var onClick: (item: DayViewMdl) -> Any?,
+	var onInstantiate: (item: Pair<Calendar, Calendar>) -> Any?
 ) : androidx.viewpager.widget.PagerAdapter() {
 
-	val gridViews: MutableList<CalendarGridView> = mutableListOf()
+	private val gridViews: MutableList<CalendarGridView> = mutableListOf()
 
-	override fun getCount(): Int {
-		return CALENDAR_SIZE
-	}
+	override fun getCount(): Int = CALENDAR_SIZE
 
-	override fun getItemPosition(`object`: Any): Int {
-		return POSITION_NONE
-	}
+	override fun getItemPosition(item: Any): Int = POSITION_NONE
 
-	override fun isViewFromObject(view: View, `object`: Any): Boolean {
-		return view === `object`
-	}
+	override fun isViewFromObject(view: View, `object`: Any): Boolean = view === `object`
 
 	override fun instantiateItem(container: ViewGroup, position: Int): Any {
+		Inker.d { "INKER - $position" }
+
 		val inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 		val calendarGridView = inflater.inflate(R.layout.inkalendar_view_grid, null) as CalendarGridView
 
@@ -59,14 +56,29 @@ class CalendarPagerAdapter(
 		return calendarGridView
 	}
 
-	override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-		gridViews.remove(`object` as CalendarGridView)
-		container.removeView(`object` as View)
+	override fun destroyItem(container: ViewGroup, position: Int, item: Any) {
+		Inker.d { "INKER - position: $position" }
+		gridViews.remove(item as CalendarGridView)
+		container.removeView(item as View)
 	}
 
 	fun notifyDataSetChanged(complete: Boolean) {
-		gridViews.forEach { it.notifyDataSetChanged() }
+		Inker.d { "INKER - complete: $complete" }
+		gridViews.forEach {
+			val ts = System.currentTimeMillis()
+			it.notifyDataSetChanged()
+			Inker.d { "INKER - notified gridview in time: ${(System.currentTimeMillis()-ts).toTime()}" }
+		}
+		val ts = System.currentTimeMillis()
 		if(complete) super.notifyDataSetChanged()
+		Inker.d { "INKER - notified super in time: ${(System.currentTimeMillis()-ts).toTime()}" }
+	}
+
+	private fun Long.toTime(): String {
+		val millis = this%1000
+		val seconds = (this/1000)%60
+		val minutes: Int = (this/1000/60).toInt()
+		return "$minutes:$seconds.$millis"
 	}
 
 	companion object {
