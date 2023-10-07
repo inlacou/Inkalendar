@@ -34,7 +34,7 @@ class CalendarGridView @JvmOverloads constructor(
 	 * This method fill calendar GridView with default days
 	 */
 	fun loadMonth() {
-		adapter = CalendarDayAdapter(context, days, calendarModel, calendarModel.today.month)
+		adapter = CalendarDayAdapter(context, days, calendarModel, (calendarModel.today.clone() as Calendar).apply { add(Calendar.MONTH, position) }.month)
 	}
 
 	fun getFromToDays(): Pair<Calendar, Calendar> {
