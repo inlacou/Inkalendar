@@ -3,7 +3,6 @@ package com.inlacou.library.calendar.inkalendar.views.calendargrid
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.GridView
-import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarDayAdapter
 import com.inlacou.library.calendar.inkalendar.business.DayInl
@@ -33,12 +32,8 @@ class CalendarGridView @JvmOverloads constructor(
 
 	/**
 	 * This method fill calendar GridView with default days
-	 *
-	 * @param position Position of today page in ViewPager
 	 */
 	fun loadMonth() {
-		Inker.d { "INKER - days (${days.size}): ${days.map { it.model.calendar.toDebugString() }}" }
-		Inker.d { "INKER - calendarModel (${calendarModel.days.size}): ${calendarModel.days.map { it.calendar.toDebugString() }}" }
 		adapter = CalendarDayAdapter(context, days, calendarModel, calendarModel.today.month)
 	}
 
@@ -47,9 +42,6 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 
 	fun compute() {
-		if(days.isNotEmpty()) {
-			Inker.d { "INKER - days not empty (${days.size}): ${days.map { it.model.calendar.toDebugString() }}" }
-		}
 		days.clear()
 
 		// Get Calendar object instance
@@ -90,29 +82,21 @@ class CalendarGridView @JvmOverloads constructor(
 		)
 
 		this.addUntil(42, days, calendar, filteredDays) //real real breakpoint is always 42 (7 days * 6 rows)
-		Inker.d { "INKER - end: ${days.size}" }
-		Inker.d { "INKER - from: ${from.toDebugString()} | to: ${calendar.toDebugString()}" }
 	}
 
 	private fun filter(item: Calendar, start: Calendar): Boolean = item.timeInMillis>start.timeInMillis && item.timeInMillis<start.timeInMillis+3628800000L
 
 	private fun addDay(days: MutableList<DayViewMdl>, calendar: Calendar, modelDays: List<DayInl>) {
-		//Inker.d { "INKER - days: ${days.size} | calendar: ${calendar.toDebugString()}" }
 		val newCal = calendar.clone() as Calendar
 
-		val ts1 = System.currentTimeMillis()
 		val dayInl = modelDays.find { calendar.toMidnight()!! == it.calendar.toMidnight()!! }
-		Inker.e { "INKER - days.find in time: ${(System.currentTimeMillis()-ts1).toTime()}" }
 
 		days.add(DayViewMdl(dayInl ?: DayInl(newCal)).apply {
 			this.onClick = this@CalendarGridView.onClick
 		})
 	}
 
-	fun Calendar.toDebugString() = "$year/${month + 1}/$dayOfMonth"
-
 	private fun addUntil(number: Int, days: MutableList<DayViewMdl>, calendar: Calendar, modelDays: List<DayInl>) {
-		//Inker.d { "INKER - number: $number | days: ${days.size} | calendar: ${calendar.toDebugString()}" }
 		while (days.size < number) {
 			addDay(days, calendar, modelDays)
 			calendar.add(Calendar.DAY_OF_MONTH, 1)
@@ -120,18 +104,7 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 
 	fun notifyDataSetChanged() {
-		val ts1 = System.currentTimeMillis()
 		compute()
-		Inker.d { "INKER - compute in time: ${(System.currentTimeMillis()-ts1).toTime()}" }
-		val ts2 = System.currentTimeMillis()
 		loadMonth()
-		Inker.d { "INKER - loadMonth in time: ${(System.currentTimeMillis()-ts2).toTime()}" }
-	}
-
-	private fun Long.toTime(): String {
-		val millis = this%1000
-		val seconds = (this/1000)%60
-		val minutes: Int = (this/1000/60).toInt()
-		return "$minutes:$seconds.$millis"
 	}
 }
