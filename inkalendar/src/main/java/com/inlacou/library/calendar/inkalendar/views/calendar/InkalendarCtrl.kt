@@ -54,9 +54,8 @@ class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 
 	fun onPageLoad(fromTo: Pair<Calendar, Calendar>) = model.onPageLoad?.invoke(fromTo)
 
-	fun Calendar.toDebug(): String = "$dayOfMonth/$month/$year"
-
 	fun onDayClick(day: DayViewMdl) {
+		// If not in the current month, move to that month
 		if(!day.isCurrentMonth) {
 			val anchor = model.anchor.clone() as Calendar
 			val anchorPage = InkalendarMdl.FIRST_VISIBLE_PAGE
@@ -66,16 +65,22 @@ class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 			if(day.model.calendar.month<currentMonth.month) view.moveToPrevious()
 			else if(day.model.calendar.month>currentMonth.month) view.moveToNext()
 		}
-		if(model.mode==InkalendarMdl.Mode.SINGLE_SELECTION) {
+		val oldSelected = model.selectedDays.copy()
+		if(model.mode == InkalendarMdl.Mode.SINGLE_SELECTION) {
 			model.selectedDays.clear()
 			model.selectedDays.add(day.model.calendar)
 			model.singleDaySelection?.invoke(day.model.calendar)
-		}else{
+		} else {
 			if (model.selectedDays.contains(day.model.calendar)) model.selectedDays.remove(day.model.calendar)
 			else model.selectedDays.add(day.model.calendar)
-
 			model.multiDaySelection?.invoke(model.selectedDays)
 		}
-		view.notifyDataSetChanged()
+		view.updateSelected(oldSelected, model.selectedDays)
+	}
+
+	fun <T> MutableList<T>.copy(): MutableList<T> {
+		val result = mutableListOf<T>()
+		this.forEach { result.add(it) }
+		return result
 	}
 }

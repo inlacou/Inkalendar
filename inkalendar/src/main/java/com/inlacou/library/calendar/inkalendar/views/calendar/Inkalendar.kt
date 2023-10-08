@@ -105,4 +105,9 @@ open class Inkalendar @JvmOverloads constructor(context: Context, attrs: Attribu
 	fun notifyDataSetChanged(complete: Boolean = false) {
 		(mViewPager?.adapter as CalendarPagerAdapter).notifyDataSetChanged(complete)
 	}
+
+	fun updateSelected(oldSelected: List<Calendar>, selectedDays: List<Calendar>) {
+		val unselectedDays = (oldSelected-selectedDays.toSet()).map { it.toMidnight() }
+		(mViewPager?.adapter as CalendarPagerAdapter).updateSelected(unselectedDays, selectedDays)
+	}
 }

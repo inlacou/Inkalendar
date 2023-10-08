@@ -9,7 +9,7 @@ data class InkalendarMdl(
 		/**
 		 * Current day for the calendar. Usually it will just be the real today.
 		 */
-		var today: Calendar = Calendar.getInstance().toMidnight()!!,
+		var today: Calendar = Calendar.getInstance().toMidnight(),
 		val days: MutableList<DayInl> = mutableListOf(),
 		val selectedDays: MutableList<Calendar> = mutableListOf(),
 		val minimumDate: Calendar? = null,

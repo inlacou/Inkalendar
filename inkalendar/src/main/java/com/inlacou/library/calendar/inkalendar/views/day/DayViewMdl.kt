@@ -14,7 +14,7 @@ data class DayViewMdl @JvmOverloads constructor(
 	val textDisabledOtherMonthColorResId: Int = R.color.inkalendar_text_disabled_other_month_color,
 	var onClick: ((item: DayViewMdl) -> Any?)? = null
 ) {
-	var isSelected: Boolean= false
+	var isSelected: Boolean = false
 	var isCurrentMonth: Boolean = false
 
 	override fun equals(other: Any?): Boolean {

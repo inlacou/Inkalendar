@@ -20,12 +20,12 @@ var Calendar.dayOfWeek: Int
 		get() = get(Calendar.DAY_OF_WEEK)
 
 /**
- * This method sets an hour in the calendar object to 00:00:00:00
+ * This method sets an hour in the calendar object to 00:00:00:000
  *
- * @param calendar Calendar object which hour should be set to 00:00:00:00
+ * @receiver [Calendar] which hour should be set to 00:00:00:000
  */
-fun Calendar?.toMidnight(): Calendar? {
-	this?.let {
+fun Calendar.toMidnight(): Calendar {
+	this.let {
 		set(Calendar.HOUR_OF_DAY, 0)
 		set(Calendar.MINUTE, 0)
 		set(Calendar.SECOND, 0)
@@ -86,6 +86,8 @@ fun Calendar.addYears(number: Int): Calendar {
 	return this
 }
 
+internal fun Calendar.toTimeDebug() = "$year/${month+1}/$dayOfMonth"
+
 /**
  * This method compares calendars using month and year
  *
@@ -113,5 +115,4 @@ fun Long?.toDay(context: Context): String = context.getString(R.string.inkalenda
 fun Long?.toMonthYear(context: Context, monthAsText: Boolean = true): String =
 	if(monthAsText) context.getString(R.string.inkalendar_month_as_text_year, this)
 	else context.getString(R.string.inkalendar_month_year, this)
-
 

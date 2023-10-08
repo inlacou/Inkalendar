@@ -2,7 +2,9 @@ package com.inlacou.library.calendar.inkalendar.views.calendargrid
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.GridView
+import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarDayAdapter
 import com.inlacou.library.calendar.inkalendar.business.DayInl
@@ -19,7 +21,8 @@ class CalendarGridView @JvmOverloads constructor(
 		attrs: AttributeSet? = null,
 		defStyleAttr: Int = 0
 ) : GridView(context, attrs, defStyleAttr) {
-	
+
+	private var from: Calendar? = null
 	private val days: MutableList<DayViewMdl> = mutableListOf()
 	lateinit var calendarModel: InkalendarMdl
 	var position: Int = 0
@@ -34,6 +37,7 @@ class CalendarGridView @JvmOverloads constructor(
 	 * This method fill calendar GridView with default days
 	 */
 	fun loadMonth() {
+		Inker.d { "loadMonth-$position" }
 		adapter = CalendarDayAdapter(context, days, calendarModel, (calendarModel.today.clone() as Calendar).apply { add(Calendar.MONTH, position) }.month)
 	}
 
@@ -63,9 +67,9 @@ class CalendarGridView @JvmOverloads constructor(
 		
 		// Subtract a number of beginning days, this will let it load a part of a previous month
 		calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell)
-		val from = calendar.clone() as Calendar
+		if(from == null) from = calendar.clone() as Calendar
 
-		val filteredDays: List<DayInl> = calendarModel.days.filter { filter(it.calendar, from) }
+		val filteredDays: List<DayInl> = calendarModel.days.filter { filter(it.calendar, from!!) }
 
 		/*
         BreakPoints are:
@@ -89,7 +93,7 @@ class CalendarGridView @JvmOverloads constructor(
 	private fun addDay(days: MutableList<DayViewMdl>, calendar: Calendar, modelDays: List<DayInl>) {
 		val newCal = calendar.clone() as Calendar
 
-		val dayInl = modelDays.find { calendar.toMidnight()!! == it.calendar.toMidnight()!! }
+		val dayInl = modelDays.find { calendar.toMidnight() == it.calendar.toMidnight() }
 
 		days.add(DayViewMdl(dayInl ?: DayInl(newCal)).apply {
 			this.onClick = {
@@ -106,7 +110,22 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 
 	fun notifyDataSetChanged() {
+		Inker.d { "notifyDataSetChanged-$position" }
 		compute()
 		loadMonth()
 	}
+
+	fun updateSelected(unselectedDays: List<Calendar>, selectedDays: List<Calendar>) {
+		Inker.d { "updateSelected-$position | unselectedDays: ${unselectedDays.map { it.toTimeDebug() }}" }
+		Inker.d { "updateSelected-$position | selectedDays: ${selectedDays.map { it.toTimeDebug() }}" }
+		Inker.d { "updateSelected-$position | filter using ${from?.toTimeDebug()}" }
+		selectedDays
+			.filter { it.year==from?.year }
+			.forEach { (adapter as CalendarDayAdapter).notifyItemChanged(it.positionOnList()) }
+		unselectedDays
+			.filter { it.year==from?.year }
+			.forEach { (adapter as CalendarDayAdapter).notifyItemChanged(it.positionOnList()) }
+	}
+
+	private fun Calendar.positionOnList() = dayOfYear-from!!.dayOfYear
 }

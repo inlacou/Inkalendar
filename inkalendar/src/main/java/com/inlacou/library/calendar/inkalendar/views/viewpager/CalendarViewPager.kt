@@ -11,7 +11,7 @@ import android.view.View
  */
 class CalendarViewPager
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
-	: androidx.viewpager.widget.ViewPager(context, attrs) {
+	: ViewPager(context, attrs) {
 
 	//This method is needed to get wrap_content height for ViewPager
 	override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

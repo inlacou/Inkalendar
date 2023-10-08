@@ -59,10 +59,12 @@ class CalendarPagerAdapter(
 	}
 
 	fun notifyDataSetChanged(complete: Boolean) {
-		gridViews.forEach {
-			it.notifyDataSetChanged()
-		}
+		gridViews.onEach { it.notifyDataSetChanged() }
 		if(complete) super.notifyDataSetChanged()
+	}
+
+	fun updateSelected(unselectedDays: List<Calendar>, selectedDays: List<Calendar>) {
+		gridViews.onEach { it.updateSelected(unselectedDays, selectedDays) }
 	}
 
 	companion object {

@@ -1,11 +1,12 @@
 package com.inlacou.library.calendar.calendarviewinl
 
-import com.inlacou.library.calendar.calendarviewinl.calendar.business.DayInl
-import com.inlacou.library.calendar.calendarviewinl.calendar.views.day.DayViewMdl
-import com.inlacou.library.calendar.calendarviewinl.calendar.dayOfYear
-import com.inlacou.library.calendar.calendarviewinl.calendar.immediatePreviousMonth
-import com.inlacou.library.calendar.calendarviewinl.calendar.toMidnight
-import com.inlacou.library.calendar.calendarviewinl.calendar.year
+import com.inlacou.library.calendar.inkalendar.business.DayInl
+import com.inlacou.library.calendar.inkalendar.dayOfYear
+import com.inlacou.library.calendar.inkalendar.immediatePreviousMonth
+import com.inlacou.library.calendar.inkalendar.toMidnight
+import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
+import com.inlacou.library.calendar.inkalendar.year
+
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -84,4 +85,5 @@ class ExampleUnitTest {
 		assert(!february1.immediatePreviousMonth(november0))
 		assert(!december1.immediatePreviousMonth(january1))
 	}
+
 }
