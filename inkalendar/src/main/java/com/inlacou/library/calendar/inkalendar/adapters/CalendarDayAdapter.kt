@@ -5,13 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.R
 import com.inlacou.library.calendar.inkalendar.month
 import com.inlacou.library.calendar.inkalendar.toMidnight
-import com.inlacou.library.calendar.inkalendar.toTimeDebug
 import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
-import com.inlacou.library.calendar.inkalendar.views.calendargrid.CalendarGridView
 import com.inlacou.library.calendar.inkalendar.views.day.DayView
 import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
 import java.lang.ref.WeakReference
@@ -38,7 +35,6 @@ internal class CalendarDayAdapter(
 
 	fun notifyItemChanged(position: Int) {
 		if(position<0 || position>=itemList.size) return
-		Inker.d { "notifyItemChanged($position)" }
 		views[position].get()?.model = getItem(position)!!.let {
 			it.isSelected = model.selectedDays.map { it.toMidnight() }.contains(it.model.calendar)
 			it.isCurrentMonth = isCurrentMonthDay(it.model.calendar)
@@ -47,7 +43,6 @@ internal class CalendarDayAdapter(
 	}
 
 	override fun getView(position: Int, v: View?, parent: ViewGroup): View {
-		Inker.d { "getView($position, ${if(v!=null) v::class.simpleName else "null"}, ${if(parent is CalendarGridView) "CalendarGridView-"+parent.position else parent::class.simpleName})" }
 		val view = v ?: mLayoutInflater.inflate(R.layout.inkalendar_adapter_view_day, parent, false).also { views.add(WeakReference(it as DayView)) }
 
 		val dayView = view.findViewById(R.id.view) as DayView

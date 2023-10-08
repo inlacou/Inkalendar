@@ -2,9 +2,7 @@ package com.inlacou.library.calendar.inkalendar.views.calendargrid
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.GridView
-import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.adapters.CalendarDayAdapter
 import com.inlacou.library.calendar.inkalendar.business.DayInl
@@ -37,7 +35,6 @@ class CalendarGridView @JvmOverloads constructor(
 	 * This method fill calendar GridView with default days
 	 */
 	fun loadMonth() {
-		Inker.d { "loadMonth-$position" }
 		adapter = CalendarDayAdapter(context, days, calendarModel, (calendarModel.today.clone() as Calendar).apply { add(Calendar.MONTH, position) }.month)
 	}
 
@@ -110,15 +107,11 @@ class CalendarGridView @JvmOverloads constructor(
 	}
 
 	fun notifyDataSetChanged() {
-		Inker.d { "notifyDataSetChanged-$position" }
 		compute()
 		loadMonth()
 	}
 
 	fun updateSelected(unselectedDays: List<Calendar>, selectedDays: List<Calendar>) {
-		Inker.d { "updateSelected-$position | unselectedDays: ${unselectedDays.map { it.toTimeDebug() }}" }
-		Inker.d { "updateSelected-$position | selectedDays: ${selectedDays.map { it.toTimeDebug() }}" }
-		Inker.d { "updateSelected-$position | filter using ${from?.toTimeDebug()}" }
 		selectedDays
 			.filter { it.year==from?.year }
 			.forEach { (adapter as CalendarDayAdapter).notifyItemChanged(it.positionOnList()) }

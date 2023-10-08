@@ -12,7 +12,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.ImageViewCompat
-import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.R
 import com.inlacou.library.calendar.inkalendar.toDay
 import com.inlacou.library.calendar.inkalendar.toTimeDebug
@@ -28,7 +27,6 @@ class DayView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
 	var model: DayViewMdl = DayViewMdl()
 		set(value) {
-			Inker.d { "setModel: ${value.model.calendar.toTimeDebug()} - ${value.isSelected}" }
 			field = value
 			controller.model = value
 			setListeners()
