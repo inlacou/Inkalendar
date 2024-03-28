@@ -2,6 +2,7 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/view_base_layout_surface"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
@@ -18,10 +19,10 @@
 		<ImageButton
 			android:id="@+id/btn_previous"
 			android:background="@color/inkalendar_btn_previous_background_color"
-			android:layout_width="85dp"
-			android:layout_height="wrap_content"
+			android:layout_width="@dimen/inkalendar_calendar_title_width"
+			android:layout_height="@dimen/inkalendar_calendar_title_height"
 			android:scaleType="centerInside"
-			android:src="@drawable/right_arrow_point_left"
+			android:src="@drawable/inkalendar_right_arrow_point_left"
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentStart="true"
 			android:layout_centerVertical="true" />
@@ -29,23 +30,25 @@
 		<ImageButton
 			android:id="@+id/btn_forward"
 			android:background="@color/inkalendar_btn_forward_background_color"
-			android:layout_width="85dp"
-			android:layout_height="wrap_content"
+			android:layout_width="@dimen/inkalendar_calendar_title_width"
+			android:layout_height="@dimen/inkalendar_calendar_title_height"
 			android:scaleType="centerInside"
-			android:src="@drawable/left_arrow_point_right"
+			android:src="@drawable/inkalendar_left_arrow_point_right"
 			android:layout_alignParentRight="true"
 			android:layout_alignParentEnd="true"
 			android:layout_centerVertical="true" />
 		
 		<TextView
 			android:id="@+id/currentDateLabel"
-			android:layout_width="0dp"
-			android:layout_height="56dp"
+			android:layout_width="wrap_content"
+			android:layout_height="@dimen/inkalendar_calendar_title_height"
 			android:gravity="center"
 			android:textColor="@color/inkalendar_text_current_date_color"
 			android:textSize="18sp"
 			android:layout_centerHorizontal="true"
-			android:layout_centerVertical="true"/>
+			android:layout_centerVertical="true"
+			tools:text="February"
+			/>
 	
 	
 	</RelativeLayout>
@@ -54,7 +57,7 @@
 	<LinearLayout
 		android:id="@+id/abbreviationsBar"
 		android:layout_width="match_parent"
-		android:layout_height="40dp"
+		android:layout_height="@dimen/inkalendar_days_title_row_height"
 		android:gravity="center_vertical"
 		android:orientation="horizontal">
 		

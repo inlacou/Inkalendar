@@ -1,0 +1,5 @@
+<resources>
+	<dimen name="inkalendar_days_title_row_height">40dp</dimen>
+	<dimen name="inkalendar_calendar_title_height">56dp</dimen>
+	<dimen name="inkalendar_calendar_title_width">85dp</dimen>
+</resources>
