@@ -8,15 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.business.Day
@@ -24,7 +17,6 @@ import com.inlacou.library.calendar.inkalendar.ui.Inkalendar
 import com.inlacou.library.calendar.inkalendar.ui.InkalendarMdl
 import kotlinx.coroutines.delay
 import java.time.LocalDate
-import java.util.ArrayList
 import kotlin.time.Duration.Companion.milliseconds
 
 class MainActivity : AppCompatActivity() {
@@ -39,30 +31,13 @@ class MainActivity : AppCompatActivity() {
 
 		setContent {
 			MaterialTheme {
-				val days = remember { mutableStateListOf<Day>() }
-				val selectedDays = remember { mutableStateListOf<LocalDate>(LocalDate.now()) }
-
-				val model = remember(days, selectedDays) {
-					InkalendarMdl(
-						today = LocalDate.now(),
-						mode = InkalendarMdl.Mode.SINGLE_SELECTION,
-						days = days,
-						selectedDays = selectedDays,
-						singleDaySelection = {
-							Toast.makeText(this, "selected ${it.dayOfMonth}, ${it.monthValue} of ${it.year}", Toast.LENGTH_SHORT).show()
-						},
-						onBackward = {
-							Toast.makeText(this, "onBackward ${it.monthValue} of ${it.year}", Toast.LENGTH_SHORT).show()
-						},
-						onForward = {
-							Toast.makeText(this, "onForward ${it.monthValue} of ${it.year}", Toast.LENGTH_SHORT).show()
-						},
-						onPageLoad = { fromTo ->
-							Toast.makeText(this,
-								"newPage from ${fromTo.first.dayOfMonth}/${fromTo.first.monthValue}/${fromTo.first.year} " +
-										"to ${fromTo.second.dayOfMonth}/${fromTo.second.monthValue}/${fromTo.second.year}",
-								Toast.LENGTH_SHORT).show()
-						}
+				var model by remember {
+					mutableStateOf(
+						InkalendarMdl(
+							today = LocalDate.now(),
+							mode = InkalendarMdl.Mode.SINGLE_SELECTION,
+							selectedDays = listOf(LocalDate.now()),
+						)
 					)
 				}
 
@@ -85,17 +60,31 @@ class MainActivity : AppCompatActivity() {
 						model = model,
 						onDayClick = { day ->
 							if (model.mode == InkalendarMdl.Mode.SINGLE_SELECTION) {
-								selectedDays.clear()
-								selectedDays.add(day)
-								model.singleDaySelection?.invoke(day)
+								model = model.copy(selectedDays = listOf(day))
+								Toast.makeText(this, "selected ${day.dayOfMonth}, ${day.monthValue} of ${day.year}", Toast.LENGTH_SHORT).show()
 							} else {
-								if (selectedDays.contains(day)) {
-									selectedDays.remove(day)
+								val newSelectedDays = if (model.selectedDays.contains(day)) {
+									model.selectedDays.filter { it != day }
 								} else {
-									selectedDays.add(day)
+									model.selectedDays + day
 								}
-								model.multiDaySelection?.invoke(selectedDays)
+								model = model.copy(selectedDays = newSelectedDays)
 							}
+						},
+						onForward = { date ->
+							Toast.makeText(this, "onForward ${date.monthValue} of ${date.year}", Toast.LENGTH_SHORT).show()
+						},
+						onBackward = { date ->
+							Toast.makeText(this, "onBackward ${date.monthValue} of ${date.year}", Toast.LENGTH_SHORT).show()
+						},
+						onPageLoad = { fromTo ->
+							Toast.makeText(this,
+								"newPage from ${fromTo.first.dayOfMonth}/${fromTo.first.monthValue}/${fromTo.first.year} " +
+										"to ${fromTo.second.dayOfMonth}/${fromTo.second.monthValue}/${fromTo.second.year}",
+								Toast.LENGTH_SHORT).show()
+						},
+						onPageChanged = { newPage ->
+							model = model.copy(currentPage = newPage)
 						}
 					)
 				}
@@ -104,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 					//Load data "asynchronously"
 					delay(3000.milliseconds)
 					val ts = System.currentTimeMillis()
-					val newDays = ArrayList<Day>()
+					val newDays = mutableListOf<Day>()
 					newDays.add(Day(date = LocalDate.now().plusDays(1), isEnabled = false))
 					newDays.add(Day(date = LocalDate.now().plusDays(2), isEnabled = false))
 					newDays.add(Day(date = LocalDate.now().plusDays(3), isEnabled = true))
@@ -115,14 +104,8 @@ class MainActivity : AppCompatActivity() {
 					newDays.add(Day(date = LocalDate.now().minusDays(29), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
 					newDays.add(Day(date = LocalDate.now().minusDays(27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
 
-					val startFrom = 1000L
-					for (i in 0..999) {
-						newDays.add(Day(date = LocalDate.now().plusDays(startFrom + i), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
-					}
+					model = model.copy(days = model.days + newDays)
 
-					days.addAll(newDays)
-
-					Inker.d { "INKER - added ${days.size} (from today+$startFrom) days to list: ${(System.currentTimeMillis()-ts).toTime()}" }
 					Toast.makeText(this@MainActivity, "loaded days asynchronously!", Toast.LENGTH_SHORT).show()
 				}
 			}

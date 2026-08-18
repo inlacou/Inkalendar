@@ -43,15 +43,28 @@ fun Inkalendar(
     modifier: Modifier = Modifier,
     model: InkalendarMdl,
     onDayClick: (LocalDate) -> Unit = {},
-    onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit = {}
+    onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit = {},
+    onForward: (LocalDate) -> Unit = {},
+    onBackward: (LocalDate) -> Unit = {},
+    onPageChanged: (Int) -> Unit = {}
 ) {
-    val pagerState = rememberPagerState(initialPage = InkalendarMdl.FIRST_VISIBLE_PAGE) {
+    val pagerState = rememberPagerState(initialPage = model.currentPage) {
         INKALENDAR_SIZE
     }
     val coroutineScope = rememberCoroutineScope()
 
     val currentMonthDate = remember(pagerState.currentPage, model.today) {
         model.today.plusMonths((pagerState.currentPage - InkalendarMdl.FIRST_VISIBLE_PAGE).toLong())
+    }
+
+    LaunchedEffect(pagerState.currentPage) {
+        val page = pagerState.currentPage
+        if (page > model.currentPage) {
+            onForward(currentMonthDate)
+        } else if (page < model.currentPage) {
+            onBackward(currentMonthDate)
+        }
+        onPageChanged(page)
     }
 
     Column(modifier = modifier) {
@@ -132,7 +145,7 @@ fun InkalendarMonthGrid(
     onDayClick: (LocalDate) -> Unit,
     onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit
 ) {
-    val days by remember(position, model.today) {
+    val days by remember(position, model) {
         derivedStateOf {
             computeDays(position, model)
         }
@@ -269,9 +282,11 @@ private fun computeDays(position: Int, calendarModel: InkalendarMdl): List<InkDa
         val dayInl = filteredDays.find { it.date == date }
         val isCurrentMonth = date.month == monthDate.month
         
-        val dayMdl = InkDayMdl(dayInl ?: Day(date))
-        dayMdl.isSelected = calendarModel.selectedDays.any { it == date }
-        dayMdl.isCurrentMonth = isCurrentMonth
+        val dayMdl = InkDayMdl(
+            model = dayInl ?: Day(date),
+            isSelected = calendarModel.selectedDays.any { it == date },
+            isCurrentMonth = isCurrentMonth
+        )
         days.add(dayMdl)
     }
 
