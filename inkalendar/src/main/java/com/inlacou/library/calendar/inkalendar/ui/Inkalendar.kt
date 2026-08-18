@@ -121,8 +121,10 @@ fun InkalendarMonthGrid(
     onDayClick: (LocalDate) -> Unit,
     onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit
 ) {
-    val days = remember(position, model.days, model.selectedDays, model.today) {
-        computeDays(position, model)
+    val days by remember(position, model.today) {
+        derivedStateOf {
+            computeDays(position, model)
+        }
     }
 
     LaunchedEffect(days) {
@@ -180,7 +182,7 @@ fun InkalendarDay(
     onClick: (InkDayMdl) -> Unit
 ) {
     val context = LocalContext.current
-    val alpha = if (dayMdl.isCurrentMonth) 1f else 0.12f
+    val alpha = if (dayMdl.isCurrentMonth) 1f else 0.3f // Increased alpha for better visibility
     
     val textColorRes = when {
         !dayMdl.model.isEnabled -> dayMdl.textDisabledColorResId
@@ -194,7 +196,7 @@ fun InkalendarDay(
     Box(
         modifier = Modifier
             .aspectRatio(1f)
-            .clickable(enabled = dayMdl.model.isEnabled && dayMdl.isCurrentMonth) {
+            .clickable(enabled = dayMdl.model.isEnabled) { // Enable click for all months
                 onClick(dayMdl)
             },
         contentAlignment = Alignment.Center
@@ -202,30 +204,42 @@ fun InkalendarDay(
         if (dayMdl.isSelected && dayMdl.selectedBackResId != null) {
             Surface(
                 shape = CircleShape,
-                color = MaterialTheme.colors.primary.copy(alpha = 0.2f),
-                modifier = Modifier.fillMaxSize(0.8f)
+                color = MaterialTheme.colors.primary.copy(alpha = if (dayMdl.isCurrentMonth) 0.2f else 0.1f),
+                modifier = Modifier.fillMaxSize(0.9f)
+            ) {}
+        }
+        if (dayMdl.model.isSpecial && dayMdl.specialTextBackColorResId != null) {
+            Surface(
+                shape = CircleShape,
+                color = colorResource(id = dayMdl.specialTextBackColorResId).copy(alpha = alpha * 0.5f),
+                modifier = Modifier.fillMaxSize(0.7f)
             ) {}
         }
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
             Text(
-                text = dayMdl.model.date.toDay(context),
+                text = dayMdl.model.date.dayOfMonth.toString(),
                 color = textColor.copy(alpha = alpha),
                 textAlign = TextAlign.Center,
-                fontSize = 14.sp
+                fontSize = 16.sp,
+                fontWeight = if (dayMdl.isSelected) FontWeight.Bold else FontWeight.Normal
             )
             
-            dayMdl.model.iconResId?.let { iconRes ->
+            if (dayMdl.model.iconResId != null) {
                 val tint = when {
                     dayMdl.model.colorResId != null -> colorResource(id = dayMdl.model.colorResId)
                     dayMdl.model.colorHex != null -> Color(dayMdl.model.colorHex.toColorInt())
-                    else -> null
+                    else -> LocalContentColor.current
                 }
                 Icon(
-                    painter = painterResource(id = iconRes),
+                    painter = painterResource(id = dayMdl.model.iconResId),
                     contentDescription = null,
-                    modifier = Modifier.size(12.dp).alpha(alpha),
-                    tint = tint ?: LocalContentColor.current
+                    modifier = Modifier.size(18.dp), // Adjusted size
+                    tint = tint.copy(alpha = alpha)
                 )
             }
         }
