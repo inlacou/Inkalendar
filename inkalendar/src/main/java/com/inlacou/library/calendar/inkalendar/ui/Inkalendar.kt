@@ -8,14 +8,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.inlacou.library.calendar.inkalendar.R
 import com.inlacou.library.calendar.inkalendar.business.Day
-import com.inlacou.library.calendar.inkalendar.toDay
 import com.inlacou.library.calendar.inkalendar.toMonthYear
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -106,14 +104,14 @@ fun InkalendarHeader(
             Icon(
                 imageVector = Icons.Default.KeyboardArrowLeft,
                 contentDescription = "Previous",
-                tint = MaterialTheme.colors.onSurface
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
         Text(
             text = date.toMonthYear(context),
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colors.onSurface,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center
         )
@@ -121,7 +119,7 @@ fun InkalendarHeader(
             Icon(
                 imageVector = Icons.Default.KeyboardArrowRight,
                 contentDescription = "Next",
-                tint = MaterialTheme.colors.onSurface
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -179,7 +177,7 @@ fun InkalendarWeekdayHeader() {
                 text = stringResource(id = resId),
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -191,7 +189,6 @@ fun InkalendarDay(
     dayMdl: InkDayMdl,
     onClick: (InkDayMdl) -> Unit
 ) {
-    val context = LocalContext.current
     val alpha = if (dayMdl.isCurrentMonth) 1f else 0.3f // Increased alpha for better visibility
     
     val textColorRes = when {
@@ -214,7 +211,7 @@ fun InkalendarDay(
         if (dayMdl.isSelected && dayMdl.selectedBackResId != null) {
             Surface(
                 shape = CircleShape,
-                color = MaterialTheme.colors.primary.copy(alpha = if (dayMdl.isCurrentMonth) 0.2f else 0.1f),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = if (dayMdl.isCurrentMonth) 0.2f else 0.1f),
                 modifier = Modifier.fillMaxSize(0.9f)
             ) {}
         }

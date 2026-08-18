@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -28,6 +30,7 @@ import kotlin.time.Duration.Companion.milliseconds
 class MainActivity : AppCompatActivity() {
 
 	@SuppressLint("CheckResult")
+	@OptIn(ExperimentalMaterial3Api::class)
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -65,10 +68,12 @@ class MainActivity : AppCompatActivity() {
 
 				Scaffold(
 					topBar = {
-						TopAppBar(
+						CenterAlignedTopAppBar(
 							title = { Text("Inkalendar") },
-							backgroundColor = MaterialTheme.colors.primary,
-							contentColor = MaterialTheme.colors.onPrimary,
+							colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+								containerColor = MaterialTheme.colorScheme.primary,
+								titleContentColor = MaterialTheme.colorScheme.onPrimary
+							),
 							modifier = Modifier.statusBarsPadding()
 						)
 					}
