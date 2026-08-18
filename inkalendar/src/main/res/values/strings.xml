@@ -23,6 +23,6 @@
 	</array>
 	
 	<string name="inkalendar_day_pattern">d</string>
-	<string name="inkalendar_month_year_pattern">MM yyyy</string>
-	<string name="inkalendar_month_as_text_year_pattern">MMM yyyy</string>
+	<string name="inkalendar_month_year_pattern">MMMM yyyy</string>
+	<string name="inkalendar_month_as_text_year_pattern">MMMM yyyy</string>
 </resources>

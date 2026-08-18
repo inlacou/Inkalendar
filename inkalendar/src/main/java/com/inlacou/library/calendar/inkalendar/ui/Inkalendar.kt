@@ -71,6 +71,8 @@ fun Inkalendar(
             }
         )
 
+        InkalendarWeekdayHeader()
+
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxWidth(),
@@ -96,20 +98,31 @@ fun InkalendarHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 8.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         IconButton(onClick = onPreviousClick) {
-            Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous")
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                contentDescription = "Previous",
+                tint = MaterialTheme.colors.onSurface
+            )
         }
         Text(
             text = date.toMonthYear(context),
             style = MaterialTheme.typography.h6,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colors.onSurface,
+            modifier = Modifier.weight(1f),
+            textAlign = TextAlign.Center
         )
         IconButton(onClick = onNextClick) {
-            Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next")
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowRight,
+                contentDescription = "Next",
+                tint = MaterialTheme.colors.onSurface
+            )
         }
     }
 }
@@ -133,21 +146,18 @@ fun InkalendarMonthGrid(
         }
     }
 
-    Column {
-        InkalendarWeekdayHeader()
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(7),
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(max = 400.dp)
-        ) {
-            items(count = days.size) { index: Int ->
-                val dayMdl = days[index]
-                InkalendarDay(
-                    dayMdl = dayMdl,
-                    onClick = { onDayClick(dayMdl.model.date) }
-                )
-            }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(7),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(max = 400.dp)
+    ) {
+        items(count = days.size) { index: Int ->
+            val dayMdl = days[index]
+            InkalendarDay(
+                dayMdl = dayMdl,
+                onClick = { onDayClick(dayMdl.model.date) }
+            )
         }
     }
 }
