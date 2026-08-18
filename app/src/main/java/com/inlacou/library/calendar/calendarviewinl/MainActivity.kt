@@ -20,11 +20,10 @@ import com.inlacou.inker.Inker
 import com.inlacou.library.calendar.inkalendar.business.Day
 import com.inlacou.library.calendar.inkalendar.ui.Inkalendar
 import com.inlacou.library.calendar.inkalendar.ui.InkalendarMdl
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 import java.util.ArrayList
-import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.milliseconds
 
 class MainActivity : AppCompatActivity() {
 
@@ -98,32 +97,28 @@ class MainActivity : AppCompatActivity() {
 
 				LaunchedEffect(Unit) {
 					//Load data "asynchronously"
-					io.reactivex.rxjava3.core.Observable.timer(3, TimeUnit.SECONDS)
-						.subscribeOn(Schedulers.newThread())
-						.observeOn(AndroidSchedulers.mainThread())
-						.subscribe {
-							val ts = System.currentTimeMillis()
-							val newDays = ArrayList<Day>()
-							newDays.add(Day(date = LocalDate.now().plusDays(1), isEnabled = false))
-							newDays.add(Day(date = LocalDate.now().plusDays(2), isEnabled = false))
-							newDays.add(Day(date = LocalDate.now().plusDays(3), isEnabled = true))
-							newDays.add(Day(date = LocalDate.now().plusDays(4), isSpecial = true))
-							newDays.add(Day(date = LocalDate.now().plusDays(6), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
-							newDays.add(Day(date = LocalDate.now().plusDays(8), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-							newDays.add(Day(date = LocalDate.now().minusDays(28), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-							newDays.add(Day(date = LocalDate.now().minusDays(29), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-							newDays.add(Day(date = LocalDate.now().minusDays(27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+					delay(3000.milliseconds)
+					val ts = System.currentTimeMillis()
+					val newDays = ArrayList<Day>()
+					newDays.add(Day(date = LocalDate.now().plusDays(1), isEnabled = false))
+					newDays.add(Day(date = LocalDate.now().plusDays(2), isEnabled = false))
+					newDays.add(Day(date = LocalDate.now().plusDays(3), isEnabled = true))
+					newDays.add(Day(date = LocalDate.now().plusDays(4), isSpecial = true))
+					newDays.add(Day(date = LocalDate.now().plusDays(6), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
+					newDays.add(Day(date = LocalDate.now().plusDays(8), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+					newDays.add(Day(date = LocalDate.now().minusDays(28), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+					newDays.add(Day(date = LocalDate.now().minusDays(29), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+					newDays.add(Day(date = LocalDate.now().minusDays(27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
 
-							val startFrom = 1000L
-							for (i in 0..999) {
-								newDays.add(Day(date = LocalDate.now().plusDays(startFrom + i), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
-							}
+					val startFrom = 1000L
+					for (i in 0..999) {
+						newDays.add(Day(date = LocalDate.now().plusDays(startFrom + i), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
+					}
 
-							days.addAll(newDays)
+					days.addAll(newDays)
 
-							Inker.d { "INKER - added ${days.size} (from today+$startFrom) days to list: ${(System.currentTimeMillis()-ts).toTime()}" }
-							Toast.makeText(this@MainActivity, "loaded days asynchronously!", Toast.LENGTH_SHORT).show()
-						}
+					Inker.d { "INKER - added ${days.size} (from today+$startFrom) days to list: ${(System.currentTimeMillis()-ts).toTime()}" }
+					Toast.makeText(this@MainActivity, "loaded days asynchronously!", Toast.LENGTH_SHORT).show()
 				}
 			}
 		}

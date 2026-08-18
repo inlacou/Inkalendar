@@ -2,9 +2,6 @@
 
 buildscript {
     ext.kotlin_version = '1.9.10'
-    ext.rxandroid = "3.0.2"
-    ext.rxjava = "3.1.6"
-    ext.rxkotlin = "3.0.1"
 
     repositories {
         mavenCentral()
