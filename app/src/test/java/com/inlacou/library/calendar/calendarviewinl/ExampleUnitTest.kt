@@ -1,10 +1,10 @@
 package com.inlacou.library.calendar.calendarviewinl
 
-import com.inlacou.library.calendar.inkalendar.business.DayInl
+import com.inlacou.library.calendar.inkalendar.business.Day
 import com.inlacou.library.calendar.inkalendar.dayOfYear
 import com.inlacou.library.calendar.inkalendar.immediatePreviousMonth
 import com.inlacou.library.calendar.inkalendar.toMidnight
-import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
+import com.inlacou.library.calendar.inkalendar.ui.InkDayMdl
 import com.inlacou.library.calendar.inkalendar.year
 
 import org.junit.Test
@@ -39,12 +39,12 @@ class ExampleUnitTest {
 	@Test
 	fun dayViewModel_equality() {
 		val now = Calendar.getInstance()
-		val now1 = DayViewMdl(DayInl(now))
-		val now2 = DayViewMdl(DayInl(now))
+		val now1 = InkDayMdl(Day(now))
+		val now2 = InkDayMdl(Day(now))
 		val tomorrow = Calendar.getInstance()
 		tomorrow.add(Calendar.DAY_OF_YEAR, 1)
-		val tomorrow1 = DayViewMdl(DayInl(tomorrow))
-		val tomorrow2 = DayViewMdl(DayInl(tomorrow))
+		val tomorrow1 = InkDayMdl(Day(tomorrow))
+		val tomorrow2 = InkDayMdl(Day(tomorrow))
 
 		assert(now1==now2)
 		assert(tomorrow1==tomorrow2)

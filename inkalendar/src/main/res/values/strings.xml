@@ -22,7 +22,7 @@
 		<item>December</item>
 	</array>
 	
-	<string name="inkalendar_day">%1$td</string>
-	<string name="inkalendar_month_year">%1$tm %1$tY</string>
-	<string name="inkalendar_month_as_text_year">%1$tb. %1$tY</string>
+	<string name="inkalendar_day_pattern">d</string>
+	<string name="inkalendar_month_year_pattern">MM yyyy</string>
+	<string name="inkalendar_month_as_text_year_pattern">MMM yyyy</string>
 </resources>

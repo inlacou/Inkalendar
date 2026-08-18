@@ -11,15 +11,14 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.inlacou.inker.Inker
-import com.inlacou.library.calendar.inkalendar.*
-import com.inlacou.library.calendar.inkalendar.business.DayInl
-import com.inlacou.library.calendar.inkalendar.compose.Inkalendar
-import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
+import com.inlacou.library.calendar.inkalendar.business.Day
+import com.inlacou.library.calendar.inkalendar.ui.Inkalendar
+import com.inlacou.library.calendar.inkalendar.ui.InkalendarMdl
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
+import java.time.LocalDate
 import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,28 +30,28 @@ class MainActivity : AppCompatActivity() {
 		Inker.d { "INKER - ---------------------------------------------------" }
 
 		setContent {
-			val days = remember { mutableStateListOf<DayInl>() }
-			val selectedDays = remember { mutableStateListOf<Calendar>(Calendar.getInstance().toMidnight()) }
+			val days = remember { mutableStateListOf<Day>() }
+			val selectedDays = remember { mutableStateListOf<LocalDate>(LocalDate.now()) }
 
 			val model = remember(days, selectedDays) {
 				InkalendarMdl(
-					today = Calendar.getInstance().toMidnight(),
+					today = LocalDate.now(),
 					mode = InkalendarMdl.Mode.SINGLE_SELECTION,
 					days = days,
 					selectedDays = selectedDays,
 					singleDaySelection = {
-						Toast.makeText(this, "selected ${it.dayOfMonth}, ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
+						Toast.makeText(this, "selected ${it.dayOfMonth}, ${it.monthValue} of ${it.year}", Toast.LENGTH_SHORT).show()
 					},
 					onBackward = {
-						Toast.makeText(this, "onBackward ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
+						Toast.makeText(this, "onBackward ${it.monthValue} of ${it.year}", Toast.LENGTH_SHORT).show()
 					},
 					onForward = {
-						Toast.makeText(this, "onForward ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
+						Toast.makeText(this, "onForward ${it.monthValue} of ${it.year}", Toast.LENGTH_SHORT).show()
 					},
 					onPageLoad = { fromTo ->
 						Toast.makeText(this,
-							"newPage from ${fromTo.first.dayOfMonth}/${fromTo.first.month}/${fromTo.first.year} " +
-									"to ${fromTo.second.dayOfMonth}/${fromTo.second.month}/${fromTo.second.year}",
+							"newPage from ${fromTo.first.dayOfMonth}/${fromTo.first.monthValue}/${fromTo.first.year} " +
+									"to ${fromTo.second.dayOfMonth}/${fromTo.second.monthValue}/${fromTo.second.year}",
 							Toast.LENGTH_SHORT).show()
 					}
 				)
@@ -67,16 +66,11 @@ class MainActivity : AppCompatActivity() {
 						selectedDays.add(day)
 						model.singleDaySelection?.invoke(day)
 					} else {
-						var found = false
-						val iterator = selectedDays.iterator()
-						while(iterator.hasNext()){
-							if(iterator.next().toMidnight() == day.toMidnight()){
-								iterator.remove()
-								found = true
-								break
-							}
+						if (selectedDays.contains(day)) {
+							selectedDays.remove(day)
+						} else {
+							selectedDays.add(day)
 						}
-						if(!found) selectedDays.add(day)
 						model.multiDaySelection?.invoke(selectedDays)
 					}
 				}
@@ -89,23 +83,20 @@ class MainActivity : AppCompatActivity() {
 					.observeOn(AndroidSchedulers.mainThread())
 					.subscribe {
 						val ts = System.currentTimeMillis()
-						val newDays = ArrayList<DayInl>()
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(1), isEnabled = false))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(2), isEnabled = false))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(3), isEnabled = true))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(-28), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(-29), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
-						newDays.add(DayInl(calendar = Calendar.getInstance().addDays(-38), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+						val newDays = ArrayList<Day>()
+						newDays.add(Day(date = LocalDate.now().plusDays(1), isEnabled = false))
+						newDays.add(Day(date = LocalDate.now().plusDays(2), isEnabled = false))
+						newDays.add(Day(date = LocalDate.now().plusDays(3), isEnabled = true))
+						newDays.add(Day(date = LocalDate.now().plusDays(4), isSpecial = true))
+						newDays.add(Day(date = LocalDate.now().plusDays(6), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
+						newDays.add(Day(date = LocalDate.now().plusDays(8), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+						newDays.add(Day(date = LocalDate.now().minusDays(28), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+						newDays.add(Day(date = LocalDate.now().minusDays(29), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+						newDays.add(Day(date = LocalDate.now().minusDays(27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
 
-						val startFrom = 1000
+						val startFrom = 1000L
 						for (i in 0..999) {
-							newDays.add(DayInl(calendar = Calendar.getInstance().addDays(startFrom + i), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
+							newDays.add(Day(date = LocalDate.now().plusDays(startFrom + i), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
 						}
 
 						days.addAll(newDays)

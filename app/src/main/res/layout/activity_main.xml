@@ -6,7 +6,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
-	<com.inlacou.library.calendar.inkalendar.views.calendar.Inkalendar
+	<com.inlacou.library.calendar.inkalendar.ui.calendar.Inkalendar
 		android:id="@+id/calendarView"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>

@@ -1,118 +1,34 @@
 package com.inlacou.library.calendar.inkalendar
 
 import android.content.Context
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
-var Calendar.year: Int
-		set(value) = set(Calendar.YEAR, value)
-		get() = get(Calendar.YEAR)
-var Calendar.month: Int
-		set(value) = set(Calendar.MONTH, value)
-		get() = get(Calendar.MONTH)
-var Calendar.dayOfYear: Int
-		set(value) = set(Calendar.DAY_OF_YEAR, value)
-		get() = get(Calendar.DAY_OF_YEAR)
-var Calendar.dayOfMonth: Int
-		set(value) = set(Calendar.DAY_OF_MONTH, value)
-		get() = get(Calendar.DAY_OF_MONTH)
-var Calendar.dayOfWeek: Int
-		set(value) = set(Calendar.DAY_OF_WEEK, value)
-		get() = get(Calendar.DAY_OF_WEEK)
+fun LocalDate.sameYearAndMonth(other: LocalDate): Boolean = 
+    year == other.year && month == other.month
 
-/**
- * This method sets an hour in the calendar object to 00:00:00:000
- *
- * @receiver [Calendar] which hour should be set to 00:00:00:000
- */
-fun Calendar.toMidnight(): Calendar {
-	this.let {
-		set(Calendar.HOUR_OF_DAY, 0)
-		set(Calendar.MINUTE, 0)
-		set(Calendar.SECOND, 0)
-		set(Calendar.MILLISECOND, 0)
-	}
-	return this
+fun LocalDate?.isMonthBefore(other: LocalDate): Boolean {
+    if (this == null) return false
+    return this.withDayOfMonth(1).isBefore(other.withDayOfMonth(1))
 }
 
-/**
- * This checks if this is immediatePreviousMonth to passed calendar.
- *
- * @param calendar that must be directly posterior to this
- */
-fun Calendar.immediatePreviousMonth(postCalendar: Calendar): Boolean {
-	if(postCalendar.before(this)) return false
-	val prevMonth = month
-	var postMonth = postCalendar.month
-	if(postMonth==0) postMonth += 12
-	return postMonth-prevMonth==1
+fun LocalDate?.isMonthAfter(other: LocalDate): Boolean {
+    if (this == null) return false
+    return this.withDayOfMonth(1).isAfter(other.withDayOfMonth(1))
 }
 
-fun Calendar.sameYearAndMonth(post: Calendar): Boolean = year==post.year && month==post.month
-
-/**
- * This method compares calendars using month and year
- *
- * @param this  First calendar object to compare
- * @param calendar Second calendar object to compare
- * @return Boolean value if second calendar is before the first one
- */
-fun Calendar?.isMonthBefore(calendar: Calendar): Boolean {
-	if (this == null) {
-		return false
-	}
-
-	val firstDay = this.clone() as Calendar
-	firstDay.toMidnight()
-	firstDay.set(Calendar.DAY_OF_MONTH, 1)
-	val secondDay = calendar.clone() as Calendar
-	secondDay.toMidnight()
-	secondDay.set(Calendar.DAY_OF_MONTH, 1)
-
-	return secondDay.before(firstDay)
+fun LocalDate.toDay(context: Context): String {
+    val formatter = DateTimeFormatter.ofPattern(context.getString(R.string.inkalendar_day_pattern))
+    return this.format(formatter)
 }
 
-fun Calendar.addDays(number: Int): Calendar {
-	this.add(Calendar.DAY_OF_YEAR, number)
-	return this
+fun LocalDate.toMonthYear(context: Context, monthAsText: Boolean = true): String {
+    val pattern = if (monthAsText) {
+        context.getString(R.string.inkalendar_month_as_text_year_pattern)
+    } else {
+        context.getString(R.string.inkalendar_month_year_pattern)
+    }
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    return this.format(formatter)
 }
-
-fun Calendar.addMonths(number: Int): Calendar {
-	this.add(Calendar.MONTH, number)
-	return this
-}
-
-fun Calendar.addYears(number: Int): Calendar {
-	this.add(Calendar.YEAR, number)
-	return this
-}
-
-internal fun Calendar.toTimeDebug() = "$year/${month+1}/$dayOfMonth"
-
-/**
- * This method compares calendars using month and year
- *
- * @param this  First calendar object to compare
- * @param calendar Second calendar object to compare
- * @return Boolean value if second calendar is after the first one
- */
-fun Calendar?.isMonthAfter(calendar: Calendar): Boolean {
-	if (this == null) {
-		return false
-	}
-
-	val firstDay = this.clone() as Calendar
-	firstDay.toMidnight()
-	firstDay.set(Calendar.DAY_OF_MONTH, 1)
-	val secondDay = calendar.clone() as Calendar
-	secondDay.toMidnight()
-	secondDay.set(Calendar.DAY_OF_MONTH, 1)
-
-	return secondDay.after(firstDay)
-}
-
-fun Long?.toDay(context: Context): String = context.getString(R.string.inkalendar_day, this)
-
-fun Long?.toMonthYear(context: Context, monthAsText: Boolean = true): String =
-	if(monthAsText) context.getString(R.string.inkalendar_month_as_text_year, this)
-	else context.getString(R.string.inkalendar_month_year, this)
-
