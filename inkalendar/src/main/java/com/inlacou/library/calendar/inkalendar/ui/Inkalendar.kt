@@ -48,9 +48,10 @@ fun Inkalendar(
     onBackward: (LocalDate) -> Unit = {},
     onPageChanged: (Int) -> Unit = {}
 ) {
-    val pagerState = rememberPagerState(initialPage = model.currentPage) {
-        INKALENDAR_SIZE
-    }
+    val pagerState = rememberPagerState(
+        initialPage = model.currentPage,
+        pageCount = { INKALENDAR_SIZE }
+    )
     val coroutineScope = rememberCoroutineScope()
 
     val currentMonthDate = remember(pagerState.currentPage, model.today) {
@@ -275,8 +276,12 @@ private fun computeDays(position: Int, calendarModel: InkalendarMdl): List<InkDa
     val daysFromPreviousMonth = dayOfWeek - 1
     
     var startDate = firstDayOfMonth.minusDays(daysFromPreviousMonth.toLong())
-    
-    val filteredDays = calendarModel.days.filter { it.date.isAfter(startDate.minusDays(1)) && it.date.isBefore(startDate.plusDays(43)) }
+
+    val start = startDate.minusDays(1)
+    val end = startDate.plusDays(43)
+    val filteredDays = calendarModel.days.filter {
+        it.date.isAfter(start) && it.date.isBefore(end)
+    }
 
     fun addDay(date: LocalDate) {
         val dayInl = filteredDays.find { it.date == date }
