@@ -1,10 +1,8 @@
 package com.inlacou.library.calendar.inkalendar.views.calendar
 
-import android.util.Log
 import com.inlacou.library.calendar.inkalendar.*
 import com.inlacou.library.calendar.inkalendar.views.day.DayViewMdl
 import java.util.*
-
 
 class InkalendarCtrl(val view: Inkalendar, var model: InkalendarMdl) {
 

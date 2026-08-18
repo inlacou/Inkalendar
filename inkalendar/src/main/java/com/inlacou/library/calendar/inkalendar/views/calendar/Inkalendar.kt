@@ -13,6 +13,7 @@ import com.inlacou.library.calendar.inkalendar.adapters.CalendarPagerAdapter
 import com.inlacou.library.calendar.inkalendar.views.viewpager.CalendarViewPager
 import java.util.*
 
+@Deprecated("No longer supported although it may work. Use it at your own risk. InkCalendarCompose is now the way to go.")
 open class Inkalendar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
 	: LinearLayout(context, attrs, defStyleAttr) {
 
