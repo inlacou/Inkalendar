@@ -42,10 +42,9 @@ fun Inkalendar(
     modifier: Modifier = Modifier,
     model: InkalendarMdl,
     onDayClick: (LocalDate) -> Unit = {},
-    onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit = {},
     onForward: (LocalDate) -> Unit = {},
     onBackward: (LocalDate) -> Unit = {},
-    onPageChanged: (Int) -> Unit = {}
+    onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
         initialPage = model.currentPage,
@@ -64,7 +63,11 @@ fun Inkalendar(
         } else if (page < model.currentPage) {
             onBackward(currentMonthDate)
         }
-        onPageChanged(page)
+
+        val days = computeDays(page - InkalendarMdl.FIRST_VISIBLE_PAGE, model)
+        if (days.isNotEmpty()) {
+            onPageLoad(Pair(days.first().model.date, days.last().model.date))
+        }
     }
 
     Column(modifier = modifier) {
@@ -92,8 +95,7 @@ fun Inkalendar(
             InkalendarMonthGrid(
                 position = page - InkalendarMdl.FIRST_VISIBLE_PAGE,
                 model = model,
-                onDayClick = onDayClick,
-                onPageLoad = onPageLoad
+                onDayClick = onDayClick
             )
         }
     }
@@ -142,18 +144,11 @@ fun InkalendarHeader(
 fun InkalendarMonthGrid(
     position: Int,
     model: InkalendarMdl,
-    onDayClick: (LocalDate) -> Unit,
-    onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit
+    onDayClick: (LocalDate) -> Unit
 ) {
     val days by remember(position, model) {
         derivedStateOf {
             computeDays(position, model)
-        }
-    }
-
-    LaunchedEffect(days) {
-        if (days.isNotEmpty()) {
-            onPageLoad(Pair(days.first().model.date, days.last().model.date))
         }
     }
 

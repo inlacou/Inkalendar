@@ -83,9 +83,6 @@ class MainActivity : AppCompatActivity() {
 										"to ${fromTo.second.dayOfMonth}/${fromTo.second.monthValue}/${fromTo.second.year}",
 								Toast.LENGTH_SHORT).show()
 						},
-						onPageChanged = { newPage ->
-							model = model.copy(currentPage = newPage)
-						}
 					)
 				}
 
