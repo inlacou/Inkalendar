@@ -37,7 +37,6 @@ import androidx.core.graphics.toColorInt
  */
 const val INKALENDAR_SIZE = 2401
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Inkalendar(
     modifier: Modifier = Modifier,
