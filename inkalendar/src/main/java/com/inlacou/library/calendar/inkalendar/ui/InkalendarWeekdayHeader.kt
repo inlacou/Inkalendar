@@ -25,7 +25,7 @@ fun InkalendarWeekdayHeader() {
         R.string.inkalendar_saturday,
         R.string.inkalendar_sunday
     )
-    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 1.dp)) {
         weekdays.forEach { resId ->
             Text(
                 text = stringResource(id = resId),
