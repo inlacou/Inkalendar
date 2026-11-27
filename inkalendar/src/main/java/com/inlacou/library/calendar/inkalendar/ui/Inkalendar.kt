@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.inlacou.library.calendar.inkalendar.R
@@ -107,198 +108,17 @@ fun Inkalendar(
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun InkalendarHeader(
-    date: LocalDate,
-    onPreviousClick: () -> Unit,
-    onNextClick: () -> Unit
-) {
-    val context = LocalContext.current
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        IconButton(onClick = onPreviousClick) {
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowLeft,
-                contentDescription = "Previous",
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
-        Text(
-            text = date.toMonthYear(context),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center
-        )
-        IconButton(onClick = onNextClick) {
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowRight,
-                contentDescription = "Next",
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
-    }
-}
-
-@Composable
-fun InkalendarMonthGrid(
-    position: Int,
-    model: InkalendarMdl,
-    onDayClick: (LocalDate) -> Unit
-) {
-    val days by remember(position, model) {
-        derivedStateOf {
-            computeDays(position, model)
-        }
-    }
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(7),
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(max = 400.dp)
-    ) {
-        items(count = days.size) { index: Int ->
-            val dayMdl = days[index]
-            InkalendarDay(
-                dayMdl = dayMdl,
-                onClick = { onDayClick(dayMdl.model.date) }
-            )
-        }
-    }
-}
-
-@Composable
-fun InkalendarWeekdayHeader() {
-    val weekdays = listOf(
-        R.string.inkalendar_monday,
-        R.string.inkalendar_tuesday,
-        R.string.inkalendar_wednesday,
-        R.string.inkalendar_thursday,
-        R.string.inkalendar_friday,
-        R.string.inkalendar_saturday,
-        R.string.inkalendar_sunday
-    )
-    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-        weekdays.forEach { resId ->
-            Text(
-                text = stringResource(id = resId),
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-}
-
-@Composable
-fun InkalendarDay(
-    dayMdl: InkDayMdl,
-    onClick: (InkDayMdl) -> Unit
-) {
-    val alpha = if (dayMdl.isCurrentMonth) 1f else 0.3f // Increased alpha for better visibility
-    
-    val textColorRes = when {
-        !dayMdl.model.isEnabled -> dayMdl.textDisabledColorResId
-        dayMdl.isSelected -> dayMdl.textSelectedColorResId
-        dayMdl.model.isSpecial -> dayMdl.textSpecialColorResId
-        !dayMdl.isCurrentMonth -> dayMdl.textDisabledOtherMonthColorResId
-        else -> dayMdl.textNormalColorResId
-    }
-    val textColor = colorResource(id = textColorRes)
-
-    Box(
-        modifier = Modifier
-            .aspectRatio(1f)
-            .clickable(enabled = dayMdl.model.isEnabled) { // Enable click for all months
-                onClick(dayMdl)
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        if (dayMdl.isSelected && dayMdl.selectedBackResId != null) {
-            Surface(
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.primary.copy(alpha = if (dayMdl.isCurrentMonth) 0.2f else 0.1f),
-                modifier = Modifier.fillMaxSize(0.9f)
-            ) {}
-        }
-        if (dayMdl.model.isSpecial && dayMdl.specialTextBackColorResId != null) {
-            Surface(
-                shape = CircleShape,
-                color = colorResource(id = dayMdl.specialTextBackColorResId).copy(alpha = alpha * 0.5f),
-                modifier = Modifier.fillMaxSize(0.7f)
-            ) {}
-        }
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = dayMdl.model.date.dayOfMonth.toString(),
-                color = textColor.copy(alpha = alpha),
-                textAlign = TextAlign.Center,
-                fontSize = 16.sp,
-                fontWeight = if (dayMdl.isSelected) FontWeight.Bold else FontWeight.Normal
-            )
-            
-            if (dayMdl.model.iconResId != null) {
-                val tint = when {
-                    dayMdl.model.colorResId != null -> colorResource(id = dayMdl.model.colorResId)
-                    dayMdl.model.colorHex != null -> Color(dayMdl.model.colorHex.toColorInt())
-                    else -> LocalContentColor.current
-                }
-                Icon(
-                    painter = painterResource(id = dayMdl.model.iconResId),
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp), // Adjusted size
-                    tint = tint.copy(alpha = alpha)
+fun InkalendarPreview() {
+    MaterialTheme {
+        Surface(modifier = Modifier.fillMaxWidth()) {
+            Inkalendar(
+                model = InkalendarMdl(
+                    today = LocalDate.now(),
+                    selectedDays = listOf(LocalDate.now())
                 )
-            }
+            )
         }
     }
-}
-
-private fun computeDays(position: Int, calendarModel: InkalendarMdl): List<InkDayMdl> {
-    val days = mutableListOf<InkDayMdl>()
-    val monthDate = calendarModel.today.plusMonths(position.toLong()).withDayOfMonth(1)
-    
-    val firstDayOfMonth = monthDate.withDayOfMonth(1)
-    val dayOfWeek = firstDayOfMonth.dayOfWeek.value // Monday=1, ..., Sunday=7
-    val daysFromPreviousMonth = dayOfWeek - 1
-    
-    var startDate = firstDayOfMonth.minusDays(daysFromPreviousMonth.toLong())
-
-    val start = startDate.minusDays(1)
-    val end = startDate.plusDays(43)
-    val filteredDays = calendarModel.days.filter {
-        it.date.isAfter(start) && it.date.isBefore(end)
-    }
-
-    fun addDay(date: LocalDate) {
-        val dayInl = filteredDays.find { it.date == date }
-        val isCurrentMonth = date.month == monthDate.month
-        
-        val dayMdl = InkDayMdl(
-            model = dayInl ?: Day(date),
-            isSelected = calendarModel.selectedDays.any { it == date },
-            isCurrentMonth = isCurrentMonth
-        )
-        days.add(dayMdl)
-    }
-
-    for (i in 0 until 42) {
-        addDay(startDate)
-        startDate = startDate.plusDays(1)
-    }
-    
-    return days
 }
