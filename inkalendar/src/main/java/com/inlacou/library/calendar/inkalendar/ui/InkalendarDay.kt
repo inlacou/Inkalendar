@@ -1,10 +1,12 @@
 package com.inlacou.library.calendar.inkalendar.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -48,8 +50,7 @@ fun InkalendarDay(
 
     Box(
         modifier = Modifier
-            .aspectRatio(1f)
-            .clip(CircleShape)
+            .aspectRatio(1.2f)
             .clickable(enabled = dayMdl.model.isEnabled) { // Enable click for all months
                 onClick(dayMdl)
             },
@@ -59,21 +60,27 @@ fun InkalendarDay(
             Surface(
                 shape = CircleShape,
                 color = colors.selectedDayBackgroundColor.copy(alpha = if (dayMdl.isCurrentMonth) colors.selectedDayBackgroundColor.alpha else colors.selectedDayBackgroundColor.alpha * 0.5f),
-                modifier = Modifier.fillMaxSize(0.9f)
+                modifier = Modifier
+                    .fillMaxHeight(0.9f)
+                    .aspectRatio(1f)
             ) {}
         }
         if (dayMdl.model.isSpecial) {
             Surface(
                 shape = CircleShape,
                 color = colors.specialTextBackgroundColor.copy(alpha = alpha * 0.5f),
-                modifier = Modifier.fillMaxSize(0.7f)
+                modifier = Modifier
+                    .fillMaxHeight(0.7f)
+                    .aspectRatio(1f)
             ) {}
         }
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
-            modifier = Modifier.fillMaxSize().padding(top = 6.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                //.padding(top = 6.dp)
         ) {
             Text(
                 text = dayMdl.model.date.dayOfMonth.toString(),
