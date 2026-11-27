@@ -13,11 +13,7 @@ data class InkalendarMdl(
 	val minimumDate: LocalDate? = null,
 	val maximumDate: LocalDate? = null,
 	val mode: Mode = Mode.MULTIPLE_SELECTION,
-	val currentPage: Int = FIRST_VISIBLE_PAGE
 ) {
-	companion object {
-		const val FIRST_VISIBLE_PAGE = INKALENDAR_SIZE / 2
-	}
 	enum class Mode {
 		SINGLE_SELECTION, MULTIPLE_SELECTION //TODO: NO_SELECTION, RANGE_SELECTION
 	}

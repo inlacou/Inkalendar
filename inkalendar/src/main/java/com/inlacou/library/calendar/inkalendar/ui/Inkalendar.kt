@@ -36,6 +36,7 @@ import androidx.core.graphics.toColorInt
  * 2401 months means 1200 months (100 years) before and 1200 months (100 years) after the today month
  */
 const val INKALENDAR_SIZE = 2401
+const val FIRST_VISIBLE_PAGE = INKALENDAR_SIZE / 2
 
 @Composable
 fun Inkalendar(
@@ -47,24 +48,27 @@ fun Inkalendar(
     onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
-        initialPage = model.currentPage,
+        initialPage = FIRST_VISIBLE_PAGE,
         pageCount = { INKALENDAR_SIZE }
     )
     val coroutineScope = rememberCoroutineScope()
 
+    var lastPage by remember { mutableIntStateOf(FIRST_VISIBLE_PAGE) }
+
     val currentMonthDate = remember(pagerState.currentPage, model.today) {
-        model.today.plusMonths((pagerState.currentPage - InkalendarMdl.FIRST_VISIBLE_PAGE).toLong())
+        model.today.plusMonths((pagerState.currentPage - FIRST_VISIBLE_PAGE).toLong())
     }
 
     LaunchedEffect(pagerState.currentPage) {
         val page = pagerState.currentPage
-        if (page > model.currentPage) {
+        if (page > lastPage) {
             onForward(currentMonthDate)
-        } else if (page < model.currentPage) {
+        } else if (page < lastPage) {
             onBackward(currentMonthDate)
         }
+        lastPage = page
 
-        val days = computeDays(page - InkalendarMdl.FIRST_VISIBLE_PAGE, model)
+        val days = computeDays(page - FIRST_VISIBLE_PAGE, model)
         if (days.isNotEmpty()) {
             onPageLoad(Pair(days.first().model.date, days.last().model.date))
         }
@@ -93,7 +97,7 @@ fun Inkalendar(
             verticalAlignment = Alignment.Top
         ) { page ->
             InkalendarMonthGrid(
-                position = page - InkalendarMdl.FIRST_VISIBLE_PAGE,
+                position = page - FIRST_VISIBLE_PAGE,
                 model = model,
                 onDayClick = onDayClick
             )
