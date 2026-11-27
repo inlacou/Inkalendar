@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 		Inker.d { "INKER - ---------------------------------------------------" }
 
 		setContent {
-			MaterialTheme {
+			CalendarViewInlTheme {
 				var model by remember {
 					mutableStateOf(
 						InkalendarMdl(

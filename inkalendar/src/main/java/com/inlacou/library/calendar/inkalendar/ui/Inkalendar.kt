@@ -43,6 +43,7 @@ const val FIRST_VISIBLE_PAGE = INKALENDAR_SIZE / 2
 fun Inkalendar(
     modifier: Modifier = Modifier,
     model: InkalendarMdl,
+    colors: InkalendarColors = InkalendarDefaults.colors(),
     onDayClick: (LocalDate) -> Unit = {},
     onForward: (LocalDate) -> Unit = {},
     onBackward: (LocalDate) -> Unit = {},
@@ -102,6 +103,7 @@ fun Inkalendar(
             InkalendarMonthGrid(
                 position = page - FIRST_VISIBLE_PAGE,
                 model = model,
+                colors = colors,
                 onDayClick = onDayClick
             )
         }

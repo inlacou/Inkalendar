@@ -32,18 +32,18 @@ import java.time.LocalDate
 @Composable
 fun InkalendarDay(
     dayMdl: InkDayMdl,
+    colors: InkalendarColors = InkalendarDefaults.colors(),
     onClick: (InkDayMdl) -> Unit
 ) {
     val alpha = if (dayMdl.isCurrentMonth) 1f else 0.3f // Increased alpha for better visibility
     
-    val textColorRes = when {
-        !dayMdl.model.isEnabled -> dayMdl.textDisabledColorResId
-        dayMdl.isSelected -> dayMdl.textSelectedColorResId
-        dayMdl.model.isSpecial -> dayMdl.textSpecialColorResId
-        !dayMdl.isCurrentMonth -> dayMdl.textDisabledOtherMonthColorResId
-        else -> dayMdl.textNormalColorResId
+    val textColor = when {
+        !dayMdl.model.isEnabled -> colors.textDisabledColor
+        dayMdl.isSelected -> colors.textSelectedColor
+        dayMdl.model.isSpecial -> colors.textSpecialColor
+        !dayMdl.isCurrentMonth -> colors.textDisabledOtherMonthColor
+        else -> colors.textNormalColor
     }
-    val textColor = colorResource(id = textColorRes)
 
     Box(
         modifier = Modifier
@@ -54,17 +54,17 @@ fun InkalendarDay(
             },
         contentAlignment = Alignment.Center
     ) {
-        if (dayMdl.isSelected && dayMdl.selectedBackResId != null) {
+        if (dayMdl.isSelected) {
             Surface(
                 shape = CircleShape,
-                color = MaterialTheme.colorScheme.primary.copy(alpha = if (dayMdl.isCurrentMonth) 0.2f else 0.1f),
+                color = colors.selectedDayBackgroundColor.copy(alpha = if (dayMdl.isCurrentMonth) colors.selectedDayBackgroundColor.alpha else colors.selectedDayBackgroundColor.alpha * 0.5f),
                 modifier = Modifier.fillMaxSize(0.9f)
             ) {}
         }
-        if (dayMdl.model.isSpecial && dayMdl.specialTextBackColorResId != null) {
+        if (dayMdl.model.isSpecial) {
             Surface(
                 shape = CircleShape,
-                color = colorResource(id = dayMdl.specialTextBackColorResId).copy(alpha = alpha * 0.5f),
+                color = colors.specialTextBackgroundColor.copy(alpha = alpha * 0.5f),
                 modifier = Modifier.fillMaxSize(0.7f)
             ) {}
         }

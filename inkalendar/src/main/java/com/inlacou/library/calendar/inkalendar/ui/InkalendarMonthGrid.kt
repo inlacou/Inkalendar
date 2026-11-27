@@ -19,6 +19,7 @@ import java.time.LocalDate
 fun InkalendarMonthGrid(
     position: Int,
     model: InkalendarMdl,
+    colors: InkalendarColors = InkalendarDefaults.colors(),
     onDayClick: (LocalDate) -> Unit
 ) {
     val days by remember(position, model) {
@@ -37,6 +38,7 @@ fun InkalendarMonthGrid(
             val dayMdl = days[index]
             InkalendarDay(
                 dayMdl = dayMdl,
+                colors = colors,
                 onClick = { onDayClick(dayMdl.model.date) }
             )
         }
