@@ -1,81 +1,111 @@
 package com.inlacou.library.calendar.calendarviewinl
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import com.inlacou.inker.Inker
-import com.inlacou.library.calendar.inkalendar.*
-import com.inlacou.library.calendar.inkalendar.business.DayInl
-import com.inlacou.library.calendar.inkalendar.views.calendar.Inkalendar
-import com.inlacou.library.calendar.inkalendar.views.calendar.InkalendarMdl
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.*
-import java.util.concurrent.TimeUnit
+import com.inlacou.library.calendar.inkalendar.business.Day
+import com.inlacou.library.calendar.inkalendar.ui.Inkalendar
+import com.inlacou.library.calendar.inkalendar.ui.InkalendarMdl
+import kotlinx.coroutines.delay
+import java.time.LocalDate
+import kotlin.time.Duration.Companion.milliseconds
 
 class MainActivity : AppCompatActivity() {
 
 	@SuppressLint("CheckResult")
+	@OptIn(ExperimentalMaterial3Api::class)
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_main)
 
 		Inker.mix(DebugColor())
 		Inker.d { "INKER - ---------------------------------------------------" }
 
-		val days = mutableListOf<DayInl>()
-		val inkalendar = findViewById<Inkalendar>(R.id.calendarView)
-		inkalendar.model = InkalendarMdl(
-				today = (Calendar.getInstance().clone() as Calendar) //.addMonths(1).addYears(1), //Set starting day (default to *today*)
-				, mode = InkalendarMdl.Mode.SINGLE_SELECTION,
-				days = days,
-				selectedDays = mutableListOf(
-						Calendar.getInstance()//.addDays(5)
-						//, Calendar.getInstance().addDays(7)
-				),
-				singleDaySelection = {
-					Toast.makeText(this, "selected ${it.dayOfMonth}, ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
-				},
-				onBackward = {
-					Toast.makeText(this, "onBackward ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
-				},
-				onForward = {
-					Toast.makeText(this, "onForward ${it.month} of ${it.year}", Toast.LENGTH_SHORT).show()
-				},
-				onPageLoad = {
-					Toast.makeText(this,
-							"newPage from ${it.first.dayOfMonth}/${it.first.month}/${it.first.year} " +
-									"to ${it.second.dayOfMonth}/${it.second.month}/${it.second.year}",
-							Toast.LENGTH_SHORT).show()
-				})
+		setContent {
+			CalendarViewInlTheme {
+				var model by remember {
+					mutableStateOf(
+						InkalendarMdl(
+							today = LocalDate.now(),
+							mode = InkalendarMdl.Mode.SINGLE_SELECTION,
+							selectedDays = listOf(LocalDate.now()),
+						)
+					)
+				}
 
-		//Load data "asynchronously"
-		Observable.timer(3, TimeUnit.SECONDS).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-			val ts = System.currentTimeMillis()
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(1), isEnabled = false)) //Disabled
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(2), isEnabled = false)) //Disabled
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(3), isEnabled = true)) //Enabled
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(4), isSpecial = true)) //Special
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(6), iconResId = R.drawable.space_invader, colorHex = "#00FF00")) //Menacing space invader as icon
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(8), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(-28), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(-29), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(-27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
-			days.add(DayInl(calendar = Calendar.getInstance().addDays(-38), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow)) //Special day when menacing space invader attacks
+				Scaffold(
+					topBar = {
+						CenterAlignedTopAppBar(
+							title = { Text("Inkalendar") },
+							colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+								containerColor = MaterialTheme.colorScheme.primary,
+								titleContentColor = MaterialTheme.colorScheme.onPrimary
+							),
+							modifier = Modifier.statusBarsPadding()
+						)
+					}
+				) { paddingValues ->
+					Inkalendar(
+						modifier = Modifier
+							.fillMaxSize()
+							.padding(paddingValues),
+						model = model,
+						onDayClick = { day ->
+							if (model.mode == InkalendarMdl.Mode.SINGLE_SELECTION) {
+								model = model.copy(selectedDays = listOf(day))
+								Toast.makeText(this, "selected ${day.dayOfMonth}, ${day.monthValue} of ${day.year}", Toast.LENGTH_SHORT).show()
+							} else {
+								val newSelectedDays = if (model.selectedDays.contains(day)) {
+									model.selectedDays.filter { it != day }
+								} else {
+									model.selectedDays + day
+								}
+								model = model.copy(selectedDays = newSelectedDays)
+							}
+						},
+						onForward = { date ->
+							Toast.makeText(this, "onForward ${date.monthValue} of ${date.year}", Toast.LENGTH_SHORT).show()
+						},
+						onBackward = { date ->
+							Toast.makeText(this, "onBackward ${date.monthValue} of ${date.year}", Toast.LENGTH_SHORT).show()
+						},
+						onPageLoad = { fromTo ->
+							Toast.makeText(this,
+								"newPage from ${fromTo.first.dayOfMonth}/${fromTo.first.monthValue}/${fromTo.first.year} " +
+										"to ${fromTo.second.dayOfMonth}/${fromTo.second.monthValue}/${fromTo.second.year}",
+								Toast.LENGTH_SHORT).show()
+						},
+					)
+				}
 
-			val startFrom = 1000
-			repeat(1000) {
-				days.add(DayInl(calendar = Calendar.getInstance().addDays(startFrom+it), iconResId = R.drawable.space_invader, colorHex = "#00FF00")) //Menacing space invader as icon
+				LaunchedEffect(Unit) {
+					//Load data "asynchronously"
+					delay(3000.milliseconds)
+					val ts = System.currentTimeMillis()
+					val newDays = mutableListOf<Day>()
+					newDays.add(Day(date = LocalDate.now().plusDays(1), isEnabled = false))
+					newDays.add(Day(date = LocalDate.now().plusDays(2), isEnabled = false))
+					newDays.add(Day(date = LocalDate.now().plusDays(3), isEnabled = true))
+					newDays.add(Day(date = LocalDate.now().plusDays(4), isSpecial = true))
+					newDays.add(Day(date = LocalDate.now().plusDays(6), iconResId = R.drawable.space_invader, colorHex = "#00FF00"))
+					newDays.add(Day(date = LocalDate.now().plusDays(8), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+					newDays.add(Day(date = LocalDate.now().minusDays(28), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+					newDays.add(Day(date = LocalDate.now().minusDays(29), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+					newDays.add(Day(date = LocalDate.now().minusDays(27), isSpecial = true, iconResId = R.drawable.space_invader, colorResId = R.color.yellow))
+
+					model = model.copy(days = model.days + newDays)
+
+					Toast.makeText(this@MainActivity, "loaded days asynchronously!", Toast.LENGTH_SHORT).show()
+				}
 			}
-
-			Inker.d { "INKER - added ${days.size} (from today+$startFrom) days to list: ${(System.currentTimeMillis()-ts).toTime()}" }
-			inkalendar.notifyDataSetChanged()
-			Inker.d { "INKER - added ${days.size} (from today+$startFrom) days to calendar: ${(System.currentTimeMillis()-ts).toTime()}" }
-			Toast.makeText(this, "loaded days asynchronously!", Toast.LENGTH_SHORT).show()
 		}
 	}
 
