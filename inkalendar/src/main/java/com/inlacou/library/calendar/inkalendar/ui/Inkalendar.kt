@@ -47,13 +47,15 @@ fun Inkalendar(
     onBackward: (LocalDate) -> Unit = {},
     onPageLoad: (Pair<LocalDate, LocalDate>) -> Unit = {},
 ) {
+    val initialPage = FIRST_VISIBLE_PAGE + model.initialMonth
+
     val pagerState = rememberPagerState(
-        initialPage = FIRST_VISIBLE_PAGE,
+        initialPage = initialPage,
         pageCount = { INKALENDAR_SIZE }
     )
     val coroutineScope = rememberCoroutineScope()
 
-    var lastPage by remember { mutableIntStateOf(FIRST_VISIBLE_PAGE) }
+    var lastPage by remember { mutableIntStateOf(initialPage) }
 
     val currentMonthDate = remember(pagerState.currentPage, model.today) {
         model.today.plusMonths((pagerState.currentPage - FIRST_VISIBLE_PAGE).toLong())
