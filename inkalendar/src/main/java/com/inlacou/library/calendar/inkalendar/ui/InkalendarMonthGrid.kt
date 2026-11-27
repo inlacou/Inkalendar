@@ -32,7 +32,6 @@ fun InkalendarMonthGrid(
         columns = GridCells.Fixed(7),
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(max = 400.dp)
     ) {
         items(count = days.size) { index: Int ->
             val dayMdl = days[index]
